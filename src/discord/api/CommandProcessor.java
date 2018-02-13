@@ -8,8 +8,11 @@ import sx.blah.discord.handle.obj.IUser;
 public class CommandProcessor {
 
     public static void processCommand(IMessage message, String prefix) {
+        // discord user sender
         IUser sender = message.getAuthor();
+        // discord channel
         IChannel channel = message.getChannel();
+        // discord server
         IGuild guild = message.getGuild();
 
         // process imessage into string array with args and remove the prefix

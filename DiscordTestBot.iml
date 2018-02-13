@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Discord4j-2.9.3-shaded" level="project" />
+    <orderEntry type="library" name="CardinalOCSL_1.5" level="project" />
   </component>
 </module>

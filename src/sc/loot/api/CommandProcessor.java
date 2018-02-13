@@ -1,14 +1,19 @@
 package sc.loot.api;
 
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.handle.obj.IGuild;
-import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.handle.obj.*;
 
+import java.util.List;
 import java.util.Optional;
 
 public class CommandProcessor {
 
+    private static final String BOT_AUTH_NAME = "Bot Authorisation";
+
+    /**
+     * Process all input
+     * @param message
+     * @param prefix
+     */
     public static void processCommand(IMessage message, String prefix) {
         // discord user sender
         IUser sender = message.getAuthor();
@@ -16,6 +21,13 @@ public class CommandProcessor {
         IChannel channel = message.getChannel();
         // discord server
         IGuild guild = message.getGuild();
+
+        // this only checks for the first occurrence of the role name. if the role does not exist,
+        // then it exits, or if the sender does not have the role, then it exits.
+        List<IRole> userRoles = guild.getRolesByName(BOT_AUTH_NAME);
+        if (userRoles.size() < 1 || !sender.hasRole(userRoles.get(0))) {
+            return;
+        }
 
         // process imessage into string array with args and remove the prefix, then check
         // the corresponding command below
@@ -68,6 +80,7 @@ public class CommandProcessor {
                         "**setwelcome <message>** \nset a welcome message that the bot will PM new users when joining \n");
             default:
                 sendInvalidArgumentMessage("invalidcommand", channel, prefix);
+                return;
         }
     }
 
@@ -89,6 +102,12 @@ public class CommandProcessor {
         return Optional.of(guild.getUserByID(Long.parseLong(userName)));
     }
 
+    /**
+     * The bot will send a message with why the user has sent an invalid command
+     * @param type
+     * @param channel
+     * @param prefix
+     */
     private static void sendInvalidArgumentMessage(String type, IChannel channel, String prefix) {
         switch(type) {
             case "invalidcommand":

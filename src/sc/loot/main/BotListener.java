@@ -1,18 +1,16 @@
-package discord.main;
+package sc.loot.main;
 
-import discord.api.CommandProcessor;
-import discord.api.ConfigHandler;
+import sc.loot.api.CommandProcessor;
+import sc.loot.api.ConfigHandler;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 
-import java.util.Optional;
-
 public class BotListener {
 
     /** Force JVM to create new String reference */
-    public static String prefix = new String("=");
+    public static String prefix = new String("!");
 
     @EventSubscriber
     public void onMessageEvent(MessageReceivedEvent event) {
@@ -39,18 +37,11 @@ public class BotListener {
      */
     @EventSubscriber
     public void onUserJoin(UserJoinEvent event) {
-        Optional<Object> obj = Optional.of(ConfigHandler.getProperty(event.getGuild(), "welcome"));
-        if (obj.isPresent()) {
-            String message = ((String) obj.get()).replaceAll("@user", event.getUser().mention());
-            try {
-                event.getGuild().getDefaultChannel().sendMessage(message);
-            } catch (NullPointerException e) {
-                // send the message to the very first channel instead if the default channel
-                // does not exist
-                event.getGuild().getChannels().get(0).sendMessage(message);
-            }
+        Object obj = ConfigHandler.getProperty(event.getGuild(), "welcome");
+        if (obj != null) {
+            String message = ((String) obj).replaceAll("@user", event.getUser().mention());
+            event.getUser().getOrCreatePMChannel().sendMessage(message);
         }
     }
-
 
 }

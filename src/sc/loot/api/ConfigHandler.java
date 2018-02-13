@@ -1,8 +1,9 @@
-package discord.api;
+package sc.loot.api;
 
 import com.Cardinal.OCSL.Obj.Config;
 import com.Cardinal.OCSL.Obj.ConfigElement;
 import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,8 @@ import java.util.Optional;
 public class ConfigHandler {
 
     public static Map<Long, Config> guildProperties = new HashMap<>();
+
+    public static Map<IUser, Integer> userWarnings = new HashMap<>();
 
     /**
      * Add property to hashmap
@@ -43,8 +46,8 @@ public class ConfigHandler {
 
     /**
      * Get the property for the given guild
-     * @param guild
-     * @param propertyName
+     * @param guild name of the discord server
+     * @param propertyName name of the property e.g. welcome
      * @return
      */
     public static Object getProperty(IGuild guild, String propertyName) {

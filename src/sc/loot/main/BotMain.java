@@ -1,4 +1,4 @@
-package discord.main;
+package sc.loot.main;
 
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;

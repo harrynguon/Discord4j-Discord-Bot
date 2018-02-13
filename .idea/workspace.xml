@@ -2,17 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3bed8aa6-f0b1-4e73-baff-5aea3b914b88" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libraries/CardinalOCSL_1.5.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/libraries/Discord4j-2.9.3-shaded.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/CardinalOCSL_1_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/discord/api/ConfigHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DiscordTestBot/discord/main/BotMain.class" afterPath="$PROJECT_DIR$/out/production/DiscordTestBot/discord/main/BotMain.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Discord4j_2_9_3_shaded.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Discord4j_2_9_3_shaded.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DiscordTestBot/discord/api/CommandProcessor.class" afterPath="$PROJECT_DIR$/out/production/DiscordTestBot/discord/api/CommandProcessor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DiscordTestBot/discord/main/BotListener.class" afterPath="$PROJECT_DIR$/out/production/DiscordTestBot/discord/main/BotListener.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DiscordTestBot.iml" afterPath="$PROJECT_DIR$/DiscordTestBot.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/discord/api/CommandProcessor.java" afterPath="$PROJECT_DIR$/src/discord/api/CommandProcessor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/discord/api/ConfigHandler.java" afterPath="$PROJECT_DIR$/src/discord/api/ConfigHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/discord/main/BotListener.java" afterPath="$PROJECT_DIR$/src/discord/main/BotListener.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/discord/main/BotMain.java" afterPath="$PROJECT_DIR$/src/discord/main/BotMain.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,8 +34,8 @@
       <file leaf-file-name="CommandProcessor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/discord/api/CommandProcessor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="35" column="13" lean-forward="true" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+            <state relative-caret-position="426">
+              <caret line="44" column="21" lean-forward="false" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -51,8 +46,8 @@
       <file leaf-file-name="ConfigHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/discord/api/ConfigHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="49" column="38" lean-forward="false" selection-start-line="49" selection-start-column="38" selection-end-line="49" selection-end-column="38" />
+            <state relative-caret-position="253">
+              <caret line="54" column="67" lean-forward="false" selection-start-line="54" selection-start-column="67" selection-end-line="54" selection-end-column="67" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -63,13 +58,23 @@
       <file leaf-file-name="BotListener.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/discord/main/BotListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+            <state relative-caret-position="559">
+              <caret line="49" column="60" lean-forward="true" selection-start-line="49" selection-start-column="60" selection-end-line="49" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#726#727#0" expanded="true" />
-                <element signature="e#768#769#0" expanded="true" />
+                <element signature="e#1009#1010#0" expanded="true" />
+                <element signature="e#1065#1066#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IGuild.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/libraries/Discord4j-2.9.3-shaded.jar!/sx/blah/discord/handle/obj/IGuild.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="199">
+              <caret line="126" column="13" lean-forward="false" selection-start-line="126" selection-start-column="13" selection-end-line="126" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -98,8 +103,8 @@
         <option value="$PROJECT_DIR$/src/Discord/main/BotMain.java" />
         <option value="$USER_HOME$/Documents/Discord4j-2.9.3/Discord4j-2.9.3-shaded.jar!/sx/blah/discord/handle/obj/IChannel.class" />
         <option value="$PROJECT_DIR$/src/discord/main/BotMain.java" />
-        <option value="$PROJECT_DIR$/src/discord/api/CommandProcessor.java" />
         <option value="$PROJECT_DIR$/src/discord/api/ConfigHandler.java" />
+        <option value="$PROJECT_DIR$/src/discord/api/CommandProcessor.java" />
         <option value="$PROJECT_DIR$/src/discord/main/BotListener.java" />
       </list>
     </option>
@@ -165,6 +170,17 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="discord" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DiscordTestBot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DiscordTestBot" type="462c0819:PsiDirectoryNode" />
+              <item name="System" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DiscordTestBot" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DiscordTestBot" type="462c0819:PsiDirectoryNode" />
+              <item name="System" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -331,7 +347,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.48397437" order="5" side_tool="false" content_ui="combo" />
-      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.51602566" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.51602566" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -361,26 +377,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/discord/api/CommandProcessor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="35" column="13" lean-forward="true" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/discord/api/ConfigHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="49" column="38" lean-forward="false" selection-start-line="49" selection-start-column="38" selection-end-line="49" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/discord/main/BotMain.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -391,14 +387,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/discord/main/BotListener.java">
+    <entry file="file://$PROJECT_DIR$/src/discord/api/ConfigHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+        <state relative-caret-position="253">
+          <caret line="54" column="67" lean-forward="false" selection-start-line="54" selection-start-column="67" selection-end-line="54" selection-end-column="67" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#726#727#0" expanded="true" />
-            <element signature="e#768#769#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/discord/api/CommandProcessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="426">
+          <caret line="44" column="21" lean-forward="false" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libraries/Discord4j-2.9.3-shaded.jar!/sx/blah/discord/handle/obj/IGuild.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="126" column="13" lean-forward="false" selection-start-line="126" selection-start-column="13" selection-end-line="126" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/System/data/274488924435513344.cardinal">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/discord/main/BotListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="559">
+          <caret line="49" column="60" lean-forward="true" selection-start-line="49" selection-start-column="60" selection-end-line="49" selection-end-column="60" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1009#1010#0" expanded="true" />
+            <element signature="e#1065#1066#0" expanded="true" />
           </folding>
         </state>
       </provider>

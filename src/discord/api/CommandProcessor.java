@@ -34,6 +34,23 @@ public class CommandProcessor {
             } else {
                 channel.sendMessage("Please enter valid arguments! `[" + prefix + "avatar <@user>]`");
             }
+        } else if (command[0].equals("setwelcome")) {
+            if (command.length > 1) {
+                StringBuilder welcomeMsg = new StringBuilder();
+                for (int i = 1; i < command.length; i++) {
+                    if (i == command.length - 1) {
+                        welcomeMsg.append(command[i]);
+                    } else {
+                        welcomeMsg.append(command[i] + " ");
+                    }
+                }
+                channel.sendMessage("Set welcome message to: " + welcomeMsg.toString());
+                ConfigHandler.setProperty(guild, "welcome", welcomeMsg.toString());
+                message.delete();
+                return;
+            } else {
+                channel.sendMessage("Please enter valid arguments! `[" + prefix + "setwelcome <String[]:message>]`");
+            }
         }
     }
 

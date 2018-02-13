@@ -52,7 +52,7 @@ public class ConfigHandler {
         if (config.isPresent()) {
             if (config.get().doesExist()) {
                 ConfigElement element = config.get().getElement(propertyName);
-                if (element.getElementType() == 1) {
+                if (element.getElementType() == 1) { // array value
                     return element.getArrayElement().getValues();
                 } else {
                     return element.getValue();

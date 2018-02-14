@@ -31,12 +31,13 @@ public class CommandProcessor {
 
         // process imessage into string array with args and remove the prefix, then check
         // the corresponding command below
-        String[] command = message.getContent().toLowerCase().replaceFirst(prefix, "").split(" ");
+        String[] command = message.getContent().replaceFirst(prefix, "").split(" ");
+        command[0] = command[0].toLowerCase();
 
         switch (command[0]) {
             case "ping":
                 channel.sendMessage("pong!");
-                break;
+                return;
             case "avatar":
                 if (command.length != 2) {
                     sendInvalidArgumentMessage("avatar", channel, prefix);
@@ -65,11 +66,27 @@ public class CommandProcessor {
                 ConfigHandler.setProperty(guild, "welcome", welcomeMsg.toString());
                 //message.delete();
                 return;
-            case "kick":
-                if (command.length != 2) {
-                    sendInvalidArgumentMessage("kick", channel, prefix);
+            case "warn":
+                if (command.length <= 2) {
+                    sendInvalidArgumentMessage("warn", channel, prefix);
+                    return;
                 }
-                Optional<IUser> userToKick = getUser(command[1], channel, guild);
+                Optional<IUser> __user = getUser(command[1], channel, guild);
+                if (__user.isPresent()) {
+                    IUser user = __user.get();
+                    StringBuilder warningMessage = new StringBuilder();
+                    for (int i = 2; i < command.length; i++) {
+                        if (i == command.length - 1) {
+                            warningMessage.append(command[i]);
+                        } else {
+                            warningMessage.append(command[i] + " ");
+                        }
+                    }
+                    user.getOrCreatePMChannel().sendMessage(warningMessage.toString());
+                    // send to channel that the warn function was called
+                    channel.sendMessage(user.mention() + " has been warned for: " + "`" + warningMessage.toString() + "`");
+                    message.delete();
+                }
                 return;
             case "help":
                 channel.sendMessage(
@@ -77,7 +94,9 @@ public class CommandProcessor {
                         "*alias*: **" + prefix + "**\n" +
                         "**ping** \npong! \n" +
                         "**avatar <@user>** \nreturn a link to the user's avatar \n" +
-                        "**setwelcome <message>** \nset a welcome message that the bot will PM new users when joining \n");
+                        "**setwelcome <message>** \nset a welcome message that the bot will PM new users when joining \n" +
+                        "**warn <@user> <message>** \ntells the bot to send a PM to the user with the warning message");
+                return;
             default:
                 sendInvalidArgumentMessage("invalidcommand", channel, prefix);
                 return;
@@ -125,6 +144,9 @@ public class CommandProcessor {
                 break;
             case "kick":
                 channel.sendMessage("Please enter valid arguments! `[" + prefix + "kick [@user]`");
+                break;
+            case "warn":
+                channel.sendMessage("Please enter valid arguments! `[" + prefix + "warn [@user <message>]`");
                 break;
         }
     }

@@ -12,7 +12,8 @@ public class BotMain {
 
     public static IDiscordClient createClient(String token, boolean login) {
         ClientBuilder clientBuilder = new ClientBuilder();
-        clientBuilder.withToken(token);
+        clientBuilder.withToken(token)
+                .online("50ct 5d Volta...");
         try {
             if (login) {
                 return clientBuilder.login();

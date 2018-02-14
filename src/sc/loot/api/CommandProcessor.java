@@ -82,6 +82,7 @@ public class CommandProcessor {
                 sendInvalidArgumentMessage("invalidcommand", channel, prefix);
                 return;
         }
+
     }
 
     /**

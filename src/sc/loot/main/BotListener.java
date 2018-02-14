@@ -41,6 +41,8 @@ public class BotListener {
         if (obj != null) {
             String message = ((String) obj).replaceAll("@user", event.getUser().mention());
             event.getUser().getOrCreatePMChannel().sendMessage(message);
+//            event.getGuild().getChannelsByName("sc_loot_bot").get(0)
+//                    .sendMessage("I have sent a welcome message to " + event.getUser().mention());
         }
     }
 

@@ -2,6 +2,7 @@ package sc.loot.main;
 
 import sc.loot.api.CommandProcessor;
 import sc.loot.api.ConfigHandler;
+import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -9,13 +10,19 @@ import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 
 public class BotListener {
 
+    private IDiscordClient client;
+
+    public BotListener(IDiscordClient client) {
+        this.client = client;
+    }
+
     /** Force JVM to create new String reference */
     public static String prefix = new String("!");
 
     @EventSubscriber
     public void onMessageEvent(MessageReceivedEvent event) {
         if (event.getMessage().getContent().toLowerCase().startsWith(prefix)) {
-            CommandProcessor.processCommand(event.getMessage(), prefix);
+            CommandProcessor.processCommand(event.getMessage(), prefix, client);
         }
     }
 

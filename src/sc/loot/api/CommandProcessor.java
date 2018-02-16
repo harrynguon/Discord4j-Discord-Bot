@@ -1,6 +1,9 @@
 package sc.loot.api;
 
+import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.impl.obj.Message;
 import sx.blah.discord.handle.obj.*;
+import sx.blah.discord.util.MessageBuilder;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +17,7 @@ public class CommandProcessor {
      * @param message
      * @param prefix
      */
-    public static void processCommand(IMessage message, String prefix) {
+    public static void processCommand(IMessage message, String prefix, IDiscordClient client) {
         // discord user sender
         IUser sender = message.getAuthor();
         // discord channel
@@ -32,6 +35,7 @@ public class CommandProcessor {
         // process imessage into string array with args and remove the prefix, then check
         // the corresponding command below
         String[] command = message.getContent().replaceFirst(prefix, "").split(" ");
+        // !ping or !PiNG ; doesn't matter
         command[0] = command[0].toLowerCase();
 
         switch (command[0]) {
@@ -88,6 +92,37 @@ public class CommandProcessor {
                     message.delete();
                 }
                 return;
+            // post a message to #board_of_punishments, pm the user informing they were banned,
+            // and then ban the user.
+            case "ban":
+                if (command.length <=2) {
+                    sendInvalidArgumentMessage("ban", channel, prefix);
+                }
+                Optional<IUser> userToBan = getUser(command[1], channel, guild);
+                if (userToBan.isPresent()) {
+                    IUser user = userToBan.get();
+                    Optional<Message.Attachment> attachment =
+                            message.getAttachments().isEmpty() ? Optional.empty() :
+                                                        Optional.of(message.getAttachments().get(0));
+                    StringBuilder banMessage = new StringBuilder();
+                    for (int i = 2; i < command.length; i++) {
+                        if (i == command.length - 1) {
+                            banMessage.append(command[i]);
+                        } else {
+                            banMessage.append(command[i] + " ");
+                        }
+                    }
+                    IMessage banMsg = new MessageBuilder(client)
+                            .withContent(user.mention() + " has been banned for: " + banMessage + "\n")
+                            .appendContent(attachment.isPresent() ? attachment.get().getUrl() : "")
+                            .withChannel(message.getChannel())
+                            .build();
+                    message.delete();
+                    user.getOrCreatePMChannel().sendMessage("You have been banned from the SC Loot Discord server for: " + banMessage.toString());
+                    message.getGuild().banUser(user);
+                    // channel.sendMessage(banMsg.toString());
+                }
+                return;
             case "help":
                 channel.sendMessage(
                         "\n" +
@@ -95,7 +130,9 @@ public class CommandProcessor {
                         "**ping** \npong! \n" +
                         "**avatar <@user>** \nreturn a link to the user's avatar \n" +
                         "**setwelcome <message>** \nset a welcome message that the bot will PM new users when joining \n" +
-                        "**warn <@user> <message>** \ntells the bot to send a PM to the user with the warning message");
+                        "**warn <@user> <message>** \ntells the bot to send a PM to the user with the warning message \n" +
+                        "**ban <@user> <reason>** \nthe bot will create a post on #board_of_punishments with the following reason, " +
+                        "PM the user informing they have been banned for the following reason, and then finally ban the user.");
                 return;
             default:
                 sendInvalidArgumentMessage("invalidcommand", channel, prefix);
@@ -147,6 +184,9 @@ public class CommandProcessor {
                 break;
             case "warn":
                 channel.sendMessage("Please enter valid arguments! `[" + prefix + "warn [@user <message>]`");
+                break;
+            case "ban":
+
                 break;
         }
     }

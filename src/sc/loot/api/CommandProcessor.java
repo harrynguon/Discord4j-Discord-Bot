@@ -2,6 +2,7 @@ package sc.loot.api;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.obj.Message;
+import sx.blah.discord.handle.impl.obj.ReactionEmoji;
 import sx.blah.discord.handle.obj.*;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.MessageBuilder;
@@ -149,6 +150,16 @@ public class CommandProcessor {
         return message.toString();
     }
 
+
+    /**
+     * Data structure for finding the maximum emoji count
+     */
+    private static class ReactionMax {
+        private int maxNumReaction = 0;
+        private Optional<IReaction> reaction = Optional.empty();
+        private Optional<IMessage> maxReactionMessage = Optional.empty();
+    }
+
     /**
      * Creates the weekly report and submits it to #weekly_report
      * @param message
@@ -156,14 +167,30 @@ public class CommandProcessor {
      */
     private static void createWeeklyReport(IMessage message, IChannel channel, IGuild guild, IDiscordClient client) {
         Map<String, Integer> itemCount = createHashTable();
-        LocalDateTime currentTime = LocalDateTime.now();
-        MessageHistory messageHistory = guild
+        final LocalDateTime currentTime = LocalDateTime.now();
+        final MessageHistory messageHistory = guild
                 .getChannelsByName("sc_loot").get(0)
                 .getMessageHistoryTo(currentTime.minusWeeks(1));
-        IMessage[] messages = messageHistory.asArray();
+        final IMessage[] messages = messageHistory.asArray();
+        ReactionMax reactionMax = new ReactionMax();
         Stream.of(messages)
                 .filter(m -> m.getTimestamp().isAfter(currentTime.minusWeeks(1)))
-                .forEach(m -> processMessage(m, itemCount));
+                .forEach(m -> {
+                    processMessage(m, itemCount);
+                    // find the message with the most number of reactions
+                    Optional<IReaction> cReaction = m.getReactions()
+                            .stream()
+                            .sorted(Comparator.comparing(reaction -> reaction.getCount()))
+                            .max(Comparator.comparingInt(IReaction::getCount));
+                    if (cReaction.isPresent()) {
+                        IReaction reaction = cReaction.get();
+                        if (reaction.getCount() > reactionMax.maxNumReaction) {
+                            reactionMax.maxNumReaction = reaction.getCount();
+                            reactionMax.reaction = cReaction;
+                            reactionMax.maxReactionMessage = Optional.of(m);
+                        }
+                    }
+                });
 
         EmbedBuilder builder1 = new EmbedBuilder();
         EmbedBuilder builder2 = new EmbedBuilder();
@@ -197,6 +224,20 @@ public class CommandProcessor {
         });
         channel.sendMessage(builder1.build());
         channel.sendMessage(builder2.build());
+
+        // MOST REACTION STATISTICS MESSAGE //
+        ReactionEmoji emoji = reactionMax.reaction.get().getEmoji();
+        String mostReactionMessage = "***Message***: `" + reactionMax.maxReactionMessage.get() +
+                "` by " + reactionMax.maxReactionMessage.get().getAuthor() +
+                " which has " + reactionMax.maxNumReaction +
+                " <:" + emoji.getName() + ":" + emoji.getLongID() + ">" + " reactions.";
+        EmbedBuilder statistics = new EmbedBuilder();
+        statistics.withTitle("Extras");
+        statistics.appendField("Most number of single reactions in a post", mostReactionMessage, true);
+        statistics.withColor(color);
+
+        channel.sendMessage(statistics.build());
+
         // send a log to #sc_loot_bot
         IMessage lastMessage = messageHistory.getLatestMessage();
         IChannel scLootChannel = guild.getChannelsByName("sc_loot_bot").get(0);
@@ -215,6 +256,7 @@ public class CommandProcessor {
     private static void processMessage(IMessage message, Map<String, Integer> itemCount) {
         String content = message.getContent();
         Scanner scan = new Scanner(content);
+        String previous = "";
         while (scan.hasNext()) {
             String segment = scan.next().toLowerCase();
                 if (segment.contains("aeonics")) {
@@ -236,13 +278,19 @@ public class CommandProcessor {
                     itemCount.put("stompers", itemCount.get("stompers") + 1);
                 }
                 else if (segment.contains("armites")) {
-                    itemCount.put("armites", itemCount.get("armites") + 1);
+                    if (!previous.contains("inf")) {
+                        itemCount.put("armites", itemCount.get("armites") + 1);
+                    }
                 }
                 else if (segment.contains("calites")) {
-                    itemCount.put("calites", itemCount.get("calites") + 1);
+                    if (!previous.contains("inf")) {
+                        itemCount.put("calites", itemCount.get("calites") + 1);
+                    }
                 }
                 else if (segment.contains("bellites")) {
-                    itemCount.put("bellites", itemCount.get("bellites") + 1);
+                    if (!previous.contains("inf")) {
+                        itemCount.put("bellites", itemCount.get("bellites") + 1);
+                    }
                 }
                 else if (segment.contains("blockers")) {
                     itemCount.put("blockers", itemCount.get("blockers") + 1);
@@ -251,7 +299,9 @@ public class CommandProcessor {
                     itemCount.put("bombard", itemCount.get("bombard") + 1);
                 }
                 else if (segment.contains("emites")) {
-                    itemCount.put("emites", itemCount.get("emites") + 1);
+                    if (!previous.contains("inf")) {
+                        itemCount.put("emites", itemCount.get("emites") + 1);
+                    }
                 }
                 else if (segment.contains("volta")) {
                     itemCount.put("volta", itemCount.get("volta") + 1);
@@ -260,7 +310,9 @@ public class CommandProcessor {
                     itemCount.put("motley", itemCount.get("motley") + 1);
                 }
                 else if (segment.contains("firites")) {
-                    itemCount.put("firites", itemCount.get("firites") + 1);
+                    if (!previous.contains("inf")) {
+                        itemCount.put("firites", itemCount.get("firites") + 1);
+                    }
                 }
                 else if (segment.contains("kunai")) {
                     itemCount.put("kunai", itemCount.get("kunai") + 1);
@@ -272,13 +324,17 @@ public class CommandProcessor {
                     itemCount.put("scorpion", itemCount.get("scorpion") + 1);
                 }
                 else if (segment.contains("velites")) {
-                    itemCount.put("velites", itemCount.get("velites") + 1);
+                    if (!previous.contains("inf")) {
+                        itemCount.put("velites", itemCount.get("velites") + 1);
+                    }
                 }
                 else if (segment.contains("hydra")) {
                     itemCount.put("hydra", itemCount.get("hydra") + 1);
                 }
                 else if (segment.contains("salites")) {
-                    itemCount.put("salites", itemCount.get("salites") + 1);
+                    if (!previous.contains("inf")) {
+                        itemCount.put("salites", itemCount.get("salites") + 1);
+                    }
                 }
                 else if (segment.contains("mimic")) {
                     itemCount.put("mimic", itemCount.get("mimic") + 1);
@@ -287,7 +343,9 @@ public class CommandProcessor {
                     itemCount.put("blink", itemCount.get("blink") + 1);
                 }
                 else if (segment.contains("ultrites")) {
-                    itemCount.put("ultrites", itemCount.get("ultrites") + 1);
+                    if (!previous.contains("inf")) {
+                        itemCount.put("ultrites", itemCount.get("ultrites") + 1);
+                    }
                 }
                 else if (segment.contains("hyrst")) {
                     itemCount.put("hyrst", itemCount.get("hyrst") + 1);
@@ -355,6 +413,7 @@ public class CommandProcessor {
                 else if (segment.contains("woven")) {
                     itemCount.put("woven", itemCount.get("woven") + 1);
                 }
+            previous = segment;
         }
         scan.close();
     }

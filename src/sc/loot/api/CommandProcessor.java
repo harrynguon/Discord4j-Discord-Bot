@@ -3,11 +3,15 @@ package sc.loot.api;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.obj.Message;
 import sx.blah.discord.handle.obj.*;
+import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.MessageBuilder;
+import sx.blah.discord.util.MessageHistory;
 
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class CommandProcessor {
@@ -104,7 +108,8 @@ public class CommandProcessor {
                 }
                 return;
             case "weeklyreport":
-                createWeeklyReport(message, channel);
+                createWeeklyReport(message, channel, guild, client);
+                message.delete();
                 return;
             case "help":
                 channel.sendMessage(
@@ -148,22 +153,52 @@ public class CommandProcessor {
      * @param message
      * @param channel
      */
-    private static void createWeeklyReport(IMessage message, IChannel channel) {
+    private static void createWeeklyReport(IMessage message, IChannel channel, IGuild guild, IDiscordClient client) {
         Map<String, Integer> itemCount = createHashTable();
         LocalDateTime currentTime = LocalDateTime.now();
-        IMessage[] messages = message.getGuild()
+        MessageHistory messageHistory = guild
                 .getChannelsByName("sc_loot").get(0)
-                .getMessageHistoryTo(LocalDateTime.now().minusWeeks(1))
-                .asArray();
+                .getMessageHistoryTo(currentTime.minusWeeks(1));
+                //.asArray();
+        IMessage[] messages = messageHistory.asArray();
         Stream.of(messages)
-                .filter(m -> m.getTimestamp().isAfter(LocalDateTime.now().minusWeeks(1)))
+                .filter(m -> m.getTimestamp().isAfter(currentTime.minusWeeks(1)))
                 .forEach(m -> processMessage(m, itemCount));
+
+        EmbedBuilder builder1 = new EmbedBuilder();
+        EmbedBuilder builder2 = new EmbedBuilder();
+        builder1.withTitle("Weekly Item Drop Count Report from __" +
+                currentTime.minusWeeks(1).toLocalDate() + "__ to __" +
+                currentTime.toLocalDate() + "__");
+        builder2.withTitle("cont.");
+        Random random = new Random();
+        int r = random.nextInt(255);
+        int g = random.nextInt(255);
+        int b = random.nextInt(255);
+        Color color = new Color(r, g, b);
+        builder1.withColor(color);
+        builder2.withColor(color);
+
         itemCount.forEach((k, v) -> {
             if (v > 0) {
-                System.out.println(k + ": " + v);
+                if (builder1.getFieldCount() < 25) {
+                    builder1.appendField("<:" + k + ":" + guild.getEmojiByName(k).getLongID() +
+                            ">", "`Drop Count: " + v + "`", true);
+                } else {
+                    builder2.appendField("<:" + k + ":" + guild.getEmojiByName(k).getLongID() +
+                            ">", "`Drop Count: " + v + "`", true);
+                }
             }
         });
-
+        channel.sendMessage(builder1.build());
+        channel.sendMessage(builder2.build());
+        // send a log to #sc_loot_bot
+        IMessage lastMessage = messageHistory.getLatestMessage();
+        IChannel scLootChannel = guild.getChannelsByName("sc_loot_bot").get(0);
+        new MessageBuilder(client).withChannel(scLootChannel)
+                .withContent("`!weeklyreport` was called on: " + currentTime + ", and the last message" +
+                        " was submitted by " + lastMessage.getAuthor())
+                .build();
     }
 
     /**
@@ -173,7 +208,6 @@ public class CommandProcessor {
      */
     private static void processMessage(IMessage message, Map<String, Integer> itemCount) {
         String content = message.getContent();
-        System.out.println(content);
         Scanner scan = new Scanner(content);
         while (scan.hasNext()) {
             String segment = scan.next().toLowerCase();

@@ -196,7 +196,7 @@ public class CommandProcessor {
         IMessage lastMessage = messageHistory.getLatestMessage();
         IChannel scLootChannel = guild.getChannelsByName("sc_loot_bot").get(0);
         new MessageBuilder(client).withChannel(scLootChannel)
-                .withContent("`!weeklyreport` was called on: " + currentTime + ", and the last message" +
+                .withContent("`!weeklyreport` was last called on: " + currentTime + ", and the last message" +
                         " was submitted by " + lastMessage.getAuthor())
                 .build();
     }

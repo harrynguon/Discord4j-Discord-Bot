@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CommandProcessor {
@@ -159,7 +160,6 @@ public class CommandProcessor {
         MessageHistory messageHistory = guild
                 .getChannelsByName("sc_loot").get(0)
                 .getMessageHistoryTo(currentTime.minusWeeks(1));
-                //.asArray();
         IMessage[] messages = messageHistory.asArray();
         Stream.of(messages)
                 .filter(m -> m.getTimestamp().isAfter(currentTime.minusWeeks(1)))
@@ -179,16 +179,21 @@ public class CommandProcessor {
         builder1.withColor(color);
         builder2.withColor(color);
 
-        itemCount.forEach((k, v) -> {
-            if (v > 0) {
-                if (builder1.getFieldCount() < 25) {
-                    builder1.appendField("<:" + k + ":" + guild.getEmojiByName(k).getLongID() +
-                            ">", "`Drop Count: " + v + "`", true);
-                } else {
-                    builder2.appendField("<:" + k + ":" + guild.getEmojiByName(k).getLongID() +
-                            ">", "`Drop Count: " + v + "`", true);
-                }
-            }
+        itemCount.entrySet()
+                .stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                .forEach(entry -> {
+                    String k = entry.getKey();
+                    int v = entry.getValue();
+                    if (v > 0) {
+                        if (builder1.getFieldCount() < 25) {
+                            builder1.appendField("<:" + k + ":" + guild.getEmojiByName(k).getLongID() +
+                                    ">", "`Drop Count: " + v + "`", true);
+                        } else {
+                            builder2.appendField("<:" + k + ":" + guild.getEmojiByName(k).getLongID() +
+                                    ">", "`Drop Count: " + v + "`", true);
+                        }
+                    }
         });
         channel.sendMessage(builder1.build());
         channel.sendMessage(builder2.build());

@@ -35,7 +35,7 @@ public class BotListener {
     @EventSubscriber
     public void onUserReactToColorMessage(ReactionEvent event) {
         // TODO: once finished, check to see if the channel is in #read_this_first
-        CommandProcessor.processReactionToMessage(event.getReaction(), event.getUser());
+        // CommandProcessor.processReactionToMessage(event.getReaction(), event.getUser());
     }
 
     /**

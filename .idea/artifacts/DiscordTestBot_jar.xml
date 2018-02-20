@@ -3,8 +3,6 @@
     <output-path>$PROJECT_DIR$/out/artifacts/DiscordTestBot_jar</output-path>
     <root id="archive" name="DiscordTestBot.jar">
       <element id="module-output" name="DiscordTestBot" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/libraries/CardinalOCSL_1.5.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/libraries/Discord4j-2.9.3-shaded.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

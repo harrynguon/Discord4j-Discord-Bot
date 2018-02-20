@@ -10,9 +10,13 @@ import sx.blah.discord.util.MessageBuilder;
 import sx.blah.discord.util.MessageHistory;
 
 import java.awt.*;
-import java.time.LocalDateTime;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAmount;
+import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -168,17 +172,20 @@ public class CommandProcessor {
      */
     private static void createWeeklyReport(IMessage message, IChannel channel, IGuild guild, IDiscordClient client) {
         Map<String, Integer> itemCount = createHashTable();
-        final LocalDateTime currentTime = LocalDateTime.now();
+        final Instant currentTime = Instant.now();
+        // Zoneoffset.UTC for UTC zone (future reference)
+        final LocalDateTime currentTimeLDT = LocalDateTime.ofInstant(currentTime, ZoneOffset.systemDefault());
         final MessageHistory messageHistory = guild
                 .getChannelsByName(Constants.SC_LOOT_CHANNEL_NAME).get(0)
-                .getMessageHistoryTo(currentTime.minusWeeks(1));
-        final IMessage[] messages = messageHistory.asArray();
+                .getMessageHistoryTo(currentTime.minus(Period.ofDays(7)));
+        IMessage[] messages = messageHistory.asArray();
+        Predicate<IMessage> withinSevenDays = m -> m.getTimestamp().isAfter(currentTime.minus(Period.ofDays(7)));
         ReactionMaxHelper reactionMax = new ReactionMaxHelper();
-        final long totalMessages = IntStream.range(0, messages.length)
-                .filter(i -> messages[i].getTimestamp().isAfter(currentTime.minusWeeks(1)))
+        long totalMessages = Stream.of(messages)
+                .filter(withinSevenDays)
                 .count();
         Stream.of(messages)
-                .filter(m -> m.getTimestamp().isAfter(currentTime.minusWeeks(1)))
+                .filter(withinSevenDays)
                 .forEach(m -> {
                     processMessage(m, itemCount);
                     // find the message with the most number of reactions
@@ -199,8 +206,9 @@ public class CommandProcessor {
         EmbedBuilder builder1 = new EmbedBuilder();
         EmbedBuilder builder2 = new EmbedBuilder();
         builder1.withTitle("Weekly Item Drop Count Report from __" +
-                currentTime.minusWeeks(1).toLocalDate() + "__ to __" +
-                currentTime.toLocalDate() + "__ with a total number of `" + totalMessages + "` submissions.");
+                currentTimeLDT.toLocalDate().minusDays(7) + "__ to __" +
+                currentTimeLDT.toLocalDate() + "__ with a total number of `" +
+                totalMessages + "` submissions.");
         builder2.withTitle("cont.");
         Random random = new Random();
         int r = random.nextInt(255);
@@ -231,13 +239,13 @@ public class CommandProcessor {
 
         // MOST REACTION STATISTICS MESSAGE //
         ReactionEmoji emoji = reactionMax.reaction.get().getEmoji();
-        String mostReactionMessage = "***Message***: `" + reactionMax.maxReactionMessage.get() +
-                "` by " + reactionMax.maxReactionMessage.get().getAuthor() +
-                " which has " + reactionMax.maxNumReaction +
-                " <:" + emoji.getName() + ":" + emoji.getLongID() + ">" + " reactions.";
+        String mostReactionMessage = "*The submission*:\n**" + reactionMax.maxReactionMessage.get() +
+                "** *by " + reactionMax.maxReactionMessage.get().getAuthor() +
+                " which has **" + reactionMax.maxNumReaction +
+                "** <:" + emoji.getName() + ":" + emoji.getLongID() + ">" + " reactions.*";
         EmbedBuilder statistics = new EmbedBuilder();
         statistics.withTitle("Extras");
-        statistics.appendField("Most number of single reactions in a post", mostReactionMessage, true);
+        statistics.appendField("Highest single reaction count for a submission during this week.", mostReactionMessage, true);
         statistics.withColor(color);
 
         channel.sendMessage(statistics.build());
@@ -246,9 +254,8 @@ public class CommandProcessor {
         IMessage lastMessage = messageHistory.getLatestMessage();
         IChannel scLootChannel = guild.getChannelsByName(Constants.SC_LOOT_BOT_CHANNEL_NAME).get(0);
         new MessageBuilder(client).withChannel(scLootChannel)
-                .withContent("`!weeklyreport` was last called on: " + currentTime + ", and the last message" +
-                        " was submitted by " + lastMessage.getAuthor() + ". The `!weeklyreport` command was" +
-                        " initiated by " + message.getAuthor() + ".")
+                .withContent("`!weeklyreport` was last called on: " + currentTime + "." +
+                        " The `!weeklyreport` command was initiated by " + message.getAuthor() + ".")
                 .build();
     }
 

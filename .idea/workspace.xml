@@ -7,6 +7,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bed8aa6-f0b1-4e73-baff-5aea3b914b88" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Discord4j_dev_2_9_3_gf4a9174_33_shaded.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/CardinalOCSL_1_5.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Discord4j_2_9_3_shaded.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/libraries/Discord4j-2.9.3-shaded.jar" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/DiscordTestBot_jar/DiscordTestBot.jar" afterPath="$PROJECT_DIR$/out/artifacts/DiscordTestBot_jar/DiscordTestBot.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DiscordTestBot/sc/loot/main/BotMain.class" afterPath="$PROJECT_DIR$/out/production/DiscordTestBot/sc/loot/main/BotMain.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DiscordTestBot/sc/loot/processor/CommandProcessor$ReactionMaxHelper.class" afterPath="$PROJECT_DIR$/out/production/DiscordTestBot/sc/loot/processor/CommandProcessor$ReactionMaxHelper.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/DiscordTestBot/sc/loot/processor/CommandProcessor.class" afterPath="$PROJECT_DIR$/out/production/DiscordTestBot/sc/loot/processor/CommandProcessor.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/DiscordTestBot_jar.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/DiscordTestBot_jar.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DiscordTestBot.iml" afterPath="$PROJECT_DIR$/DiscordTestBot.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/main/BotListener.java" afterPath="$PROJECT_DIR$/src/sc/loot/main/BotListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/main/BotMain.java" afterPath="$PROJECT_DIR$/src/sc/loot/main/BotMain.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java" afterPath="$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -25,8 +38,8 @@
       <file leaf-file-name="BotMain.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/main/BotMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="38" lean-forward="false" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
+            <state relative-caret-position="459">
+              <caret line="27" column="44" lean-forward="true" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -34,11 +47,31 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="IDiscordClient.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/libraries/Discord4j-dev-2.9.3-gf4a9174-33-shaded.jar!/sx/blah/discord/api/IDiscordClient.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="199">
+              <caret line="46" column="30" lean-forward="false" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StatusType.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/libraries/Discord4j-dev-2.9.3-gf4a9174-33-shaded.jar!/sx/blah/discord/handle/obj/StatusType.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="8" column="4" lean-forward="false" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="BotListener.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/main/BotListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="54" column="0" lean-forward="true" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+            <state relative-caret-position="492">
+              <caret line="37" column="11" lean-forward="false" selection-start-line="37" selection-start-column="11" selection-end-line="37" selection-end-column="11" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -49,12 +82,32 @@
       <file leaf-file-name="CommandProcessor.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="94" column="41" lean-forward="true" selection-start-line="94" selection-start-column="41" selection-end-line="94" selection-end-column="41" />
+            <state relative-caret-position="430">
+              <caret line="257" column="101" lean-forward="true" selection-start-line="257" selection-start-column="101" selection-end-line="257" selection-end-column="101" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#9224#9241#0" expanded="true" />
+                <element signature="e#9551#9568#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Period.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/java/time/Period.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-719">
+              <caret line="134" column="19" lean-forward="false" selection-start-line="134" selection-start-column="19" selection-end-line="134" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Instant.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/java/time/Instant.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="12002">
+              <caret line="977" column="19" lean-forward="false" selection-start-line="977" selection-start-column="19" selection-end-line="977" selection-end-column="19" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -64,16 +117,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="340">
               <caret line="20" column="51" lean-forward="false" selection-start-line="20" selection-start-column="51" selection-end-line="20" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IGuild.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/libraries/Discord4j-2.9.3-shaded.jar!/sx/blah/discord/handle/obj/IGuild.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="199">
-              <caret line="68" column="9" lean-forward="false" selection-start-line="68" selection-start-column="9" selection-end-line="68" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -92,7 +135,9 @@
     <findStrings>
       <find>invalidcomm</find>
       <find>getGuild</find>
+      <find>valueof</find>
       <find>sc_loot</find>
+      <find>Instant.now()</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -114,14 +159,14 @@
         <option value="$PROJECT_DIR$/src/discord/main/BotListener.java" />
         <option value="$PROJECT_DIR$/src/discord/api/CommandProcessor.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/api/CommandProcessor.java" />
+        <option value="$PROJECT_DIR$/src/sc/loot/util/Constants.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/main/BotMain.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/main/BotListener.java" />
-        <option value="$PROJECT_DIR$/src/sc/loot/util/Constants.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="42" />
     <option name="y" value="-17" />
     <option name="width" value="1936" />
@@ -200,12 +245,15 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/blujam17-master" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/libraries/Discord4j-dev-2.9.3-gf4a9174-33-shaded.jar!/" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Harry\IdeaProjects\DiscordTestBot\libraries" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Harry\IdeaProjects\DiscordTestBot\libraries" />
     </key>
@@ -338,7 +386,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -378,73 +426,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1377">
-          <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#9224#9241#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/main/BotMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="24" column="24" lean-forward="true" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/main/BotListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="42" column="49" lean-forward="false" selection-start-line="42" selection-start-column="49" selection-end-line="42" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/ConfigHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/libraries/Discord4j-2.9.3-shaded.jar!/sx/blah/discord/api/events/EventDispatcher.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="37" column="13" lean-forward="false" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1377">
-          <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#9224#9241#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/main/BotMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="20" column="45" lean-forward="false" selection-start-line="20" selection-start-column="45" selection-end-line="20" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sc/loot/main/BotListener.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="595">
@@ -476,7 +457,7 @@
           <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9224#9241#0" expanded="true" />
+            <element signature="e#9551#9568#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -517,7 +498,7 @@
           <caret line="12" column="24" lean-forward="false" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9224#9241#0" expanded="true" />
+            <element signature="e#9551#9568#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -756,34 +737,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/util/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="51" lean-forward="false" selection-start-line="20" selection-start-column="51" selection-end-line="20" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/main/BotMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="38" lean-forward="false" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/main/BotListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="54" column="0" lean-forward="true" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/libraries/Discord4j-2.9.3-shaded.jar!/sx/blah/discord/handle/obj/IGuild.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="199">
@@ -792,13 +745,97 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/java/time/temporal/ChronoUnit.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="94" column="41" lean-forward="true" selection-start-line="94" selection-start-column="41" selection-end-line="94" selection-end-column="41" />
+        <state relative-caret-position="199">
+          <caret line="76" column="12" lean-forward="false" selection-start-line="76" selection-start-column="12" selection-end-line="76" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libraries/Discord4j-dev-2.9.3-gf4a9174-33-shaded.jar!/sx/blah/discord/api/IDiscordClient.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="46" column="30" lean-forward="false" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libraries/Discord4j-dev-2.9.3-gf4a9174-33-shaded.jar!/sx/blah/discord/handle/obj/StatusType.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="8" column="4" lean-forward="false" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sc/loot/main/BotMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="44" lean-forward="true" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9224#9241#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/jre/lib/rt.jar!/java/time/temporal/ChronoUnit.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="27" column="9" lean-forward="false" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/libraries/Discord4j-dev-2.9.3-gf4a9174-33-shaded.jar!/sx/blah/discord/handle/obj/IChannel.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="43" column="19" lean-forward="false" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/java/time/Period.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-719">
+          <caret line="134" column="19" lean-forward="false" selection-start-line="134" selection-start-column="19" selection-end-line="134" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sc/loot/main/BotListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="492">
+          <caret line="37" column="11" lean-forward="false" selection-start-line="37" selection-start-column="11" selection-end-line="37" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/java/time/Instant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12002">
+          <caret line="977" column="19" lean-forward="false" selection-start-line="977" selection-start-column="19" selection-end-line="977" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sc/loot/util/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="51" lean-forward="false" selection-start-line="20" selection-start-column="51" selection-end-line="20" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="430">
+          <caret line="257" column="101" lean-forward="true" selection-start-line="257" selection-start-column="101" selection-end-line="257" selection-end-column="101" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#9551#9568#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -870,7 +907,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>CardinalOCSL_1.5</last-edited>
+          <last-edited>Discord4j-dev-2.9.3-gf4a9174-33-shaded</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

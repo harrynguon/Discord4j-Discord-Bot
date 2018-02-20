@@ -3,6 +3,8 @@ package sc.loot.main;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventDispatcher;
+import sx.blah.discord.handle.obj.ActivityType;
+import sx.blah.discord.handle.obj.StatusType;
 import sx.blah.discord.util.DiscordException;
 
 public class BotMain {
@@ -10,7 +12,7 @@ public class BotMain {
     public static IDiscordClient createClient(String token, boolean login) {
         ClientBuilder clientBuilder = new ClientBuilder();
         clientBuilder.withToken(token)
-                .online("Perf SC Boosters..");
+                .setPresence(StatusType.ONLINE, ActivityType.PLAYING, "Perf SC Boosters..");
         try {
             if (login) {
                 return clientBuilder.login();

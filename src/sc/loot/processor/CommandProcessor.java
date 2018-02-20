@@ -70,7 +70,7 @@ public class CommandProcessor {
                 if (__user.isPresent()) {
                     IUser user = __user.get();
                     String warningMessage = createString(command, 2);
-                    user.getOrCreatePMChannel().sendMessage(warningMessage);
+                    user.getOrCreatePMChannel().sendMessage("You have been warned for: `" + warningMessage + "`");
                     // send to channel that the warn function was called
                     channel.sendMessage(user.mention() + " has been warned for: " + "`" + warningMessage + "`");
                     message.delete();
@@ -91,12 +91,12 @@ public class CommandProcessor {
                     String banMessage = createString(command, 2);
                     // TODO: create embed message to beautify the banning message
                     IMessage banMsg = new MessageBuilder(client)
-                            .withContent(user.mention() + " has been banned for: " + banMessage + "\n")
+                            .withContent(user.mention() + " has been banned for: `" + banMessage + "`\n")
                             .appendContent(attachment.isPresent() ? attachment.get().getUrl() : "")
                             .withChannel(message.getChannel())
                             .build();
                     message.delete();
-                    user.getOrCreatePMChannel().sendMessage("You have been banned from the SC Loot Discord server for: " + banMessage);
+                    user.getOrCreatePMChannel().sendMessage("You have been banned from the SC Loot Discord server for: `" + banMessage + "`");
                     guild.banUser(user);
                 }
                 return;

@@ -44,7 +44,11 @@ public class BotListener {
      */
     @EventSubscriber
     public void onUserJoin(UserJoinEvent event) {
-        event.getUser().getOrCreatePMChannel().sendMessage(Constants.WELCOME_MESSAGE);
+        String welcomeMessage = Constants.WELCOME_MESSAGE
+                .replaceFirst("#REPLACE_THIS", event.getGuild()
+                        .getChannelByID(249099808910999554L) // #read_this_first channel
+                        .toString());
+        event.getUser().getOrCreatePMChannel().sendMessage(welcomeMessage);
     }
 
 }

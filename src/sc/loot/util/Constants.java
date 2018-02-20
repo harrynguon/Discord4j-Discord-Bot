@@ -4,7 +4,7 @@ public class Constants {
 
     /** On user join */
     public static final String WELCOME_MESSAGE = "Welcome to the SC Loot Discord server! Please read " +
-            "the #read_this_first channel before submitting any messages. Have a good one :)";
+            "the #REPLACE_THIS channel before submitting any messages. Have a good one :)";
 
     /** Force JVM to create new String reference */
     public static final String PREFIX = new String("!");

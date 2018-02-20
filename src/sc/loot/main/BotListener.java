@@ -1,11 +1,11 @@
 package sc.loot.main;
 
-import sc.loot.api.CommandProcessor;
-import sc.loot.api.ConfigHandler;
+import sc.loot.processor.CommandProcessor;
+import sc.loot.util.Constants;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
-import sx.blah.discord.handle.impl.events.guild.GuildCreateEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 
 public class BotListener {
@@ -16,41 +16,35 @@ public class BotListener {
         this.client = client;
     }
 
-    /** Force JVM to create new String reference */
-    public static String prefix = new String("!");
-
+    /**
+     * Whenever a bot handler sends a command, the bot will process the command and the whole message
+     * will determine what the bot does.
+     * @param event
+     */
     @EventSubscriber
     public void onMessageEvent(MessageReceivedEvent event) {
-        if (event.getMessage().getContent().toLowerCase().startsWith(prefix)) {
-            CommandProcessor.processCommand(event.getMessage(), prefix, client);
+        if (event.getMessage().getContent().toLowerCase().startsWith(Constants.PREFIX)) {
+            CommandProcessor.processCommand(event.getMessage(), Constants.PREFIX, client);
         }
     }
 
     /**
-     * Triggered whenever the bot is added to a server.
-     * This method makes sure the guild has its own property file
+     * When a user reacts to a message, the bot will assign the user a role of the chosen colour.
      * @param event
      */
     @EventSubscriber
-    public void onBotJoin(GuildCreateEvent event) {
-        ConfigHandler.addGuild(event.getGuild());
+    public void onUserReactToColorMessage(ReactionEvent event) {
+        // TODO: once finished, check to see if the channel is in #read_this_first
+        CommandProcessor.processReactionToMessage(event.getReaction(), event.getUser());
     }
 
     /**
-     * Triggered when a user joins the server to which the bot is in.
-     * Whenever a user joins the guild, checks to see if the server has a welcome message
-     * and if it does, it will replace the @user (if defined in the message) and mention the user
+     * When a user joins the server, the user will get PMed with the Welcome Message by the bot
      * @param event
      */
     @EventSubscriber
     public void onUserJoin(UserJoinEvent event) {
-        Object obj = ConfigHandler.getProperty(event.getGuild(), "welcome");
-        if (obj != null) {
-            String message = ((String) obj).replaceAll("@user", event.getUser().mention());
-            event.getUser().getOrCreatePMChannel().sendMessage(message);
-//            event.getGuild().getChannelsByName("sc_loot_bot").get(0)
-//                    .sendMessage("I have sent a welcome message to " + event.getUser().mention());
-        }
+        event.getUser().getOrCreatePMChannel().sendMessage(Constants.WELCOME_MESSAGE);
     }
 
 }

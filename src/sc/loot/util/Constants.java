@@ -2,11 +2,20 @@ package sc.loot.util;
 
 public class Constants {
 
+    /** ID of the SC Loot Server */
+    public static final long SC_LOOT_GUILD_ID = 249099808910999554L;
+
+    /** ID of the Weekly Report channel */
+    public static final long WEEKLY_REPORT_ID = 414243989009465344L;
+
+    /** ID of the Read This First channel */
+    public static final long READ_THIS_FIRST_CHANNEL_ID = 249099808910999554L;
+
     /** On user join */
     public static final String WELCOME_MESSAGE = "Welcome to the SC Loot Discord server! Please read " +
             "the #REPLACE_THIS channel before submitting any messages. Have a good one :)";
 
-    /** Force JVM to create new String reference */
+    /** Alias for using the bot commands */
     public static final String PREFIX = new String("!");
 
     /** Role in the discord server which is required for access to the bot commands */
@@ -22,7 +31,7 @@ public class Constants {
     public static final String HELP_MESSAGE =
             "*alias*: **" + Constants.PREFIX + "**\n" +
 
-            "**setwelcome <message>** \nset a welcome message that the bot will PM new users when joining \n" +
+            "**setwelcome <message>** \nplease message Rebuked \n" +
 
             "**warn <@user> <message>** \ntells the bot to send a PM to the user with the warning message \n" +
 

@@ -10,14 +10,13 @@ import sx.blah.discord.util.MessageBuilder;
 import sx.blah.discord.util.MessageHistory;
 
 import java.awt.*;
-import java.time.*;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalUnit;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class CommandProcessor {
@@ -47,7 +46,7 @@ public class CommandProcessor {
         // this only checks for the first occurrence of the role name. if the role does not exist,
         // then it exits, or if the sender does not have the role, then it exits.
         List<IRole> userRoles = guild.getRolesByName(Constants.BOT_AUTH_NAME);
-        if (userRoles.size() < 1 || !sender.hasRole(userRoles.get(0))) {
+        if (userRoles.isEmpty() || !sender.hasRole(userRoles.get(0))) {
             return;
         }
 
@@ -100,12 +99,13 @@ public class CommandProcessor {
                             .withChannel(message.getChannel())
                             .build();
                     message.delete();
-                    user.getOrCreatePMChannel().sendMessage("You have been banned from the SC Loot Discord server for: `" + banMessage + "`");
+                    user.getOrCreatePMChannel()
+                            .sendMessage("You have been banned from the SC Loot Discord server for: `" + banMessage + "`");
                     guild.banUser(user);
                 }
                 return;
             case "weeklyreport":
-                createWeeklyReport(message, channel, guild, client);
+                createWeeklyReport(client);
                 message.delete();
                 return;
             case "help":
@@ -119,19 +119,19 @@ public class CommandProcessor {
     }
 
     public static void processReactionToMessage(IReaction reaction, IUser user) {
-        IMessage wholeMessage = reaction.getMessage();
-        boolean userHasOtherReaction = wholeMessage.getReactions()
+        IMessage message = reaction.getMessage();
+        boolean userHasOtherReaction = message.getReactions()
                 .stream()
                 .filter(r -> r != reaction)
                 .anyMatch(r -> r.getUsers()
                         .stream()
                         .anyMatch(u -> u == user));
         if (userHasOtherReaction) {
-            wholeMessage.getReactions()
+            message.getReactions()
                     .stream()
                     .filter(r -> r != reaction)
                     .forEach(r -> {
-                        wholeMessage.removeReaction(user, reaction);
+                        message.removeReaction(user, reaction);
                         updateRole(user, false);
                     });
         } else {
@@ -167,10 +167,13 @@ public class CommandProcessor {
 
     /**
      * Creates the weekly report and submits it to #weekly_report
-     * @param message
-     * @param channel
+     * @param client
      */
-    private static void createWeeklyReport(IMessage message, IChannel channel, IGuild guild, IDiscordClient client) {
+    public static void createWeeklyReport(IDiscordClient client) {
+        IGuild guild = client.getGuildByID(Constants.SC_LOOT_GUILD_ID);
+        System.out.println(guild);
+        IChannel channel = guild.getChannelByID(Constants.WEEKLY_REPORT_ID);
+        System.out.println(channel);
         Map<String, Integer> itemCount = createHashTable();
         final Instant currentTime = Instant.now();
         // Zoneoffset.UTC for UTC zone (future reference)
@@ -251,11 +254,10 @@ public class CommandProcessor {
         channel.sendMessage(statistics.build());
 
         // send a log to #sc_loot_bot
-        IMessage lastMessage = messageHistory.getLatestMessage();
-        IChannel scLootChannel = guild.getChannelsByName(Constants.SC_LOOT_BOT_CHANNEL_NAME).get(0);
+        IChannel scLootChannel = guild.getChannelsByName(
+                Constants.SC_LOOT_BOT_CHANNEL_NAME).get(0);
         new MessageBuilder(client).withChannel(scLootChannel)
-                .withContent("`!weeklyreport` was last called on: " + currentTime + "." +
-                        " The `!weeklyreport` command was initiated by " + message.getAuthor() + ".")
+                .withContent("`!weeklyreport` was last called on: " + currentTime + ".")
                 .build();
     }
 

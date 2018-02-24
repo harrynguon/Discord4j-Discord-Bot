@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="DiscordTestBot:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/DiscordTestBot_jar</output-path>
-    <root id="archive" name="DiscordTestBot.jar">
-      <element id="module-output" name="DiscordTestBot" />
-    </root>
-  </artifact>
-</component>

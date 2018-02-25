@@ -6,7 +6,7 @@ public class Constants {
     public static final long SC_LOOT_GUILD_ID = 249099808910999554L;
 
     /** ID of the Weekly Report channel */
-    public static final long WEEKLY_REPORT_ID = 414243989009465344L;
+    public static final long WEEKLY_REPORT_CHANNEL_ID = 414243989009465344L;
 
     /** ID of the Read This First channel */
     public static final long READ_THIS_FIRST_CHANNEL_ID = 249099808910999554L;
@@ -38,6 +38,6 @@ public class Constants {
             "**ban <@user> <reason>** \nthe bot will create a post on #board_of_punishments with the following reason, " +
             "PM the user informing they have been banned for the following reason, and then finally ban the user from the server. \n" +
 
-            "**weeklyreport** \ncreates a weekly report based on the sc_loot and submits it to #weekly_report";
+            "**weeklyreport** \n**(DEPRECATED)** creates a weekly report based on the sc_loot and submits it to #weekly_report";
 
 }

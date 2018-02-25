@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
     public static Optional<IDiscordClient> bot = Optional.empty();
+
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     public static IDiscordClient createClient(String token, boolean login) {
@@ -41,6 +42,6 @@ public class Main {
         EventDispatcher dis = discordClient.getDispatcher();
         EventListener eventListener = new EventListener(discordClient);
         dis.registerListener(eventListener);
-        scheduler.scheduleAtFixedRate(SCLootScheduler::new, 1, 1440, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(SCLootScheduler::weeklyReport, 1, 1440, TimeUnit.MINUTES);
     }
 }

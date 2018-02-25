@@ -1,7 +1,9 @@
 package sc.loot.processor;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import sc.loot.util.Constants;
 import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.impl.obj.Embed;
 import sx.blah.discord.handle.impl.obj.Message;
 import sx.blah.discord.handle.impl.obj.ReactionEmoji;
 import sx.blah.discord.handle.obj.*;
@@ -14,8 +16,11 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -108,6 +113,11 @@ public class CommandProcessor {
                 createWeeklyReport(client);
                 message.delete();
                 return;
+            // for testing purposes, will be automated.
+            case "monthlyreport":
+                //if (guild.getChannelByID(Constants.WEEKLY_REPORT_CHANNEL_ID).getFullMessageHistory().size() + 1 % 4 == 0) {
+                    createMonthlyReport(client);
+                return;
             case "help":
                 channel.sendMessage(Constants.HELP_MESSAGE);
                 return;
@@ -171,9 +181,7 @@ public class CommandProcessor {
      */
     public static void createWeeklyReport(IDiscordClient client) {
         IGuild guild = client.getGuildByID(Constants.SC_LOOT_GUILD_ID);
-        System.out.println(guild);
-        IChannel channel = guild.getChannelByID(Constants.WEEKLY_REPORT_ID);
-        System.out.println(channel);
+        IChannel channel = guild.getChannelByID(Constants.WEEKLY_REPORT_CHANNEL_ID);
         Map<String, Integer> itemCount = createHashTable();
         final Instant currentTime = Instant.now();
         // Zoneoffset.UTC for UTC zone (future reference)
@@ -259,6 +267,24 @@ public class CommandProcessor {
         new MessageBuilder(client).withChannel(scLootChannel)
                 .withContent("`!weeklyreport` was last called on: " + currentTime + ".")
                 .build();
+    }
+
+    // if #weekly_report.size + 1 % 4 == 0, call this function
+    private static void createMonthlyReport(IDiscordClient client) {
+        IGuild guild = client.getGuildByID(Constants.SC_LOOT_GUILD_ID);
+        IChannel channel = client.getChannelByID(413975567931670529L); // change this to #monthly_report when done.
+        // its currently set to #test
+
+        List<IMessage> messages = guild.getChannelByID(414243989009465344L) // weekly report ID
+                .getMessageHistoryTo(Instant.now().minus(28, ChronoUnit.DAYS));
+        messages.stream()
+                .filter(m -> m.getTimestamp().isAfter(Instant.now().minus(28, ChronoUnit.DAYS)))
+                .filter(m -> !m.getEmbeds().isEmpty())
+                .map(m -> m.getEmbeds().get(0))
+                .filter(iEmbed -> !iEmbed.getTitle().equals("Extras"))
+                .flatMap(iEmbeds -> iEmbeds.getEmbedFields().stream())
+                .forEach(field -> System.out.println(field.getName() + ": " + field.getValue()));
+
     }
 
     /**

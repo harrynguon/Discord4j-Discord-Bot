@@ -2,23 +2,35 @@ package sc.loot.processor;
 
 import sc.loot.main.Main;
 import sc.loot.util.Constants;
+import sc.loot.util.SCLootScheduler;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 import sx.blah.discord.handle.impl.obj.Message;
+import sx.blah.discord.handle.obj.IMessage;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoField;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class EventListener {
 
-    private IDiscordClient client;
+    public static boolean scOpenTracker;
+
+    private final IDiscordClient client;
+    private final ScheduledExecutorService scOpenCounterScheduler = Executors.newScheduledThreadPool(1);
 
     public EventListener(IDiscordClient client) {
         this.client = client;
+        scOpenTracker = true;
     }
 
     /**
@@ -28,9 +40,18 @@ public class EventListener {
      */
     @EventSubscriber
     public void onMessageEvent(MessageReceivedEvent event) {
+        // command
         if (event.getMessage().getContent().toLowerCase().startsWith(Constants.PREFIX)) {
             CommandProcessor.processCommand(event.getMessage(), Constants.PREFIX, client);
         }
+        /*// sc loot post
+        else if (scOpenTracker && event.getMessage()
+                .getChannel()
+                .getName()
+                .equals(Constants.SC_LOOT_CHANNEL_NAME)) {
+            scOpenTracker = false;
+            scOpenCounterScheduler.schedule(SCLootScheduler::countSC, 4, TimeUnit.HOURS);
+        }*/
     }
 
     /**

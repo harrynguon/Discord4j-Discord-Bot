@@ -267,9 +267,9 @@ public class CommandProcessor {
         channel.sendMessage(statistics.build());
 
         // send a log to #sc_loot_bot
-        IChannel scLootChannel = guild.getChannelsByName(
+        IChannel scLootBotChannel = guild.getChannelsByName(
                 Constants.SC_LOOT_BOT_CHANNEL_NAME).get(0);
-        new MessageBuilder(client).withChannel(scLootChannel)
+        new MessageBuilder(client).withChannel(scLootBotChannel)
                 .withContent("`!weeklyreport` was last called on: " + currentTime + ".")
                 .build();
     }
@@ -349,213 +349,33 @@ public class CommandProcessor {
         String previous = "";
         while (scan.hasNext()) {
             String segment = scan.next().toLowerCase();
-            if (segment.contains("aeonics")) {
-                itemCount.put("aeonics", 1);
-            }
-            else if (segment.contains("overloaded")) {
-                itemCount.put("overloaded", itemCount.get("overloaded") + 1);
-            }
-            else if (segment.contains("locust")) {
-                itemCount.put("locust", itemCount.get("locust") + 1);
-            }
-            else if (segment.contains("frenzied")) {
-                itemCount.put("frenzied", itemCount.get("frenzied") + 1);
-            }
-            else if (segment.contains("quaestor")) {
-                itemCount.put("quaestor", itemCount.get("quaestor") + 1);
-            }
-            else if (segment.contains("stompers")) {
-                itemCount.put("stompers", itemCount.get("stompers") + 1);
-            }
-            else if (segment.contains("armites")) {
-                if (!previous.contains("inf")) {
-                    itemCount.put("armites", itemCount.get("armites") + 1);
-                }
-            }
-            else if (segment.contains("calites")) {
-                if (!previous.contains("inf")) {
-                    itemCount.put("calites", itemCount.get("calites") + 1);
-                }
-            }
-            else if (segment.contains("bellites")) {
-                if (!previous.contains("inf")) {
-                    itemCount.put("bellites", itemCount.get("bellites") + 1);
-                }
-            }
-            else if (segment.contains("blockers")) {
-                itemCount.put("blockers", itemCount.get("blockers") + 1);
-            }
-            else if (segment.contains("bombard")) {
-                itemCount.put("bombard", itemCount.get("bombard") + 1);
-            }
-            else if (segment.contains("emites")) {
-                if (!previous.contains("inf")) {
-                    itemCount.put("emites", itemCount.get("emites") + 1);
-                }
-            }
-            else if (segment.contains("volta")) {
-                itemCount.put("volta", itemCount.get("volta") + 1);
-            }
-            else if (segment.contains("motley")) {
-                itemCount.put("motley", itemCount.get("motley") + 1);
-            }
-            else if (segment.contains("firites")) {
-                if (!previous.contains("inf")) {
-                    itemCount.put("firites", itemCount.get("firites") + 1);
-                }
-            }
-            else if (segment.contains("kunai")) {
-                itemCount.put("kunai", itemCount.get("kunai") + 1);
-            }
-            else if (segment.contains("fireform")) {
-                itemCount.put("fireform", itemCount.get("fireform") + 1);
-            }
-            else if (segment.contains("scorpion")) {
-                itemCount.put("scorpion", itemCount.get("scorpion") + 1);
-            }
-            else if (segment.contains("velites")) {
-                if (!previous.contains("inf")) {
-                    itemCount.put("velites", itemCount.get("velites") + 1);
-                }
-            }
-            else if (segment.contains("hydra")) {
-                itemCount.put("hydra", itemCount.get("hydra") + 1);
-            }
-            else if (segment.contains("salites")) {
-                if (!previous.contains("inf")) {
-                    itemCount.put("salites", itemCount.get("salites") + 1);
-                }
-            }
-            else if (segment.contains("mimic")) {
-                itemCount.put("mimic", itemCount.get("mimic") + 1);
-            }
-            else if (segment.contains("blink")) {
-                itemCount.put("blink", itemCount.get("blink") + 1);
-            }
-            else if (segment.contains("ultrites")) {
-                if (!previous.contains("inf")) {
-                    itemCount.put("ultrites", itemCount.get("ultrites") + 1);
-                }
-            }
-            else if (segment.contains("hyrst")) {
-                itemCount.put("hyrst", itemCount.get("hyrst") + 1);
-            }
-            else if (segment.contains("jerkin")) {
-                itemCount.put("jerkin", itemCount.get("jerkin") + 1);
-            }
-            else if (segment.contains("doublebandos")) {
-                itemCount.put("doublebandos", itemCount.get("doublebandos") + 1);
-            }
-            else if (segment.contains("vitreous")) {
-                itemCount.put("vitreous", itemCount.get("vitreous") + 1);
-            }
-            else if (segment.contains("antiphon")) {
-                itemCount.put("antiphon", itemCount.get("antiphon") + 1);
-            }
-            else if (segment.contains("frag")) {
-                itemCount.put("frag", itemCount.get("frag") + 1);
-            }
-            else if (segment.contains("direfall")) {
-                itemCount.put("direfall", itemCount.get("direfall") + 1);
-            }
-            else if (segment.contains("macron")) {
-                itemCount.put("macron", itemCount.get("macron") + 1);
-            }
-            else if (segment.contains("aerolith")) {
-                itemCount.put("aerolith", itemCount.get("aerolith") + 1);
-            }
-            else if (segment.contains("mantlet")) {
-                itemCount.put("mantlet", itemCount.get("mantlet") + 1);
-            }
-            else if (segment.contains("valenki")) {
-                itemCount.put("valenki", itemCount.get("valenki") + 1);
-            }
-            else if (segment.contains("aesc")) {
-                itemCount.put("aesc", itemCount.get("aesc") + 1);
-            }
-            else if (segment.contains("exites")) {
-                itemCount.put("exites", itemCount.get("exites") + 1);
-            }
-            else if (segment.contains("sledge")) {
-                itemCount.put("sledge", itemCount.get("sledge") + 1);
-            }
-            else if (segment.contains("furious")) {
-                itemCount.put("furious", itemCount.get("furious") + 1);
-            }
-            else if (segment.contains("tacent")) {
-                itemCount.put("tacent", itemCount.get("tacent") + 1);
-            }
-            else if (segment.contains("platin")) {
-                itemCount.put("platin", itemCount.get("platin") + 1);
-            }
-            else if (segment.contains("talons")) {
-                itemCount.put("talons", itemCount.get("talons") + 1);
-            }
-            else if (segment.contains("trackers")) {
-                itemCount.put("trackers", itemCount.get("trackers") + 1);
-            }
-            else if (segment.contains("kyeser")) {
-                itemCount.put("kyeser", itemCount.get("kyeser") + 1);
-            }
-            else if (segment.contains("sabatons")) {
-                itemCount.put("sabatons", itemCount.get("sabatons") + 1);
-            }
-            else if (segment.contains("woven")) {
-                itemCount.put("woven", itemCount.get("woven") + 1);
-            }
+            String finalPrevious = previous;
+            Stream.of(Constants.ITEMS)
+                    .filter(item -> segment.contains(item))
+                    .forEach(item -> {
+                        // check if the item is an implant. if so, check if the previous word is
+                        // "inf"
+                        if (Constants.IMPLANTS.contains(item)) {
+                            if (!finalPrevious.equals("") && !finalPrevious.contains("inf")) {
+                                itemCount.put(item, itemCount.get(item) + 1);
+                            }
+                        } else {
+                            itemCount.put(item, itemCount.get(item) + 1);
+                        }
+                    });
             previous = segment;
         }
         scan.close();
     }
 
+    /**
+     * Initialises the map of items, each with a count of 0 for the weekly report
+     * @return
+     */
     private static Map<String, Integer> createHashTable() {
         Map<String, Integer> itemCount = new HashMap<>();
-        itemCount.put("aeonics", 0);
-        itemCount.put("overloaded", 0);
-        itemCount.put("locust", 0);
-        itemCount.put("frenzied", 0);
-        itemCount.put("quaestor", 0);
-        itemCount.put("stompers", 0);
-        itemCount.put("armites", 0);
-        itemCount.put("calites", 0);
-        itemCount.put("bellites", 0);
-        itemCount.put("blockers", 0);
-        itemCount.put("bombard", 0);
-        itemCount.put("emites", 0);
-        itemCount.put("volta", 0);
-        itemCount.put("motley", 0);
-        itemCount.put("firites", 0);
-        itemCount.put("kunai", 0);
-        itemCount.put("fireform", 0);
-        itemCount.put("scorpion", 0);
-        itemCount.put("velites", 0);
-        itemCount.put("hydra", 0);
-        itemCount.put("salites", 0);
-        itemCount.put("mimic", 0);
-        itemCount.put("blink", 0);
-        itemCount.put("ultrites", 0);
-        itemCount.put("hyrst", 0);
-        itemCount.put("jerkin", 0);
-        itemCount.put("doublebandos", 0);
-        itemCount.put("vitreous", 0);
-        itemCount.put("antiphon", 0);
-        itemCount.put("frag", 0);
-        itemCount.put("direfall", 0);
-        itemCount.put("macron", 0);
-        itemCount.put("aerolith", 0);
-        itemCount.put("mantlet", 0);
-        itemCount.put("valenki", 0);
-        itemCount.put("aesc", 0);
-        itemCount.put("exites", 0);
-        itemCount.put("sledge", 0);
-        itemCount.put("furious", 0);
-        itemCount.put("tacent", 0);
-        itemCount.put("platin", 0);
-        itemCount.put("talons", 0);
-        itemCount.put("trackers", 0);
-        itemCount.put("kyeser", 0);
-        itemCount.put("sabatons", 0);
-        itemCount.put("woven", 0);
+        Stream.of(Constants.ITEMS)
+                .forEach(item -> itemCount.put(item, 0));
         return itemCount;
     }
 

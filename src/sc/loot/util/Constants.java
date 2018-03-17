@@ -1,5 +1,9 @@
 package sc.loot.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Constants {
 
     /** ID of the SC Loot Server */
@@ -41,5 +45,21 @@ public class Constants {
             "**weeklyreport** \n**(DEPRECATED)** creates a weekly report based on the sc_loot and submits it to #weekly_report \n" +
 
             "**changestatus <newStatus>** \nchanges the bot's online status.";
+
+    /** Array of all the items for the weekly report */
+    public static final String[] ITEMS = {
+            "aenoics", "overloaded", "locust", "frenzied", "quaestor", "stompers", "delites",
+            "armites", "calites", "bellites", "blockers", "bombard", "emites", "volta", "motley",
+            "firites", "kunai", "fireform", "scorpion", "velites", "hydra", "salites", "mimic",
+            "blink", "ultrites", "hyrst", "jerkin", "doublebandos", "vitreous", "antiphon",
+            "frag", "direfall", "macron", "aerolith", "mantlet", "valenki", "aesc", "exites",
+            "sledge", "furious", "tacent", "platin", "talons", "trackers", "kyeser", "sabatons",
+            "woven"
+    };
+
+    public static final List<String> IMPLANTS = new ArrayList<>(Arrays.asList(
+            "delites", "armites", "calites", "bellites",
+            "emites", "firites", "velites", "salites", "ultrites")
+    );
 
 }

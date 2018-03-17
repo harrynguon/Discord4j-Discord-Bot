@@ -127,6 +127,7 @@ public class CommandProcessor {
                 }
                 String newStatus = createString(command, 1);
                 client.changePresence(StatusType.ONLINE, ActivityType.PLAYING, newStatus);
+                return;
             default:
                 sendInvalidArgumentMessage("invalidcommand", channel, prefix);
                 return;
@@ -374,8 +375,7 @@ public class CommandProcessor {
      */
     private static Map<String, Integer> createHashTable() {
         Map<String, Integer> itemCount = new HashMap<>();
-        Stream.of(Constants.ITEMS)
-                .forEach(item -> itemCount.put(item, 0));
+        Stream.of(Constants.ITEMS).forEach(item -> itemCount.put(item, 0));
         return itemCount;
     }
 

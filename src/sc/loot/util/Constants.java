@@ -11,7 +11,7 @@ public class Constants {
     /** ID of the Read This First channel */
     public static final long READ_THIS_FIRST_CHANNEL_ID = 249099808910999554L;
 
-    /** On user join */
+    /** Discord Member join message */
     public static final String WELCOME_MESSAGE = "Welcome to the SC Loot Discord server! Please read " +
             "the #REPLACE_THIS channel before submitting any messages. Have a good one :)";
 
@@ -38,6 +38,8 @@ public class Constants {
             "**ban <@user> <reason>** \nthe bot will create a post on #board_of_punishments with the following reason, " +
             "PM the user informing they have been banned for the following reason, and then finally ban the user from the server. \n" +
 
-            "**weeklyreport** \n**(DEPRECATED)** creates a weekly report based on the sc_loot and submits it to #weekly_report";
+            "**weeklyreport** \n**(DEPRECATED)** creates a weekly report based on the sc_loot and submits it to #weekly_report \n" +
+
+            "**changestatus <newStatus>** \nchanges the bot's online status.";
 
 }

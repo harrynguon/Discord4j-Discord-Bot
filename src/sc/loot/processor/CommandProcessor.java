@@ -115,12 +115,18 @@ public class CommandProcessor {
                 return;
             // for testing purposes, will be automated.
             case "monthlyreport":
-                //if (guild.getChannelByID(Constants.WEEKLY_REPORT_CHANNEL_ID).getFullMessageHistory().size() + 1 % 4 == 0) {
+                //if (guild.getChannelByID(Constants.WEEKLY_REPORT_CHANNEL_ID).getFullMessageHistory().size() + 1 % (4*2) == 0) {
                     createMonthlyReport(client);
                 return;
             case "help":
                 channel.sendMessage(Constants.HELP_MESSAGE);
                 return;
+            case "changestatus":
+                if (command.length < 2) {
+                    return;
+                }
+                String newStatus = createString(command, 1);
+                client.changePresence(StatusType.ONLINE, ActivityType.PLAYING, newStatus);
             default:
                 sendInvalidArgumentMessage("invalidcommand", channel, prefix);
                 return;
@@ -251,8 +257,7 @@ public class CommandProcessor {
         // MOST REACTION STATISTICS MESSAGE //
         ReactionEmoji emoji = reactionMax.reaction.get().getEmoji();
         String mostReactionMessage = "*The submission*:\n**" + reactionMax.maxReactionMessage.get() +
-                "** *by " + reactionMax.maxReactionMessage.get().getAuthor() +
-                " which has **" + reactionMax.maxNumReaction +
+                "** *which has **" + reactionMax.maxNumReaction +
                 "** <:" + emoji.getName() + ":" + emoji.getLongID() + ">" + " reactions.*";
         EmbedBuilder statistics = new EmbedBuilder();
         statistics.withTitle("Extras");
@@ -269,7 +274,7 @@ public class CommandProcessor {
                 .build();
     }
 
-    // if #weekly_report.size + 1 % 4 == 0, call this function
+    // if #weekly_report.size + 1 % 8 == 0, call this function as it counts every 4 SCs
     private static void createMonthlyReport(IDiscordClient client) {
         IGuild guild = client.getGuildByID(Constants.SC_LOOT_GUILD_ID);
         IChannel channel = client.getChannelByID(413975567931670529L); // change this to #monthly_report when done.

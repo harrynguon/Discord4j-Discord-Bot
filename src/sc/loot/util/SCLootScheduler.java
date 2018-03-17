@@ -17,6 +17,7 @@ public class SCLootScheduler implements Runnable {
      * Creates the weekly report when the day is Saturday.
      */
     public static void weeklyReport() {
+        // NZ Time
         LocalDate day = LocalDate.now(ZoneId.of("UTC+12"));
         System.out.println(day);
         System.out.println("The day is " + day.getDayOfWeek() +

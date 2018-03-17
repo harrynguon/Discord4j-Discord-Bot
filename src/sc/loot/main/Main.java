@@ -23,7 +23,7 @@ public class Main {
     public static IDiscordClient createClient(String token, boolean login) {
         ClientBuilder clientBuilder = new ClientBuilder();
         clientBuilder.withToken(token)
-                .setPresence(StatusType.ONLINE, ActivityType.PLAYING, "Perf SC Boosters..");
+                .setPresence(StatusType.ONLINE, ActivityType.PLAYING, "Welcome to SC Loot");
         try {
             if (login) {
                 return clientBuilder.login();
@@ -42,6 +42,7 @@ public class Main {
         EventDispatcher dis = discordClient.getDispatcher();
         EventListener eventListener = new EventListener(discordClient);
         dis.registerListener(eventListener);
+        // the bot checks to see if the day is Saturday, once a day
         scheduler.scheduleAtFixedRate(SCLootScheduler::weeklyReport, 1, 1440, TimeUnit.MINUTES);
     }
 }

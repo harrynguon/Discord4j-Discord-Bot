@@ -1,9 +1,7 @@
 package sc.loot.processor;
 
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import sc.loot.util.Constants;
 import sx.blah.discord.api.IDiscordClient;
-import sx.blah.discord.handle.impl.obj.Embed;
 import sx.blah.discord.handle.impl.obj.Message;
 import sx.blah.discord.handle.impl.obj.ReactionEmoji;
 import sx.blah.discord.handle.obj.*;
@@ -17,10 +15,8 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -81,7 +77,6 @@ public class CommandProcessor {
                     user.getOrCreatePMChannel().sendMessage("You have been warned for: `" + warningMessage + "`");
                     // send to channel that the warn function was called
                     channel.sendMessage(user.mention() + " has been warned for: " + "`" + warningMessage + "`");
-                    message.delete();
                 }
                 return;
             // post a message to #board_of_punishments, pm the user informing they were banned,
@@ -103,7 +98,6 @@ public class CommandProcessor {
                             .appendContent(attachment.isPresent() ? attachment.get().getUrl() : "")
                             .withChannel(message.getChannel())
                             .build();
-                    message.delete();
                     user.getOrCreatePMChannel()
                             .sendMessage("You have been banned from the SC Loot Discord server for: `" + banMessage + "`");
                     guild.banUser(user);
@@ -111,7 +105,6 @@ public class CommandProcessor {
                 return;
             case "weeklyreport":
                 createWeeklyReport(client);
-                message.delete();
                 return;
             // for testing purposes, will be automated.
             case "monthlyreport":
@@ -127,6 +120,7 @@ public class CommandProcessor {
                 }
                 String newStatus = createString(command, 1);
                 client.changePresence(StatusType.ONLINE, ActivityType.PLAYING, newStatus);
+                channel.sendMessage("My online status has been changed to: `" + newStatus + "`");
                 return;
             default:
                 sendInvalidArgumentMessage("invalidcommand", channel, prefix);
@@ -357,7 +351,7 @@ public class CommandProcessor {
                         // check if the item is an implant. if so, check if the previous word is
                         // "inf"
                         if (Constants.IMPLANTS.contains(item)) {
-                            if (!finalPrevious.equals("") && !finalPrevious.contains("inf")) {
+                            if (!finalPrevious.contains("inf")) {
                                 itemCount.put(item, itemCount.get(item) + 1);
                             }
                         } else {

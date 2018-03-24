@@ -44,7 +44,9 @@ public class Constants {
 
             "**weeklyreport** \n**(DEPRECATED)** creates a weekly report based on the sc_loot and submits it to #weekly_report \n" +
 
-            "**changestatus <newStatus>** \nchanges the bot's online status.";
+            "**changestatus <newStatus>** \nchanges the bot's online status \n" +
+
+            "**getroleid <role name>** \nGets the role ID for the role name";
 
     /** Array of all the items for the weekly report */
     public static final String[] ITEMS = {

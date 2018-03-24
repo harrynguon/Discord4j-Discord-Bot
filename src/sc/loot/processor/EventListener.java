@@ -103,6 +103,9 @@ public class EventListener {
                 event.getAuthor().hasRole(client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
                         .getRoleByID(Constants.NEW_USER_ROLE_ID))) {
 
+            IChannel scLootLogChannel = client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
+                    .getChannelByID(Constants.SC_LOOT_LOG_ID);
+
             if (event.getMessage().getContent().toLowerCase().contains(Constants.MY_IGN_PREFIX
                     .toLowerCase())) {
 
@@ -110,8 +113,6 @@ public class EventListener {
                         .removeRole(client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
                                 .getRoleByID(427229154006794260L));
 
-                IChannel scLootLogChannel = client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
-                        .getChannelByID(Constants.SC_LOOT_LOG_ID);
                 scLootLogChannel.sendMessage(event.getAuthor() + " has just sent a PM saying: `" +
                         event.getMessage().toString() + "`");
 
@@ -122,6 +123,10 @@ public class EventListener {
                 scLootLogChannel.sendMessage(event.getAuthor() + "'s account age is `" +
                         accountAge + " days old" +  "` and they have just been given permission" +
                         " to read messages on this server.");
+            } else {
+                // doesn't contain "my ign is...", so just send their message to the log channel
+                scLootLogChannel.sendMessage(event.getAuthor() + " has just sent a PM saying: `" +
+                        event.getMessage().toString() + "`");
             }
         }
     }

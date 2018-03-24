@@ -88,7 +88,8 @@ public class EventListener {
                 .getRoleByID(Constants.NEW_USER_ROLE_ID));
 
         // instruct them to send a pm telling their ign
-        user.getOrCreatePMChannel().sendMessage("Please enter your IGN for StarBreak, " +
+        user.getOrCreatePMChannel().sendMessage("In order for you to read messages on this server," +
+                " please enter your IGN for StarBreak, " +
                 "starting with `" + Constants.MY_IGN_PREFIX + "`...");
 
     }
@@ -114,6 +115,11 @@ public class EventListener {
                 event.getAuthor()
                         .removeRole(client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
                                 .getRoleByID(427229154006794260L));
+
+                event.getAuthor().getOrCreatePMChannel().sendMessage("Thank you. You have now been " +
+                        "given permission to read messages on this server. If you cannot send messages " +
+                        "due to not having a phone-verified account, please send a message to the " +
+                        "server owner or one of the moderators.");
 
                 scLootLogChannel.sendMessage(event.getAuthor() + " has just sent a PM saying: `" +
                         event.getMessage().toString() + "`");

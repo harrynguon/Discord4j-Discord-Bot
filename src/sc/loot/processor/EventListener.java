@@ -1,5 +1,6 @@
 package sc.loot.processor;
 
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import sc.loot.main.Main;
 import sc.loot.util.Constants;
 import sc.loot.util.SCLootScheduler;
@@ -9,13 +10,16 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 import sx.blah.discord.handle.impl.obj.Message;
+import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -95,17 +99,31 @@ public class EventListener {
      */
     @EventSubscriber
     public void onUserPMBot(MessageReceivedEvent event) {
-        if (event.getChannel().isPrivate()) { // user pm
+        if (event.getChannel().isPrivate() && // user pm
+                event.getAuthor().hasRole(client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
+                        .getRoleByID(Constants.NEW_USER_ROLE_ID))) {
+
             if (event.getMessage().getContent().toLowerCase().contains(Constants.MY_IGN_PREFIX
                     .toLowerCase())) {
-                client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
-                        .getChannelByID(Constants.SC_LOOT_LOG_ID)
-                        .sendMessage(event.getAuthor() + ": " + event.getMessage().toString());
+
+                event.getAuthor()
+                        .removeRole(client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
+                                .getRoleByID(427229154006794260L));
+
+                IChannel scLootLogChannel = client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
+                        .getChannelByID(Constants.SC_LOOT_LOG_ID);
+                scLootLogChannel.sendMessage(event.getAuthor() + " has just sent a PM saying: `" +
+                        event.getMessage().toString() + "`");
+
+                // calculate account age
+                int currentDay = LocalDateTime.ofInstant(Instant.now(), ZoneId.of("UTC+12")).getHour() / 24;
+                int creationDate = LocalDateTime.ofInstant(event.getAuthor().getCreationDate(), ZoneId.of("UTC+12")).getHour() / 24;
+                int accountAge = currentDay - creationDate;
+                scLootLogChannel.sendMessage(event.getAuthor() + "'s account age is `" +
+                        accountAge + " days old" +  "` and they have just been given permission" +
+                        " to read messages on this server.");
             }
         }
-        event.getAuthor()
-                .removeRole(client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
-                        .getRoleByID(427229154006794260L));
     }
 
 }

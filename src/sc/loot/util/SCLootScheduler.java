@@ -26,6 +26,7 @@ public class SCLootScheduler implements Runnable {
         // 1 == Monday, 7 == Sunday
         if (day.getDayOfWeek().get(ChronoField.DAY_OF_WEEK) == 6) {
             if (Main.bot.isPresent() && Main.bot.get().isLoggedIn()) {
+                System.out.println("I'm creating the weekly report now.");
                 CommandProcessor.createWeeklyReport(Main.bot.get());
             }
         }

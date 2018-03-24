@@ -122,6 +122,14 @@ public class CommandProcessor {
                 client.changePresence(StatusType.ONLINE, ActivityType.PLAYING, newStatus);
                 channel.sendMessage("My online status has been changed to: `" + newStatus + "`");
                 return;
+            case "getroleid":
+                if (command.length < 2) {
+                    return;
+                }
+                String roleName = createString(command, 1);
+                channel.sendMessage("The role ID for " + roleName + " is: " +
+                        guild.getRolesByName(roleName).get(0).getLongID());
+                return;
             default:
                 sendInvalidArgumentMessage("invalidcommand", channel, prefix);
                 return;
@@ -196,6 +204,7 @@ public class CommandProcessor {
         long totalMessages = Stream.of(messages)
                 .filter(withinSevenDays)
                 .count();
+        // process each message
         Stream.of(messages)
                 .filter(withinSevenDays)
                 .forEach(m -> {
@@ -214,6 +223,8 @@ public class CommandProcessor {
                         }
                     }
                 });
+
+        System.out.println("Data has been processed for the weekly report");
 
         EmbedBuilder builder1 = new EmbedBuilder();
         EmbedBuilder builder2 = new EmbedBuilder();
@@ -261,12 +272,17 @@ public class CommandProcessor {
 
         channel.sendMessage(statistics.build());
 
+        System.out.println("Messages have been sent to the weekly report channel.");
+
         // send a log to #sc_loot_bot
         IChannel scLootBotChannel = guild.getChannelsByName(
                 Constants.SC_LOOT_BOT_CHANNEL_NAME).get(0);
         new MessageBuilder(client).withChannel(scLootBotChannel)
-                .withContent("`!weeklyreport` was last called on: " + currentTime + ".")
+                .withContent("`weeklyreport` has just been initiated. The time is: "
+                        + currentTime + ".")
                 .build();
+
+        System.out.println("A log has just been sent.");
     }
 
     // if #weekly_report.size + 1 % 8 == 0, call this function as it counts every 4 SCs

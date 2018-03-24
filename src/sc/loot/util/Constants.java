@@ -62,4 +62,13 @@ public class Constants {
             "emites", "firites", "velites", "salites", "ultrites")
     );
 
+    /**
+     * These are used for new users joining the server.
+     */
+    public static final String NEW_USER_ROLE_NAME = "New User (just joined)";
+
+    public static final String MY_IGN_PREFIX = "My IGN is";
+
+    public static final long SC_LOOT_LOG_ID = 427234922458251264L;
+
 }

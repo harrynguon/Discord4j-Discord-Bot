@@ -10,6 +10,7 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.Reactio
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 import sx.blah.discord.handle.impl.obj.Message;
 import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.handle.obj.IUser;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -74,9 +75,39 @@ public class EventListener {
                 .replaceFirst("#REPLACE_THIS", event.getGuild()
                         .getChannelByID(Constants.READ_THIS_FIRST_CHANNEL_ID) // #read_this_first channel
                         .toString());
-        event.getUser()
-                .getOrCreatePMChannel()
-                .sendMessage(welcomeMessage);
+        IUser user = event.getUser();
+
+        user.getOrCreatePMChannel().sendMessage(welcomeMessage);
+
+        // add the new user role
+        user.addRole(event.getGuild()
+                .getRolesByName(Constants.NEW_USER_ROLE_NAME)
+                .get(0));
+
+        // instruct them to send a pm telling their ign
+        user.getOrCreatePMChannel().sendMessage("Please enter your IGN for StarBreak, " +
+                "starting with `" + Constants.MY_IGN_PREFIX + "`...");
+
+    }
+
+    /**
+     * User has PMed the bot requesting to gain access to the server (since they're a new member)
+     * @param event
+     */
+    @EventSubscriber
+    public void onUserPMBot(MessageReceivedEvent event) {
+        if (event.getChannel().isPrivate()) { // user pm
+            if (event.getMessage().getContent().toLowerCase().contains(Constants.MY_IGN_PREFIX
+                    .toLowerCase())) {
+                client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
+                        .getChannelByID(Constants.SC_LOOT_LOG_ID)
+                        .sendMessage(event.getAuthor() + ": " + event.getMessage().toString());
+            }
+        }
+        event.getAuthor()
+                .removeRole(client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
+                        .getRolesByName(Constants.NEW_USER_ROLE_NAME)
+                        .get(0));
     }
 
 }

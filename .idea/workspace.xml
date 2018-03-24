@@ -7,7 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8e08373-7006-425f-9e6c-4627da2dee35" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/processor/EventListener.java" afterPath="$PROJECT_DIR$/src/sc/loot/processor/EventListener.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/util/Constants.java" afterPath="$PROJECT_DIR$/src/sc/loot/util/Constants.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,11 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EventListener.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EventListener.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/EventListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="509">
-              <caret line="111" column="87" lean-forward="true" selection-start-line="111" selection-start-column="87" selection-end-line="111" selection-end-column="87" />
+            <state relative-caret-position="1070">
+              <caret line="111" column="98" lean-forward="true" selection-start-line="111" selection-start-column="98" selection-end-line="111" selection-end-column="98" />
               <folding />
             </state>
           </provider>
@@ -65,11 +65,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/util/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="662">
-              <caret line="69" column="67" lean-forward="false" selection-start-line="69" selection-start-column="67" selection-end-line="69" selection-end-column="67" />
+            <state relative-caret-position="560">
+              <caret line="33" column="55" lean-forward="true" selection-start-line="33" selection-start-column="55" selection-end-line="33" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -111,8 +111,8 @@
         <option value="$PROJECT_DIR$/src/sc/loot/main/Main.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java" />
-        <option value="$PROJECT_DIR$/src/sc/loot/util/Constants.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/processor/EventListener.java" />
+        <option value="$PROJECT_DIR$/src/sc/loot/util/Constants.java" />
       </list>
     </option>
   </component>
@@ -756,16 +756,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/util/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="662">
-          <caret line="69" column="67" lean-forward="false" selection-start-line="69" selection-start-column="67" selection-end-line="69" selection-end-column="67" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -778,9 +768,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/EventListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="509">
-          <caret line="111" column="87" lean-forward="true" selection-start-line="111" selection-start-column="87" selection-end-line="111" selection-end-column="87" />
+        <state relative-caret-position="1070">
+          <caret line="111" column="98" lean-forward="true" selection-start-line="111" selection-start-column="98" selection-end-line="111" selection-end-column="98" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sc/loot/util/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="560">
+          <caret line="33" column="55" lean-forward="true" selection-start-line="33" selection-start-column="55" selection-end-line="33" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

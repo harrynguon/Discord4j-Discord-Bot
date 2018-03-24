@@ -17,7 +17,7 @@ public class Constants {
 
     /** Discord Member join message */
     public static final String WELCOME_MESSAGE = "Welcome to the SC Loot Discord server! Please read " +
-            "the #REPLACE_THIS channel before submitting any messages. Have a good one :)";
+            "the #REPLACE_THIS channel before submitting any messages.";
 
     /** Alias for using the bot commands */
     public static final String PREFIX = new String("!");

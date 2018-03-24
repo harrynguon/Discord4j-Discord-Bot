@@ -107,7 +107,9 @@ public class EventListener {
                     .getChannelByID(Constants.SC_LOOT_LOG_ID);
 
             if (event.getMessage().getContent().toLowerCase().contains(Constants.MY_IGN_PREFIX
-                    .toLowerCase())) {
+                    .toLowerCase()) &&
+                    // check to see if they typed more than just "my ign is"
+                    event.getMessage().getContent().length() > Constants.MY_IGN_PREFIX.length()) {
 
                 event.getAuthor()
                         .removeRole(client.getGuildByID(Constants.SC_LOOT_GUILD_ID)

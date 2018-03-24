@@ -67,7 +67,7 @@ public class Constants {
     /**
      * These are used for new users joining the server.
      */
-    public static final String NEW_USER_ROLE_NAME = "New User (just joined)";
+    public static final long NEW_USER_ROLE_ID = 427229154006794260L;
 
     public static final String MY_IGN_PREFIX = "My IGN is";
 

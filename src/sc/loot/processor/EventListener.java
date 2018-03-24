@@ -81,8 +81,7 @@ public class EventListener {
 
         // add the new user role
         user.addRole(event.getGuild()
-                .getRolesByName(Constants.NEW_USER_ROLE_NAME)
-                .get(0));
+                .getRoleByID(Constants.NEW_USER_ROLE_ID));
 
         // instruct them to send a pm telling their ign
         user.getOrCreatePMChannel().sendMessage("Please enter your IGN for StarBreak, " +
@@ -106,8 +105,7 @@ public class EventListener {
         }
         event.getAuthor()
                 .removeRole(client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
-                        .getRolesByName(Constants.NEW_USER_ROLE_NAME)
-                        .get(0));
+                        .getRoleByID(427229154006794260L));
     }
 
 }

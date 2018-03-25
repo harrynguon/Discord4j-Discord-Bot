@@ -69,8 +69,9 @@ public class CommandProcessor {
                         channel.sendMessage(user.mention() + " has been warned for: " + "`" +
                                 warningMessage + "`");
                     } catch (Exception e) {
+                        e.printStackTrace();
                         System.out.println("The user does not have " +
-                                "direct messages from server members enabled");
+                                "direct messages from server members enabled.");
                     }
 
                 }
@@ -100,8 +101,9 @@ public class CommandProcessor {
                                 .sendMessage("You have been banned " +
                                         "from the SC Loot Discord server for: `" + banMessage + "`");
                     } catch (Exception e) {
+                        e.printStackTrace();
                         System.out.println("The user does not have " +
-                                "direct messages from server members enabled");
+                                "direct messages from server members enabled.");
                     }
                     guild.banUser(user);
                 }

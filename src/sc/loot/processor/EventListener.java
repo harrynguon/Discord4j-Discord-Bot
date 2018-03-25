@@ -89,8 +89,9 @@ public class EventListener {
                     "starting with `" + Constants.MY_IGN_PREFIX + "`...");
 
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("The user does not have " +
-                    "direct messages from server members enabled");
+                    "direct messages from server members enabled, or the role doesn't exist.");
         }
 
     }
@@ -123,8 +124,9 @@ public class EventListener {
                             "due to not having a phone-verified account, please send a message to the " +
                             "server owner or one of the moderators.");
                 } catch (Exception e) {
+                    e.printStackTrace();
                     System.out.println("The user does not have " +
-                            "direct messages from server members enabled");
+                            "direct messages from server members enabled.");
                 }
 
 

@@ -275,8 +275,7 @@ public class CommandProcessor {
         System.out.println("Messages have been sent to the weekly report channel.");
 
         // send a log to #sc_loot_bot
-        IChannel scLootBotChannel = guild.getChannelsByName(
-                Constants.SC_LOOT_BOT_CHANNEL_NAME).get(0);
+        IChannel scLootBotChannel = guild.getChannelByID(Constants.SC_LOOT_BOT_CHANNEL_ID);
         new MessageBuilder(client).withChannel(scLootBotChannel)
                 .withContent("`weeklyreport` has just been initiated. The time is: "
                         + currentTime + ".")

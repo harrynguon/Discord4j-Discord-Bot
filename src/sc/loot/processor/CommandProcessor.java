@@ -18,18 +18,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CommandProcessor {
-
-    /**
-     * Used for finding the maximum emoji count of a message
-     */
-    private static class ReactionMaxHelper {
-        private int maxNumReaction = 0;
-        private Optional<IReaction> reaction = Optional.empty();
-        private Optional<IMessage> maxReactionMessage = Optional.empty();
-    }
 
     /**
      * Process all input
@@ -191,6 +183,7 @@ public class CommandProcessor {
     public static void createWeeklyReport(IDiscordClient client) {
         IGuild guild = client.getGuildByID(Constants.SC_LOOT_GUILD_ID);
         IChannel channel = guild.getChannelByID(Constants.WEEKLY_REPORT_CHANNEL_ID);
+        // IChannel channel = guild.getChannelByID(413975567931670529L); // test channel ID
         Map<String, Integer> itemCount = createHashTable();
         final Instant currentTime = Instant.now();
         // Zoneoffset.UTC for UTC zone (future reference)
@@ -200,29 +193,37 @@ public class CommandProcessor {
                 .getMessageHistoryTo(currentTime.minus(Period.ofDays(7)));
         IMessage[] messages = messageHistory.asArray();
         Predicate<IMessage> withinSevenDays = m -> m.getTimestamp().isAfter(currentTime.minus(Period.ofDays(7)));
-        ReactionMaxHelper reactionMax = new ReactionMaxHelper();
+
         long totalMessages = Stream.of(messages)
                 .filter(withinSevenDays)
                 .count();
+
+        Set<IMessage> messagesForReactionPost = new HashSet<>();
+
         // process each message
         Stream.of(messages)
                 .filter(withinSevenDays)
                 .forEach(m -> {
                     processMessage(m, itemCount);
-                    // find the message with the most number of reactions
-                    Optional<IReaction> cReaction = m.getReactions()
-                            .stream()
-                            .sorted(Comparator.comparing(reaction -> reaction.getCount()))
-                            .max(Comparator.comparingInt(IReaction::getCount));
-                    if (cReaction.isPresent()) {
-                        IReaction reaction = cReaction.get();
-                        if (reaction.getCount() > reactionMax.maxNumReaction) {
-                            reactionMax.maxNumReaction = reaction.getCount();
-                            reactionMax.reaction = cReaction;
-                            reactionMax.maxReactionMessage = Optional.of(m);
-                        }
+                    if (m.getReactions().size() != 0) {
+                        messagesForReactionPost.add(m);
                     }
                 });
+
+        // custom comparator that stores messages by their most-highest reaction count
+        Comparator<IMessage> mostReactions = Comparator.comparingInt(
+                m -> m.getReactions()
+                        .stream()
+                        .max(Comparator.comparingInt(r -> r.getCount())).get()
+                        .getCount()
+        );
+
+        // a list of the top N messages by their highest single reaction count, sorted in descending
+        // order (from highest to lowest)
+        List<IMessage> topReactionMessages = messagesForReactionPost.stream()
+                .sorted(mostReactions.reversed())
+                .limit(5)
+                .collect(Collectors.toList());
 
         System.out.println("Data has been processed for the weekly report");
 
@@ -261,13 +262,29 @@ public class CommandProcessor {
         channel.sendMessage(builder2.build());
 
         // MOST REACTION STATISTICS MESSAGE //
-        ReactionEmoji emoji = reactionMax.reaction.get().getEmoji();
-        String mostReactionMessage = "*The submission*:\n**" + reactionMax.maxReactionMessage.get() +
-                "** *which has **" + reactionMax.maxNumReaction +
-                "** <:" + emoji.getName() + ":" + emoji.getLongID() + ">" + " reactions.*";
         EmbedBuilder statistics = new EmbedBuilder();
         statistics.withTitle("Extras");
-        statistics.appendField("Highest single reaction count for a submission during this week.", mostReactionMessage, true);
+        statistics.appendField("__Reactions__",
+                "Top 5 distinct reactions from different submissions during this week.", true);
+
+        // append all top reaction messages
+        for (int i = 0; i < topReactionMessages.size(); i++) {
+            IReaction reaction = topReactionMessages.get(i)
+                    .getReactions()
+                    .stream()
+                    .max(Comparator.comparingInt(IReaction::getCount)).get();
+            ReactionEmoji emoji = reaction.getEmoji();
+            int noReactions = reaction.getCount();
+
+            String message = "" + topReactionMessages.get(i) +
+                    " \n*which has **" + noReactions +
+                    "** <:" + emoji.getName() + ":" + emoji.getLongID() + ">" + " reactions.*";
+
+            //add each post as a field to the post.
+            int subNumber = i+1;
+            statistics.appendField("Submission #" + subNumber + ":", message, true);
+        }
+
         statistics.withColor(color);
 
         channel.sendMessage(statistics.build());

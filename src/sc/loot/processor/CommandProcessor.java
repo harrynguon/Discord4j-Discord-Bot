@@ -62,11 +62,17 @@ public class CommandProcessor {
                 if (__user.isPresent()) {
                     IUser user = __user.get();
                     String warningMessage = createString(command, 2);
-                    user.getOrCreatePMChannel().sendMessage("You have been warned for: `" +
-                            warningMessage + "`");
-                    // send to channel that the warn function was called
-                    channel.sendMessage(user.mention() + " has been warned for: " + "`" +
-                            warningMessage + "`");
+                    try {
+                        user.getOrCreatePMChannel().sendMessage("You have been warned for: `" +
+                                warningMessage + "`");
+                        // send to channel that the warn function was called
+                        channel.sendMessage(user.mention() + " has been warned for: " + "`" +
+                                warningMessage + "`");
+                    } catch (Exception e) {
+                        System.out.println("The user does not have " +
+                                "direct messages from server members enabled");
+                    }
+
                 }
                 return;
             // post a message to #board_of_punishments, pm the user informing they were banned,
@@ -89,9 +95,14 @@ public class CommandProcessor {
                             .appendContent(attachment.isPresent() ? attachment.get().getUrl() : "")
                             .withChannel(message.getChannel())
                             .build();
-                    user.getOrCreatePMChannel()
-                            .sendMessage("You have been banned " +
-                                    "from the SC Loot Discord server for: `" + banMessage + "`");
+                    try {
+                        user.getOrCreatePMChannel()
+                                .sendMessage("You have been banned " +
+                                        "from the SC Loot Discord server for: `" + banMessage + "`");
+                    } catch (Exception e) {
+                        System.out.println("The user does not have " +
+                                "direct messages from server members enabled");
+                    }
                     guild.banUser(user);
                 }
                 return;

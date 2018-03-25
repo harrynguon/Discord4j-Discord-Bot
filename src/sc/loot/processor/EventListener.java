@@ -28,14 +28,10 @@ import java.util.concurrent.TimeUnit;
 
 public class EventListener {
 
-    public static boolean scOpenTracker;
-
     private final IDiscordClient client;
-    private final ScheduledExecutorService scOpenCounterScheduler = Executors.newScheduledThreadPool(1);
 
     public EventListener(IDiscordClient client) {
         this.client = client;
-        scOpenTracker = true;
     }
 
     /**
@@ -81,16 +77,21 @@ public class EventListener {
                         .toString());
         IUser user = event.getUser();
 
-        user.getOrCreatePMChannel().sendMessage(welcomeMessage);
+        try {
+            user.getOrCreatePMChannel().sendMessage(welcomeMessage);
+            // add the new user role
+            user.addRole(event.getGuild()
+                    .getRoleByID(Constants.NEW_USER_ROLE_ID));
 
-        // add the new user role
-        user.addRole(event.getGuild()
-                .getRoleByID(Constants.NEW_USER_ROLE_ID));
+            // instruct them to send a pm telling their ign
+            user.getOrCreatePMChannel().sendMessage("In order for you to read messages on this server," +
+                    " please enter your IGN for StarBreak, " +
+                    "starting with `" + Constants.MY_IGN_PREFIX + "`...");
 
-        // instruct them to send a pm telling their ign
-        user.getOrCreatePMChannel().sendMessage("In order for you to read messages on this server," +
-                " please enter your IGN for StarBreak, " +
-                "starting with `" + Constants.MY_IGN_PREFIX + "`...");
+        } catch (Exception e) {
+            System.out.println("The user does not have " +
+                    "direct messages from server members enabled");
+        }
 
     }
 
@@ -114,12 +115,18 @@ public class EventListener {
 
                 event.getAuthor()
                         .removeRole(client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
-                                .getRoleByID(427229154006794260L));
+                                .getRoleByID(Constants.NEW_USER_ROLE_ID));
 
-                event.getAuthor().getOrCreatePMChannel().sendMessage("Thank you. You have now been " +
-                        "given permission to read messages on this server. If you cannot send messages " +
-                        "due to not having a phone-verified account, please send a message to the " +
-                        "server owner or one of the moderators.");
+                try {
+                    event.getAuthor().getOrCreatePMChannel().sendMessage("Thank you. You have now been " +
+                            "given permission to read messages on this server. If you cannot send messages " +
+                            "due to not having a phone-verified account, please send a message to the " +
+                            "server owner or one of the moderators.");
+                } catch (Exception e) {
+                    System.out.println("The user does not have " +
+                            "direct messages from server members enabled");
+                }
+
 
                 scLootLogChannel.sendMessage(event.getAuthor() + " has just sent a PM saying: `" +
                         event.getMessage().toString() + "`");

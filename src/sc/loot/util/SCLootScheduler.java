@@ -38,19 +38,13 @@ public class SCLootScheduler implements Runnable {
             }
         }
 
+        // checks if the day is the last day of the month
         if (day.getDayOfMonth() == day.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth()) {
             if (Main.bot.isPresent() && Main.bot.get().isLoggedIn()) {
                 System.out.println("I'm creating the monthly report now.");
                 CommandProcessor.createReport(Main.bot.get(), Constants.MONTHLY);
             }
         }
-    }
-
-    /**
-     * After four hours, the next message posted on #sc_loot will count towards another opening
-     */
-    public static void countSC() {
-        EventListener.scOpenTracker = true;
     }
 
     @Override

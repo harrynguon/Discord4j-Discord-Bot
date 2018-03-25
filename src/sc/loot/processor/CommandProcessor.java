@@ -10,10 +10,7 @@ import sx.blah.discord.util.MessageBuilder;
 import sx.blah.discord.util.MessageHistory;
 
 import java.awt.*;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.Period;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
@@ -96,12 +93,10 @@ public class CommandProcessor {
                 }
                 return;
             case "weeklyreport":
-                createWeeklyReport(client);
+                createReport(client, Constants.WEEKLY);
                 return;
             // for testing purposes, will be automated.
             case "monthlyreport":
-                //if (guild.getChannelByID(Constants.WEEKLY_REPORT_CHANNEL_ID).getFullMessageHistory().size() + 1 % (4*2) == 0) {
-                    createMonthlyReport(client);
                 return;
             case "help":
                 channel.sendMessage(Constants.HELP_MESSAGE);
@@ -129,35 +124,6 @@ public class CommandProcessor {
 
     }
 
-    public static void processReactionToMessage(IReaction reaction, IUser user) {
-        IMessage message = reaction.getMessage();
-        boolean userHasOtherReaction = message.getReactions()
-                .stream()
-                .filter(r -> r != reaction)
-                .anyMatch(r -> r.getUsers()
-                        .stream()
-                        .anyMatch(u -> u == user));
-        if (userHasOtherReaction) {
-            message.getReactions()
-                    .stream()
-                    .filter(r -> r != reaction)
-                    .forEach(r -> {
-                        message.removeReaction(user, reaction);
-                        updateRole(user, false);
-                    });
-        } else {
-            updateRole(user, true);
-        }
-    }
-
-    private static void updateRole(IUser user, boolean onlyRole) {
-        if (onlyRole) {
-            // create role and assign the colour
-        } else {
-            // remove all other roles
-        }
-    }
-
     /**
      * Concatenate the message contents into a String seperated by spaces.
      * @param command
@@ -177,32 +143,44 @@ public class CommandProcessor {
     }
 
     /**
-     * Creates the weekly report and submits it to #weekly_report
+     * Creates the report and submits it to #weekly_report or #monthly_report, depending on its type
      * @param client
      */
-    public static void createWeeklyReport(IDiscordClient client) {
+    public static void createReport(IDiscordClient client, String reportType) {
         IGuild guild = client.getGuildByID(Constants.SC_LOOT_GUILD_ID);
-        IChannel channel = guild.getChannelByID(Constants.WEEKLY_REPORT_CHANNEL_ID);
+        IChannel channel =
+                reportType.equals(Constants.WEEKLY) ?
+                guild.getChannelByID(Constants.WEEKLY_REPORT_CHANNEL_ID):
+                guild.getChannelByID(Constants.MONTHLY_REPORT_CHANNEL_ID);
+
         // IChannel channel = guild.getChannelByID(413975567931670529L); // test channel ID
         Map<String, Integer> itemCount = createHashTable();
         final Instant currentTime = Instant.now();
         // Zoneoffset.UTC for UTC zone (future reference)
         final LocalDateTime currentTimeLDT = LocalDateTime.ofInstant(currentTime, ZoneOffset.systemDefault());
-        final MessageHistory messageHistory = guild
-                .getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
-                .getMessageHistoryTo(currentTime.minus(Period.ofDays(7)));
+        final MessageHistory messageHistory =
+                reportType.equals(Constants.WEEKLY) ?
+                guild.getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
+                    .getMessageHistoryTo(currentTime.minus(Period.ofDays(7)))
+                :
+                guild.getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
+                        .getMessageHistoryTo(currentTime.minus(1, ChronoUnit.MONTHS));
         IMessage[] messages = messageHistory.asArray();
-        Predicate<IMessage> withinSevenDays = m -> m.getTimestamp().isAfter(currentTime.minus(Period.ofDays(7)));
+        Predicate<IMessage> withinTheTimePeriod =
+                reportType.equals(Constants.WEEKLY) ?
+                m -> m.getTimestamp().isAfter(currentTime.minus(Period.ofDays(7)))
+                :
+                m -> m.getTimestamp().isAfter(currentTime.minus(1, ChronoUnit.MONTHS));
 
         long totalMessages = Stream.of(messages)
-                .filter(withinSevenDays)
+                .filter(withinTheTimePeriod)
                 .count();
 
         Set<IMessage> messagesForReactionPost = new HashSet<>();
 
         // process each message
         Stream.of(messages)
-                .filter(withinSevenDays)
+                .filter(withinTheTimePeriod)
                 .forEach(m -> {
                     processMessage(m, itemCount);
                     if (m.getReactions().size() != 0) {
@@ -218,19 +196,31 @@ public class CommandProcessor {
                         .getCount()
         );
 
+        int maxReactionSubmissions =
+                reportType.equals(Constants.WEEKLY) ?
+                        5
+                        :
+                        10;
+
         // a list of the top N messages by their highest single reaction count, sorted in descending
         // order (from highest to lowest)
         List<IMessage> topReactionMessages = messagesForReactionPost.stream()
                 .sorted(mostReactions.reversed())
-                .limit(5)
+                .limit(maxReactionSubmissions)
                 .collect(Collectors.toList());
 
-        System.out.println("Data has been processed for the weekly report");
+        System.out.println("Data has been processed for the "+ reportType + " report");
+
+        LocalDate crtTimeMinusTimePeriod =
+                reportType.equals(Constants.WEEKLY) ?
+                currentTimeLDT.toLocalDate().minusDays(7)
+                :
+                currentTimeLDT.toLocalDate().minus(1, ChronoUnit.MONTHS);
 
         EmbedBuilder builder1 = new EmbedBuilder();
         EmbedBuilder builder2 = new EmbedBuilder();
-        builder1.withTitle("Weekly Item Drop Count Report from __" +
-                currentTimeLDT.toLocalDate().minusDays(7) + "__ to __" +
+        builder1.withTitle(reportType + " Item Drop Count Report from __" +
+                crtTimeMinusTimePeriod + "__ to __" +
                 currentTimeLDT.toLocalDate() + "__ with a total number of `" +
                 totalMessages + "` submissions.");
         builder2.withTitle("cont.");
@@ -265,7 +255,7 @@ public class CommandProcessor {
         EmbedBuilder statistics = new EmbedBuilder();
         statistics.withTitle("Extras");
         statistics.appendField("__Reactions__",
-                "Top 5 distinct reactions from different submissions during this week.", true);
+                "Top "+ maxReactionSubmissions +" distinct reactions from different submissions during this week.", true);
 
         // append all top reaction messages
         for (int i = 0; i < topReactionMessages.size(); i++) {
@@ -288,34 +278,16 @@ public class CommandProcessor {
         statistics.withColor(color);
         channel.sendMessage(statistics.build());
 
-        System.out.println("Messages have been sent to the weekly report channel.");
+        System.out.println("Messages have been sent to the " + reportType + " report channel.");
 
         // send a log to #sc_loot_bot
         IChannel scLootBotChannel = guild.getChannelByID(Constants.SC_LOOT_BOT_CHANNEL_ID);
         new MessageBuilder(client).withChannel(scLootBotChannel)
-                .withContent("`weeklyreport` has just been initiated. The time is: "
+                .withContent("`" + reportType + "` has just been initiated. The time is: "
                         + currentTime + ".")
                 .build();
 
         System.out.println("A log has just been sent.");
-    }
-
-    // if #weekly_report.size + 1 % 8 == 0, call this function as it counts every 4 SCs
-    private static void createMonthlyReport(IDiscordClient client) {
-        IGuild guild = client.getGuildByID(Constants.SC_LOOT_GUILD_ID);
-        IChannel channel = client.getChannelByID(413975567931670529L); // change this to #monthly_report when done.
-        // its currently set to #test
-
-        List<IMessage> messages = guild.getChannelByID(414243989009465344L) // weekly report ID
-                .getMessageHistoryTo(Instant.now().minus(28, ChronoUnit.DAYS));
-        messages.stream()
-                .filter(m -> m.getTimestamp().isAfter(Instant.now().minus(28, ChronoUnit.DAYS)))
-                .filter(m -> !m.getEmbeds().isEmpty())
-                .map(m -> m.getEmbeds().get(0))
-                .filter(iEmbed -> !iEmbed.getTitle().equals("Extras"))
-                .flatMap(iEmbeds -> iEmbeds.getEmbedFields().stream())
-                .forEach(field -> System.out.println(field.getName() + ": " + field.getValue()));
-
     }
 
     /**
@@ -395,7 +367,7 @@ public class CommandProcessor {
     }
 
     /**
-     * Initialises the map of items, each with a count of 0 for the weekly report
+     * Initialises the map of items, each with a count of 0 for the weekly/monthly report
      * @return
      */
     private static Map<String, Integer> createHashTable() {

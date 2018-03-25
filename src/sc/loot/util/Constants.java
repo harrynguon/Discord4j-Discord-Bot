@@ -12,6 +12,13 @@ public class Constants {
     /** ID of the Weekly Report channel */
     public static final long WEEKLY_REPORT_CHANNEL_ID = 414243989009465344L;
 
+    /** ID of the Monthly Report channel */
+    public static final long MONTHLY_REPORT_CHANNEL_ID = 427329434971013132L;
+
+    /** Ensures correct spelling of these globally-used variables */
+    public static final String WEEKLY = "Weekly";
+    public static final String MONTHLY = "Monthly";
+
     /** ID of the Read This First channel */
     public static final long READ_THIS_FIRST_CHANNEL_ID = 249099808910999554L;
 

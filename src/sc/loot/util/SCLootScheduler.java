@@ -7,9 +7,7 @@ import sc.loot.processor.EventListener;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Calendar;
 
 /**
  * Schedules the weekly report to be submitted every week on Saturday.
@@ -30,12 +28,21 @@ public class SCLootScheduler implements Runnable {
         if (day.getDayOfWeek().get(ChronoField.DAY_OF_WEEK) == 6) {
             if (Main.bot.isPresent() && Main.bot.get().isLoggedIn()) {
                 System.out.println("I'm creating the weekly report now.");
-                CommandProcessor.createWeeklyReport(Main.bot.get());
+                CommandProcessor.createReport(Main.bot.get(), Constants.WEEKLY);
             }
         }
 
-        System.out.println("The day of the month is: " + day.getDayOfMonth());
-        System.out.println("The last day of this month is: " + day.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth());
+        if (day.getDayOfMonth() == day.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth()) {
+            if (Main.bot.isPresent() && Main.bot.get().isLoggedIn()) {
+                System.out.println("I'm creating the monthly report now.");
+                CommandProcessor.createReport(Main.bot.get(), Constants.MONTHLY);
+            }
+        }
+
+        // System.out.println("The day of the month is: " + day.getDayOfMonth());
+        // System.out.println("The last day of this month is: " + day.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth());
+        // System.out.println(LocalDateTime.ofInstant(Instant.now(), ZoneId.of("UTC+12")).toLocalDate().withDayOfMonth(1).atStartOfDay());
+        // System.out.println(Instant.now().minus(1, ChronoUnit.MONTHS));
 
     }
 

@@ -26,7 +26,7 @@ public class Constants {
     public static final String BOT_AUTH_NAME = "Bot Authorisation";
 
     /** Name of the sc_loot channel */
-    public static final String SC_LOOT_CHANNEL_NAME = "sc_loot";
+    public static final long SC_LOOT_CHANNEL_ID = 249104816171646978L;
 
     /** Name of the sc_loot_bot channel used to sending logs */
     public static final long SC_LOOT_BOT_CHANNEL_ID = 412865060818386956L;

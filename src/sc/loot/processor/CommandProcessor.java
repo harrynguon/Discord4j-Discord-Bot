@@ -196,7 +196,7 @@ public class CommandProcessor {
         // Zoneoffset.UTC for UTC zone (future reference)
         final LocalDateTime currentTimeLDT = LocalDateTime.ofInstant(currentTime, ZoneOffset.systemDefault());
         final MessageHistory messageHistory = guild
-                .getChannelsByName(Constants.SC_LOOT_CHANNEL_NAME).get(0)
+                .getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
                 .getMessageHistoryTo(currentTime.minus(Period.ofDays(7)));
         IMessage[] messages = messageHistory.asArray();
         Predicate<IMessage> withinSevenDays = m -> m.getTimestamp().isAfter(currentTime.minus(Period.ofDays(7)));

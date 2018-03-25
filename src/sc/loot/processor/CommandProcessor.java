@@ -263,12 +263,17 @@ public class CommandProcessor {
         channel.sendMessage(builder1.build());
         channel.sendMessage(builder2.build());
 
+        String weekOrMonth = reportType.equals(Constants.WEEKLY) ?
+                "week"
+                :
+                "month";
+
         // MOST REACTION STATISTICS MESSAGE //
         EmbedBuilder statistics = new EmbedBuilder();
         statistics.withTitle("Extras");
         statistics.appendField("__Reactions__",
                 "Top "+ maxReactionSubmissions +" distinct reactions from different " +
-                        "submissions during this week.", true);
+                        "submissions during this " + weekOrMonth + ".", true);
 
         // append all top reaction messages
         for (int i = 0; i < topReactionMessages.size(); i++) {

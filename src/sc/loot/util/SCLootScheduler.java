@@ -7,6 +7,9 @@ import sc.loot.processor.EventListener;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Calendar;
 
 /**
  * Schedules the weekly report to be submitted every week on Saturday.
@@ -30,6 +33,10 @@ public class SCLootScheduler implements Runnable {
                 CommandProcessor.createWeeklyReport(Main.bot.get());
             }
         }
+
+        System.out.println("The day of the month is: " + day.getDayOfMonth());
+        System.out.println("The last day of this month is: " + day.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth());
+
     }
 
     /**

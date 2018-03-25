@@ -286,7 +286,6 @@ public class CommandProcessor {
         }
 
         statistics.withColor(color);
-
         channel.sendMessage(statistics.build());
 
         System.out.println("Messages have been sent to the weekly report channel.");

@@ -11,7 +11,6 @@ import sx.blah.discord.util.MessageHistory;
 
 import java.awt.*;
 import java.time.*;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
 import java.util.function.Predicate;
@@ -63,9 +62,11 @@ public class CommandProcessor {
                 if (__user.isPresent()) {
                     IUser user = __user.get();
                     String warningMessage = createString(command, 2);
-                    user.getOrCreatePMChannel().sendMessage("You have been warned for: `" + warningMessage + "`");
+                    user.getOrCreatePMChannel().sendMessage("You have been warned for: `" +
+                            warningMessage + "`");
                     // send to channel that the warn function was called
-                    channel.sendMessage(user.mention() + " has been warned for: " + "`" + warningMessage + "`");
+                    channel.sendMessage(user.mention() + " has been warned for: " + "`" +
+                            warningMessage + "`");
                 }
                 return;
             // post a message to #board_of_punishments, pm the user informing they were banned,
@@ -83,12 +84,14 @@ public class CommandProcessor {
                     String banMessage = createString(command, 2);
                     // TODO: create embed message to beautify the banning message
                     IMessage banMsg = new MessageBuilder(client)
-                            .withContent(user.mention() + " has been banned for: `" + banMessage + "`\n")
+                            .withContent(user.mention() + " has been banned for: `" + banMessage +
+                                    "`\n")
                             .appendContent(attachment.isPresent() ? attachment.get().getUrl() : "")
                             .withChannel(message.getChannel())
                             .build();
                     user.getOrCreatePMChannel()
-                            .sendMessage("You have been banned from the SC Loot Discord server for: `" + banMessage + "`");
+                            .sendMessage("You have been banned " +
+                                    "from the SC Loot Discord server for: `" + banMessage + "`");
                     guild.banUser(user);
                 }
                 return;
@@ -97,6 +100,7 @@ public class CommandProcessor {
                 return;
             // for testing purposes, will be automated.
             case "monthlyreport":
+                createReport(client, Constants.MONTHLY);
                 return;
             case "help":
                 channel.sendMessage(Constants.HELP_MESSAGE);
@@ -157,20 +161,26 @@ public class CommandProcessor {
         Map<String, Integer> itemCount = createHashTable();
         final Instant currentTime = Instant.now();
         // Zoneoffset.UTC for UTC zone (future reference)
-        final LocalDateTime currentTimeLDT = LocalDateTime.ofInstant(currentTime, ZoneOffset.systemDefault());
+        final LocalDateTime currentTimeLDT = LocalDateTime.ofInstant(
+                currentTime,
+                ZoneOffset.systemDefault()
+        );
+
+        int numDaysInTheMonth = currentTimeLDT.toLocalDate().lengthOfMonth();
+
         final MessageHistory messageHistory =
                 reportType.equals(Constants.WEEKLY) ?
                 guild.getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
                     .getMessageHistoryTo(currentTime.minus(Period.ofDays(7)))
                 :
                 guild.getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
-                        .getMessageHistoryTo(currentTime.minus(1, ChronoUnit.MONTHS));
+                        .getMessageHistoryTo(currentTime.minus(Period.ofDays(numDaysInTheMonth)));
         IMessage[] messages = messageHistory.asArray();
         Predicate<IMessage> withinTheTimePeriod =
                 reportType.equals(Constants.WEEKLY) ?
                 m -> m.getTimestamp().isAfter(currentTime.minus(Period.ofDays(7)))
                 :
-                m -> m.getTimestamp().isAfter(currentTime.minus(1, ChronoUnit.MONTHS));
+                m -> m.getTimestamp().isAfter(currentTime.minus(Period.ofDays(numDaysInTheMonth)));
 
         long totalMessages = Stream.of(messages)
                 .filter(withinTheTimePeriod)
@@ -215,7 +225,7 @@ public class CommandProcessor {
                 reportType.equals(Constants.WEEKLY) ?
                 currentTimeLDT.toLocalDate().minusDays(7)
                 :
-                currentTimeLDT.toLocalDate().minus(1, ChronoUnit.MONTHS);
+                currentTimeLDT.toLocalDate().minus(Period.ofDays(numDaysInTheMonth));
 
         EmbedBuilder builder1 = new EmbedBuilder();
         EmbedBuilder builder2 = new EmbedBuilder();
@@ -240,11 +250,13 @@ public class CommandProcessor {
                     int v = entry.getValue();
                     if (v > 0) {
                         if (builder1.getFieldCount() < 25) {
-                            builder1.appendField("<:" + k + ":" + guild.getEmojiByName(k).getLongID() +
-                                    ">", "`Drop Count: " + v + "`", true);
+                            builder1.appendField(
+                                    "<:" + k + ":" + guild.getEmojiByName(k).getLongID() + ">",
+                                    "`Drop Count: " + v + "`", true);
                         } else {
-                            builder2.appendField("<:" + k + ":" + guild.getEmojiByName(k).getLongID() +
-                                    ">", "`Drop Count: " + v + "`", true);
+                            builder2.appendField(
+                                    "<:" + k + ":" + guild.getEmojiByName(k).getLongID() + ">",
+                                    "`Drop Count: " + v + "`", true);
                         }
                     }
         });
@@ -255,7 +267,8 @@ public class CommandProcessor {
         EmbedBuilder statistics = new EmbedBuilder();
         statistics.withTitle("Extras");
         statistics.appendField("__Reactions__",
-                "Top "+ maxReactionSubmissions +" distinct reactions from different submissions during this week.", true);
+                "Top "+ maxReactionSubmissions +" distinct reactions from different " +
+                        "submissions during this week.", true);
 
         // append all top reaction messages
         for (int i = 0; i < topReactionMessages.size(); i++) {
@@ -317,21 +330,26 @@ public class CommandProcessor {
     private static void sendInvalidArgumentMessage(String type, IChannel channel, String prefix) {
         switch(type) {
             case "setwelcome":
-                channel.sendMessage("Please enter valid arguments! `[" + prefix + "setwelcome <String[]:message>]`");
+                channel.sendMessage("Please enter valid arguments!" +
+                        " `[" + prefix + "setwelcome <String[]:message>]`");
                 break;
             case "setrolecolour":
-                channel.sendMessage("Please enter valid arguments! `[" + prefix + "setrolecolour <role> <colour>]`");
+                channel.sendMessage("Please enter valid arguments!" +
+                        " `[" + prefix + "setrolecolour <role> <colour>]`");
                 break;
             case "kick":
-                channel.sendMessage("Please enter valid arguments! `[" + prefix + "kick [@user]`");
+                channel.sendMessage("Please enter valid arguments!" +
+                        " `[" + prefix + "kick [@user]`");
                 break;
             case "warn":
-                channel.sendMessage("Please enter valid arguments! `[" + prefix + "warn [@user <message>]`");
+                channel.sendMessage("Please enter valid arguments!" +
+                        " `[" + prefix + "warn [@user <message>]`");
                 break;
             case "ban":
                 break;
             case "invalidcommand":
-                channel.sendMessage("Please enter a valid command! Type `" + prefix + "help` to view the available commands");
+                channel.sendMessage("Please enter a valid command!" +
+                        " Type `" + prefix + "help` to view the available commands");
                 break;
         }
     }

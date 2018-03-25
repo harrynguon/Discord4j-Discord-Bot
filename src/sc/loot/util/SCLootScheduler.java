@@ -24,6 +24,12 @@ public class SCLootScheduler implements Runnable {
         System.out.println("The day is " + day.getDayOfWeek() +
                 " and the day of the week number is: " +
                 day.getDayOfWeek().get(ChronoField.DAY_OF_WEEK));
+
+        System.out.println("The day number of the month is: " + day.getDayOfMonth());
+        System.out.println("The last day of this month is: " + day.with(
+                TemporalAdjusters.lastDayOfMonth()).getDayOfMonth()
+        );
+
         // 1 == Monday, 7 == Sunday
         if (day.getDayOfWeek().get(ChronoField.DAY_OF_WEEK) == 6) {
             if (Main.bot.isPresent() && Main.bot.get().isLoggedIn()) {
@@ -38,12 +44,6 @@ public class SCLootScheduler implements Runnable {
                 CommandProcessor.createReport(Main.bot.get(), Constants.MONTHLY);
             }
         }
-
-        // System.out.println("The day of the month is: " + day.getDayOfMonth());
-        // System.out.println("The last day of this month is: " + day.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth());
-        // System.out.println(LocalDateTime.ofInstant(Instant.now(), ZoneId.of("UTC+12")).toLocalDate().withDayOfMonth(1).atStartOfDay());
-        // System.out.println(Instant.now().minus(1, ChronoUnit.MONTHS));
-
     }
 
     /**

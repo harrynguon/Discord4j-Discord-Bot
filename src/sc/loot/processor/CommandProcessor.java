@@ -132,8 +132,12 @@ public class CommandProcessor {
                     return;
                 }
                 String roleName = createString(command, 1);
-                channel.sendMessage("The role ID for `" + roleName + "` is: `" +
-                        guild.getRolesByName(roleName).get(0).getLongID() + "`");
+                List<IRole> role = guild.getRolesByName(roleName);
+                if (role.size() != 0) {
+                    channel.sendMessage("There was " + role.size() + " role that was retrieved." +
+                            " The role ID for `" + roleName + "` is: `" +
+                            role.get(0).getLongID() + "`");
+                }
                 return;
             default:
                 sendInvalidArgumentMessage("invalidcommand", channel, prefix);

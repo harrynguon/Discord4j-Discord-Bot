@@ -5,6 +5,7 @@ import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.obj.Message;
 import sx.blah.discord.handle.impl.obj.ReactionEmoji;
 import sx.blah.discord.handle.obj.*;
+import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.MessageBuilder;
 import sx.blah.discord.util.MessageHistory;
@@ -34,8 +35,8 @@ public class CommandProcessor {
 
         // this only checks for the first occurrence of the role name. if the role does not exist,
         // then it exits, or if the sender does not have the role, then it exits.
-        List<IRole> userRoles = guild.getRolesByName(Constants.BOT_AUTH_NAME);
-        if (userRoles.isEmpty() || !sender.hasRole(userRoles.get(0))) {
+        IRole botAuth = guild.getRoleByID(Constants.BOT_AUTH_ROLE_ID);
+        if (!sender.hasRole(botAuth)) {
             return;
         }
 
@@ -68,8 +69,8 @@ public class CommandProcessor {
                         // send to channel that the warn function was called
                         channel.sendMessage(user.mention() + " has been warned for: " + "`" +
                                 warningMessage + "`");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (DiscordException e) {
+                        System.out.println(e.getErrorMessage());
                         System.out.println("The user does not have " +
                                 "direct messages from server members enabled.");
                     }
@@ -100,8 +101,8 @@ public class CommandProcessor {
                         user.getOrCreatePMChannel()
                                 .sendMessage("You have been banned " +
                                         "from the SC Loot Discord server for: `" + banMessage + "`");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (DiscordException e) {
+                        System.out.println(e.getErrorMessage());
                         System.out.println("The user does not have " +
                                 "direct messages from server members enabled.");
                     }
@@ -170,8 +171,11 @@ public class CommandProcessor {
                 guild.getChannelByID(Constants.WEEKLY_REPORT_CHANNEL_ID):
                 guild.getChannelByID(Constants.MONTHLY_REPORT_CHANNEL_ID);
 
-        // IChannel channel = guild.getChannelByID(413975567931670529L); // test channel ID
+        //IChannel channel = guild.getChannelByID(413975567931670529L); // test channel ID.
+        //uncomment to use it
+
         Map<String, Integer> itemCount = createHashTable();
+        Map<Integer, Integer> portalNumberCount = new HashMap<>();
         final Instant currentTime = Instant.now();
         // Zoneoffset.UTC for UTC zone (future reference)
         final LocalDateTime currentTimeLDT = LocalDateTime.ofInstant(
@@ -206,6 +210,7 @@ public class CommandProcessor {
                 .filter(withinTheTimePeriod)
                 .forEach(m -> {
                     processMessage(m, itemCount);
+                    processPortalNumber(m.getContent(), portalNumberCount);
                     if (m.getReactions().size() != 0) {
                         messagesForReactionPost.add(m);
                     }
@@ -223,7 +228,7 @@ public class CommandProcessor {
                 reportType.equals(Constants.WEEKLY) ?
                         5
                         :
-                        10;
+                        15;
 
         // a list of the top N messages by their highest single reaction count, sorted in descending
         // order (from highest to lowest)
@@ -273,18 +278,50 @@ public class CommandProcessor {
                         }
                     }
         });
-        channel.sendMessage(builder1.build());
-        channel.sendMessage(builder2.build());
 
         String weekOrMonth = reportType.equals(Constants.WEEKLY) ?
                 "week"
                 :
                 "month";
 
+
+        // section for portal number count submissions
+
+        EmbedBuilder portalCounts = new EmbedBuilder();
+        portalCounts.withTitle("Extras");
+        portalCounts.appendField("__Portal numbers__",
+                "The count of all the portal numbers that were submitted during this "
+                        + weekOrMonth + ".",
+                true);
+
+        portalNumberCount.entrySet()
+                .stream()
+                .forEachOrdered(entry -> {
+                    int k = entry.getKey();
+                    int value = entry.getValue();
+                    if (k != -1) {
+                        portalCounts.appendField("Portal #" + k + ":", Integer.toString(value),
+                                true);
+                    }
+                });
+        if (portalNumberCount.containsKey(-1)) {
+            portalCounts.appendField("Other (last, extra info, etc.):",
+                    Integer.toString(portalNumberCount.get(-1)),
+                    true);
+        }
+
+        portalCounts.withColor(color);
+
         // MOST REACTION STATISTICS MESSAGE //
-        EmbedBuilder statistics = new EmbedBuilder();
-        statistics.withTitle("Extras");
-        statistics.appendField("__Reactions__",
+        EmbedBuilder statistics1 = new EmbedBuilder();
+        statistics1.withTitle("Extras");
+        statistics1.appendField("__Reactions__",
+                "Top "+ maxReactionSubmissions +" distinct reactions from different " +
+                        "submissions during this " + weekOrMonth + ".", true);
+
+        EmbedBuilder statistics2 = new EmbedBuilder();
+        statistics2.withTitle("Extras");
+        statistics2.appendField("__Reactions continued__",
                 "Top "+ maxReactionSubmissions +" distinct reactions from different " +
                         "submissions during this " + weekOrMonth + ".", true);
 
@@ -303,11 +340,24 @@ public class CommandProcessor {
 
             //add each post as a field to the post.
             int subNumber = i+1;
-            statistics.appendField("Submission #" + subNumber + ":", message, true);
+            if (i < 10) {
+                statistics1.appendField("Submission #" + subNumber + ":", message, true);
+            } else {
+                statistics2.appendField("Submission #" + subNumber + ":", message, true);
+            }
         }
 
-        statistics.withColor(color);
-        channel.sendMessage(statistics.build());
+        statistics1.withColor(color);
+        statistics2.withColor(color);
+
+
+        channel.sendMessage(builder1.build());
+        channel.sendMessage(builder2.build());
+        channel.sendMessage(portalCounts.build());
+        channel.sendMessage(statistics1.build());
+        if (reportType.equals(Constants.MONTHLY)) {
+            channel.sendMessage(statistics2.build());
+        }
 
         System.out.println("Messages have been sent to the " + reportType + " report channel.");
 
@@ -400,6 +450,26 @@ public class CommandProcessor {
             previous = segment;
         }
         scan.close();
+    }
+
+    private static void processPortalNumber(String message, Map<Integer, Integer> portalCountMap) {
+        String portalNumber = message.split(" ")[0];
+        char c = portalNumber.charAt(0);
+        if (Character.isDigit(c)) {
+            int portNum = Character.getNumericValue(c);
+            if (portalCountMap.containsKey(portNum)) {
+                portalCountMap.put(portNum, portalCountMap.get(portNum) + 1);
+            } else {
+                portalCountMap.put(portNum, 1);
+            }
+        } else {
+            // "last" etc
+            if (portalCountMap.containsKey(-1)) {
+                portalCountMap.put(-1, portalCountMap.get(-1) + 1);
+            } else {
+                portalCountMap.put(-1, 1);
+            }
+        }
     }
 
     /**

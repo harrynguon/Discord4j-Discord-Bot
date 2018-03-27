@@ -30,7 +30,7 @@ public class Constants {
     public static final String PREFIX = new String("!");
 
     /** Role in the discord server which is required for access to the bot commands */
-    public static final String BOT_AUTH_NAME = "Bot Authorisation";
+    public static final long BOT_AUTH_ROLE_ID= 412858360447369225L;
 
     /** Name of the sc_loot channel */
     public static final long SC_LOOT_CHANNEL_ID = 249104816171646978L;
@@ -51,7 +51,7 @@ public class Constants {
 
             "**weeklyreport** \n**(DEPRECATED)** creates a weekly report based on the sc_loot and submits it to #weekly_report \n" +
 
-            "**changestatus <newStatus>** \nchanges the bot's online status \n" +
+            "**changestatus <newStatus>** \nChanges the bot's online status \n" +
 
             "**getroleid <role name>** \nGets the role ID for the role name";
 

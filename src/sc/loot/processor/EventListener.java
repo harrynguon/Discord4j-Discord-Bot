@@ -13,6 +13,7 @@ import sx.blah.discord.handle.impl.obj.Message;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.util.DiscordException;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -45,14 +46,6 @@ public class EventListener {
         if (event.getMessage().getContent().toLowerCase().startsWith(Constants.PREFIX)) {
             CommandProcessor.processCommand(event.getMessage(), Constants.PREFIX, client);
         }
-        /*// sc loot post
-        else if (scOpenTracker && event.getMessage()
-                .getChannel()
-                .getName()
-                .equals(Constants.SC_LOOT_CHANNEL_NAME)) {
-            scOpenTracker = false;
-            scOpenCounterScheduler.schedule(SCLootScheduler::countSC, 4, TimeUnit.HOURS);
-        }*/
     }
 
     /**
@@ -88,8 +81,8 @@ public class EventListener {
                     " please enter your IGN for StarBreak, " +
                     "starting with `" + Constants.MY_IGN_PREFIX + "`...");
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (DiscordException e) {
+            System.out.println(e.getErrorMessage());
             System.out.println("The user does not have " +
                     "direct messages from server members enabled, or the role doesn't exist.");
         }
@@ -119,26 +112,22 @@ public class EventListener {
                                 .getRoleByID(Constants.NEW_USER_ROLE_ID));
 
                 try {
-                    event.getAuthor().getOrCreatePMChannel().sendMessage("Thank you. You have now been " +
-                            "given permission to read messages on this server. If you cannot send messages " +
-                            "due to not having a phone-verified account, please send a message to the " +
-                            "server owner or one of the moderators.");
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    event.getAuthor().getOrCreatePMChannel().sendMessage("Thank you. " +
+                            "You have now been given permission to read messages on this server. " +
+                            "If you cannot send messages due to not having a phone-verified " +
+                            "account, please send a message to the server owner or one of the " +
+                            "moderators.");
+                } catch (DiscordException e) {
+                    System.out.println(e.getErrorMessage());
                     System.out.println("The user does not have " +
                             "direct messages from server members enabled.");
                 }
-
 
                 scLootLogChannel.sendMessage(event.getAuthor() + " has just sent a PM saying: `" +
                         event.getMessage().toString() + "`");
 
                 // calculate account age
-                int currentDay = LocalDateTime.ofInstant(Instant.now(), ZoneId.of("UTC+12")).getHour() / 24;
-                int creationDate = LocalDateTime.ofInstant(event.getAuthor().getCreationDate(), ZoneId.of("UTC+12")).getHour() / 24;
-                int accountAge = currentDay - creationDate;
-                scLootLogChannel.sendMessage(event.getAuthor() + "'s account age is `" +
-                        accountAge + " days old" +  "` and they have just been given permission" +
+                scLootLogChannel.sendMessage(event.getAuthor() + "has just been given permission" +
                         " to read messages on this server.");
             } else {
                 // doesn't contain "my ign is...", so just send their message to the log channel

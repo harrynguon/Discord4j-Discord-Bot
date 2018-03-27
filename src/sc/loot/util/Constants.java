@@ -57,7 +57,7 @@ public class Constants {
 
     /** Array of all the items for the weekly report */
     public static final String[] ITEMS = {
-            "aenoics", "overloaded", "locust", "frenzied", "quaestor", "stompers", "delites",
+            "aeonics", "overloaded", "locust", "frenzied", "quaestor", "stompers", "delites",
             "armites", "calites", "bellites", "blockers", "bombard", "emites", "volta", "motley",
             "firites", "kunai", "fireform", "scorpion", "velites", "hydra", "salites", "mimic",
             "blink", "ultrites", "hyrst", "jerkin", "doublebandos", "vitreous", "antiphon",

@@ -127,8 +127,8 @@ public class EventListener {
                         event.getMessage().toString() + "`");
 
                 // calculate account age
-                scLootLogChannel.sendMessage(event.getAuthor() + "has just been given permission" +
-                        " to read messages on this server.");
+                scLootLogChannel.sendMessage(event.getAuthor() + " has just been given " +
+                        "permission to read messages on this server.");
             } else {
                 // doesn't contain "my ign is...", so just send their message to the log channel
                 scLootLogChannel.sendMessage(event.getAuthor() + " has just sent a PM saying: `" +

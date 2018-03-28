@@ -309,7 +309,7 @@ public class CommandProcessor {
                     }
                 });
         if (portalNumberCount.containsKey(-1)) {
-            portalCounts.appendField("Other (last, extra info, etc.):",
+            portalCounts.appendField("Other (last, unknown, etc.):",
                     Integer.toString(portalNumberCount.get(-1)),
                     true);
         }

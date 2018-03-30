@@ -22,6 +22,7 @@ public class CommandProcessor {
 
     /**
      * Process all input
+     *
      * @param message
      * @param prefix
      */
@@ -80,7 +81,7 @@ public class CommandProcessor {
             // post a message to #board_of_punishments, pm the user informing they were banned,
             // and then ban the user.
             case "ban":
-                if (command.length <=2) {
+                if (command.length <= 2) {
                     sendInvalidArgumentMessage("ban", channel, prefix);
                 }
                 Optional<IUser> userToBan = getUser(command[1], channel, guild);
@@ -88,8 +89,8 @@ public class CommandProcessor {
                     IUser user = userToBan.get();
                     Optional<Message.Attachment> attachment =
                             message.getAttachments().isEmpty() ? Optional.empty() :
-                                                        Optional.of(message.getAttachments()
-                                                                .get(0));
+                                    Optional.of(message.getAttachments()
+                                            .get(0));
                     String banMessage = createString(command, 2);
                     // TODO: create embed message to beautify the banning message
                     IMessage banMsg = new MessageBuilder(client)
@@ -135,7 +136,7 @@ public class CommandProcessor {
                 String roleName = createString(command, 1);
                 List<IRole> role = guild.getRolesByName(roleName);
                 if (role.size() != 0) {
-                    channel.sendMessage("There was " + role.size() + " role that was retrieved."+
+                    channel.sendMessage("There was " + role.size() + " role that was retrieved." +
                             " The role ID for `" + roleName + "` is: `" +
                             role.get(0).getLongID() + "`");
                 }
@@ -149,6 +150,7 @@ public class CommandProcessor {
 
     /**
      * Concatenate the message contents into a String seperated by spaces.
+     *
      * @param command
      * @param startingIndex
      * @return
@@ -167,6 +169,7 @@ public class CommandProcessor {
 
     /**
      * Creates the report and submits it to #weekly_report or #monthly_report, depending on its type
+     *
      * @param client
      */
     public static void createReport(IDiscordClient client, String reportType) {
@@ -176,8 +179,8 @@ public class CommandProcessor {
         IGuild guild = client.getGuildByID(Constants.SC_LOOT_GUILD_ID);
         IChannel channel =
                 reportType.equals(Constants.WEEKLY) ?
-                guild.getChannelByID(Constants.WEEKLY_REPORT_CHANNEL_ID):
-                guild.getChannelByID(Constants.MONTHLY_REPORT_CHANNEL_ID);
+                        guild.getChannelByID(Constants.WEEKLY_REPORT_CHANNEL_ID) :
+                        guild.getChannelByID(Constants.MONTHLY_REPORT_CHANNEL_ID);
 //        IChannel channel = guild.getChannelByID(413975567931670529L); // test channel ID.
         //uncomment to use it
 
@@ -208,13 +211,12 @@ public class CommandProcessor {
         // process data given within the time range
 
         final IMessage[] messages = getiMessages(reportType, guild, currentTime,
-                        currentTimeMinusOneMonth)
+                currentTimeMinusOneMonth)
                 .asArray();
 
         Predicate<IMessage> withinTheTimePeriod =
                 reportType.equals(Constants.WEEKLY) ?
-                        m -> m.getTimestamp().isAfter(currentTime.minus(Period.ofDays(7)))
-                        :
+                        m -> m.getTimestamp().isAfter(currentTime.minus(Period.ofDays(7))) :
                         m -> m.getTimestamp().isAfter(currentTimeMinusOneMonth);
 
         long totalMessages = getTotalMessages(messages, withinTheTimePeriod);
@@ -238,14 +240,13 @@ public class CommandProcessor {
                 .limit(maxReactionSubmissions)
                 .collect(Collectors.toList());
 
-        System.out.println("Data has been processed for the "+ reportType + " report");
+        System.out.println("Data has been processed for the " + reportType + " report");
 
         LocalDate crtTimeMinusTimePeriod =
                 reportType.equals(Constants.WEEKLY) ?
-                currentTimeLDT.toLocalDate().minusDays(7)
-                        :
-                LocalDateTime.ofInstant(currentTimeMinusOneMonth, ZoneId.of("UTC+12"))
-                        .toLocalDate();
+                        currentTimeLDT.toLocalDate().minusDays(7) :
+                        LocalDateTime.ofInstant(currentTimeMinusOneMonth, ZoneId.of("UTC+12"))
+                                .toLocalDate();
 
 
         /////------- START BUILDING ALL EMBEDDED MESSAGES AFTER PROCESSING DATA -------////
@@ -270,13 +271,13 @@ public class CommandProcessor {
         EmbedBuilder statistics1 = new EmbedBuilder();
         statistics1.withTitle("Extras");
         statistics1.appendField("__Reactions__",
-                "Top "+ maxReactionSubmissions +" distinct reactions from different " +
+                "Top " + maxReactionSubmissions + " distinct reactions from different " +
                         "submissions during this " + weekOrMonth + ".", true);
 
         EmbedBuilder statistics2 = new EmbedBuilder();
         statistics2.withTitle("Extras");
         statistics2.appendField("__Reactions continued__",
-                "Top "+ maxReactionSubmissions +" distinct reactions from different " +
+                "Top " + maxReactionSubmissions + " distinct reactions from different " +
                         "submissions during this " + weekOrMonth + ".", true);
 
         // append all top reaction messages to the statistics embed messages
@@ -330,7 +331,7 @@ public class CommandProcessor {
                     "** <:" + emoji.getName() + ":" + emoji.getLongID() + ">" + " reactions.*";
 
             //add each post as a field to the post.
-            int subNumber = i+1;
+            int subNumber = i + 1;
             if (i < 10) {
                 statistics1.appendField("Submission #" + subNumber + ":", message, true);
             } else {
@@ -388,7 +389,7 @@ public class CommandProcessor {
                                     "`Drop Count: " + v + "`", true);
                         }
                     }
-        });
+                });
     }
 
     private static void processEachMessage(Map<String, Integer> itemCount,
@@ -409,22 +410,22 @@ public class CommandProcessor {
     private static MessageHistory getiMessages(String reportType, IGuild guild, Instant currentTime,
                                                Instant currentTimeMinusOneMonth) {
         return reportType.equals(Constants.WEEKLY) ?
-        guild.getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
-            .getMessageHistoryTo(currentTime.minus(Period.ofDays(7)))
-        :
-        guild.getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
-                .getMessageHistoryTo(currentTimeMinusOneMonth);
+                guild.getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
+                        .getMessageHistoryTo(currentTime.minus(Period.ofDays(7))) :
+                guild.getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
+                        .getMessageHistoryTo(currentTimeMinusOneMonth);
     }
 
     private static long getTotalMessages(IMessage[] messages,
                                          Predicate<IMessage> withinTheTimePeriod) {
         return Stream.of(messages)
-                    .filter(withinTheTimePeriod)
-                    .count();
+                .filter(withinTheTimePeriod)
+                .count();
     }
 
     /**
      * Finds the IUser from the input of the command (command[1]).
+     *
      * @param userName
      * @param channel
      * @param guild
@@ -433,7 +434,7 @@ public class CommandProcessor {
     private static Optional<IUser> getUser(String userName, IChannel channel, IGuild guild) {
         userName = userName.replaceAll("[<>@!]", "");
         for (char alphabet = 'A'; alphabet <= 'Z'; alphabet++) {
-            if (userName.toUpperCase().indexOf(alphabet) >= 0){
+            if (userName.toUpperCase().indexOf(alphabet) >= 0) {
                 channel.sendMessage(userName + " Is not a valid user!");
                 return Optional.empty();
             }
@@ -443,12 +444,13 @@ public class CommandProcessor {
 
     /**
      * The bot will send a message with why the user has sent an invalid command
+     *
      * @param type
      * @param channel
      * @param prefix
      */
     private static void sendInvalidArgumentMessage(String type, IChannel channel, String prefix) {
-        switch(type) {
+        switch (type) {
             case "setwelcome":
                 channel.sendMessage("Please enter valid arguments!" +
                         " `[" + prefix + "setwelcome <String[]:message>]`");
@@ -476,6 +478,7 @@ public class CommandProcessor {
 
     /**
      * Collect segments of the message and update item Count Hash table
+     *
      * @param message
      * @param itemCount
      */
@@ -526,6 +529,7 @@ public class CommandProcessor {
 
     /**
      * Initialises the map of items, each with a count of 0 for the weekly/monthly report
+     *
      * @return
      */
     private static Map<String, Integer> createHashTable() {

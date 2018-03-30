@@ -88,7 +88,8 @@ public class CommandProcessor {
                     IUser user = userToBan.get();
                     Optional<Message.Attachment> attachment =
                             message.getAttachments().isEmpty() ? Optional.empty() :
-                                                        Optional.of(message.getAttachments().get(0));
+                                                        Optional.of(message.getAttachments()
+                                                                .get(0));
                     String banMessage = createString(command, 2);
                     // TODO: create embed message to beautify the banning message
                     IMessage banMsg = new MessageBuilder(client)
@@ -99,8 +100,8 @@ public class CommandProcessor {
                             .build();
                     try {
                         user.getOrCreatePMChannel()
-                                .sendMessage("You have been banned " +
-                                        "from the SC Loot Discord server for: `" + banMessage + "`");
+                                .sendMessage("You have been banned from " +
+                                        "the SC Loot Discord server for: `" + banMessage + "`");
                     } catch (DiscordException e) {
                         System.out.println(e.getErrorMessage());
                         System.out.println("The user does not have " +
@@ -134,7 +135,7 @@ public class CommandProcessor {
                 String roleName = createString(command, 1);
                 List<IRole> role = guild.getRolesByName(roleName);
                 if (role.size() != 0) {
-                    channel.sendMessage("There was " + role.size() + " role that was retrieved." +
+                    channel.sendMessage("There was " + role.size() + " role that was retrieved."+
                             " The role ID for `" + roleName + "` is: `" +
                             role.get(0).getLongID() + "`");
                 }
@@ -169,56 +170,58 @@ public class CommandProcessor {
      * @param client
      */
     public static void createReport(IDiscordClient client, String reportType) {
+        String weekOrMonth = reportType.equals(Constants.WEEKLY) ? "week" : "month";
+        int maxReactionSubmissions = reportType.equals(Constants.WEEKLY) ? 5 : 15;
+
         IGuild guild = client.getGuildByID(Constants.SC_LOOT_GUILD_ID);
         IChannel channel =
                 reportType.equals(Constants.WEEKLY) ?
                 guild.getChannelByID(Constants.WEEKLY_REPORT_CHANNEL_ID):
                 guild.getChannelByID(Constants.MONTHLY_REPORT_CHANNEL_ID);
-
-        //IChannel channel = guild.getChannelByID(413975567931670529L); // test channel ID.
+//        IChannel channel = guild.getChannelByID(413975567931670529L); // test channel ID.
         //uncomment to use it
 
         Map<String, Integer> itemCount = createHashTable();
         Map<Integer, Integer> portalNumberCount = new HashMap<>();
+        Set<IMessage> messagesForReactionPost = new HashSet<>();
+
+        // -------- Date time calculations ---------- /
         final Instant currentTime = Instant.now();
         // Zoneoffset.UTC for UTC zone (future reference)
         final LocalDateTime currentTimeLDT = LocalDateTime.ofInstant(
                 currentTime,
-                ZoneOffset.systemDefault()
+                ZoneOffset.ofHours(12)
         );
+        int numDaysInTheMonth = currentTimeLDT.toLocalDate().lengthOfMonth() - 1; // otherwise it
+        // will cut into the last day of the previous month
+        final Instant currentTimeMinusOneMonth = LocalDateTime.ofInstant(
+                currentTime.minus(Period.ofDays(numDaysInTheMonth)),
+                ZoneId.of("UTC+12")
+        )
+                .toLocalDate()
+                .atStartOfDay()
+                .toInstant(ZoneOffset.ofHours(12));
 
-        int numDaysInTheMonth = currentTimeLDT.toLocalDate().lengthOfMonth();
+        System.out.println(currentTimeMinusOneMonth);
+        System.out.println(currentTime);
 
-        final MessageHistory messageHistory =
-                reportType.equals(Constants.WEEKLY) ?
-                guild.getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
-                    .getMessageHistoryTo(currentTime.minus(Period.ofDays(7)))
-                :
-                guild.getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
-                        .getMessageHistoryTo(currentTime.minus(Period.ofDays(numDaysInTheMonth)));
-        IMessage[] messages = messageHistory.asArray();
+        // process data given within the time range
+
+        final IMessage[] messages = getiMessages(reportType, guild, currentTime,
+                        currentTimeMinusOneMonth)
+                .asArray();
+
         Predicate<IMessage> withinTheTimePeriod =
                 reportType.equals(Constants.WEEKLY) ?
-                m -> m.getTimestamp().isAfter(currentTime.minus(Period.ofDays(7)))
-                :
-                m -> m.getTimestamp().isAfter(currentTime.minus(Period.ofDays(numDaysInTheMonth)));
+                        m -> m.getTimestamp().isAfter(currentTime.minus(Period.ofDays(7)))
+                        :
+                        m -> m.getTimestamp().isAfter(currentTimeMinusOneMonth);
 
-        long totalMessages = Stream.of(messages)
-                .filter(withinTheTimePeriod)
-                .count();
-
-        Set<IMessage> messagesForReactionPost = new HashSet<>();
+        long totalMessages = getTotalMessages(messages, withinTheTimePeriod);
 
         // process each message
-        Stream.of(messages)
-                .filter(withinTheTimePeriod)
-                .forEach(m -> {
-                    processMessage(m, itemCount);
-                    processPortalNumber(m.getContent(), portalNumberCount);
-                    if (m.getReactions().size() != 0) {
-                        messagesForReactionPost.add(m);
-                    }
-                });
+        processEachMessage(itemCount, portalNumberCount, messages, withinTheTimePeriod,
+                messagesForReactionPost);
 
         // custom comparator that stores messages by their most-highest reaction count
         Comparator<IMessage> mostReactions = Comparator.comparingInt(
@@ -227,12 +230,6 @@ public class CommandProcessor {
                         .max(Comparator.comparingInt(r -> r.getCount())).get()
                         .getCount()
         );
-
-        int maxReactionSubmissions =
-                reportType.equals(Constants.WEEKLY) ?
-                        5
-                        :
-                        15;
 
         // a list of the top N messages by their highest single reaction count, sorted in descending
         // order (from highest to lowest)
@@ -246,51 +243,105 @@ public class CommandProcessor {
         LocalDate crtTimeMinusTimePeriod =
                 reportType.equals(Constants.WEEKLY) ?
                 currentTimeLDT.toLocalDate().minusDays(7)
-                :
-                currentTimeLDT.toLocalDate().minus(Period.ofDays(numDaysInTheMonth));
+                        :
+                LocalDateTime.ofInstant(currentTimeMinusOneMonth, ZoneId.of("UTC+12"))
+                        .toLocalDate();
 
-        EmbedBuilder builder1 = new EmbedBuilder();
-        EmbedBuilder builder2 = new EmbedBuilder();
-        builder1.withTitle(reportType + " Item Drop Count Report from __" +
+
+        /////------- START BUILDING ALL EMBEDDED MESSAGES AFTER PROCESSING DATA -------////
+
+        EmbedBuilder report1 = new EmbedBuilder();
+        EmbedBuilder report2 = new EmbedBuilder();
+        report1.withTitle(reportType + " Item Drop Count Report from __" +
                 crtTimeMinusTimePeriod + "__ to __" +
                 currentTimeLDT.toLocalDate() + "__ with a total number of `" +
                 totalMessages + "` submissions.");
-        builder2.withTitle("cont.");
+        report2.withTitle("cont.");
+
+        Color color = getRandomColor();
+
+        // start building the drop count table for the weekly/monthly report
+        buildDropCounts(guild, itemCount, report1, report2);
+
+        // section for portal number count submissions
+        EmbedBuilder portalCounts = buildPortalCounts(weekOrMonth, portalNumberCount, color);
+
+        // MOST REACTION STATISTICS MESSAGE //
+        EmbedBuilder statistics1 = new EmbedBuilder();
+        statistics1.withTitle("Extras");
+        statistics1.appendField("__Reactions__",
+                "Top "+ maxReactionSubmissions +" distinct reactions from different " +
+                        "submissions during this " + weekOrMonth + ".", true);
+
+        EmbedBuilder statistics2 = new EmbedBuilder();
+        statistics2.withTitle("Extras");
+        statistics2.appendField("__Reactions continued__",
+                "Top "+ maxReactionSubmissions +" distinct reactions from different " +
+                        "submissions during this " + weekOrMonth + ".", true);
+
+        // append all top reaction messages to the statistics embed messages
+        addTopReactionMsgs(topReactionMessages, statistics1, statistics2);
+
+        report1.withColor(color);
+        report2.withColor(color);
+        statistics1.withColor(color);
+        statistics2.withColor(color);
+
+        channel.sendMessage(report1.build());
+        channel.sendMessage(report2.build());
+        channel.sendMessage(portalCounts.build());
+        channel.sendMessage(statistics1.build());
+        if (reportType.equals(Constants.MONTHLY)) {
+            channel.sendMessage(statistics2.build());
+        }
+
+        System.out.println("Messages have been sent to the " + reportType + " report channel.");
+
+        // send a log to #sc_loot_bot
+        IChannel scLootBotChannel = guild.getChannelByID(Constants.SC_LOOT_BOT_CHANNEL_ID);
+        new MessageBuilder(client).withChannel(scLootBotChannel)
+                .withContent("`" + reportType + "` has just been initiated. The time is: "
+                        + currentTime + ".")
+                .build();
+
+        System.out.println("A log has just been sent.");
+    }
+
+    private static Color getRandomColor() {
         Random random = new Random();
         int r = random.nextInt(255);
         int g = random.nextInt(255);
         int b = random.nextInt(255);
-        Color color = new Color(r, g, b);
-        builder1.withColor(color);
-        builder2.withColor(color);
+        return new Color(r, g, b);
+    }
 
-        itemCount.entrySet()
-                .stream()
-                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
-                .forEach(entry -> {
-                    String k = entry.getKey();
-                    int v = entry.getValue();
-                    if (v > 0) {
-                        if (builder1.getFieldCount() < 25) {
-                            builder1.appendField(
-                                    "<:" + k + ":" + guild.getEmojiByName(k).getLongID() + ">",
-                                    "`Drop Count: " + v + "`", true);
-                        } else {
-                            builder2.appendField(
-                                    "<:" + k + ":" + guild.getEmojiByName(k).getLongID() + ">",
-                                    "`Drop Count: " + v + "`", true);
-                        }
-                    }
-        });
+    private static void addTopReactionMsgs(List<IMessage> topReactionMessages,
+                                           EmbedBuilder statistics1, EmbedBuilder statistics2) {
+        for (int i = 0; i < topReactionMessages.size(); i++) {
+            IReaction reaction = topReactionMessages.get(i)
+                    .getReactions()
+                    .stream()
+                    .max(Comparator.comparingInt(IReaction::getCount)).get();
+            ReactionEmoji emoji = reaction.getEmoji();
+            int noReactions = reaction.getCount();
 
-        String weekOrMonth = reportType.equals(Constants.WEEKLY) ?
-                "week"
-                :
-                "month";
+            String message = "" + topReactionMessages.get(i) +
+                    " \n*which has **" + noReactions +
+                    "** <:" + emoji.getName() + ":" + emoji.getLongID() + ">" + " reactions.*";
 
+            //add each post as a field to the post.
+            int subNumber = i+1;
+            if (i < 10) {
+                statistics1.appendField("Submission #" + subNumber + ":", message, true);
+            } else {
+                statistics2.appendField("Submission #" + subNumber + ":", message, true);
+            }
+        }
+    }
 
-        // section for portal number count submissions
-
+    private static EmbedBuilder buildPortalCounts(String weekOrMonth,
+                                                  Map<Integer, Integer> portalNumberCount,
+                                                  Color color) {
         EmbedBuilder portalCounts = new EmbedBuilder();
         portalCounts.withTitle("Extras");
         portalCounts.appendField("__Portal numbers__",
@@ -315,64 +366,61 @@ public class CommandProcessor {
         }
 
         portalCounts.withColor(color);
+        return portalCounts;
+    }
 
-        // MOST REACTION STATISTICS MESSAGE //
-        EmbedBuilder statistics1 = new EmbedBuilder();
-        statistics1.withTitle("Extras");
-        statistics1.appendField("__Reactions__",
-                "Top "+ maxReactionSubmissions +" distinct reactions from different " +
-                        "submissions during this " + weekOrMonth + ".", true);
+    private static void buildDropCounts(IGuild guild, Map<String, Integer> itemCount,
+                                        EmbedBuilder builder1, EmbedBuilder builder2) {
+        itemCount.entrySet()
+                .stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                .forEach(entry -> {
+                    String k = entry.getKey();
+                    int v = entry.getValue();
+                    if (v > 0) {
+                        if (builder1.getFieldCount() < 25) {
+                            builder1.appendField(
+                                    "<:" + k + ":" + guild.getEmojiByName(k).getLongID() + ">",
+                                    "`Drop Count: " + v + "`", true);
+                        } else {
+                            builder2.appendField(
+                                    "<:" + k + ":" + guild.getEmojiByName(k).getLongID() + ">",
+                                    "`Drop Count: " + v + "`", true);
+                        }
+                    }
+        });
+    }
 
-        EmbedBuilder statistics2 = new EmbedBuilder();
-        statistics2.withTitle("Extras");
-        statistics2.appendField("__Reactions continued__",
-                "Top "+ maxReactionSubmissions +" distinct reactions from different " +
-                        "submissions during this " + weekOrMonth + ".", true);
+    private static void processEachMessage(Map<String, Integer> itemCount,
+                                           Map<Integer, Integer> portalNumberCount,
+                                           IMessage[] messages, Predicate<IMessage> withinTimePeriod,
+                                           Set<IMessage> messagesForReactionPost) {
+        Stream.of(messages)
+                .filter(withinTimePeriod)
+                .forEach(m -> {
+                    processRawMessage(m, itemCount);
+                    processPortalNumber(m.getContent(), portalNumberCount);
+                    if (m.getReactions().size() != 0) {
+                        messagesForReactionPost.add(m);
+                    }
+                });
+    }
 
-        // append all top reaction messages
-        for (int i = 0; i < topReactionMessages.size(); i++) {
-            IReaction reaction = topReactionMessages.get(i)
-                    .getReactions()
-                    .stream()
-                    .max(Comparator.comparingInt(IReaction::getCount)).get();
-            ReactionEmoji emoji = reaction.getEmoji();
-            int noReactions = reaction.getCount();
+    private static MessageHistory getiMessages(String reportType, IGuild guild, Instant currentTime,
+                                               Instant currentTimeMinusOneMonth) {
+        return reportType.equals(Constants.WEEKLY) ?
+        guild.getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
+            .getMessageHistoryTo(currentTime.minus(Period.ofDays(7)))
+        :
+        guild.getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
+                .getMessageHistoryTo(currentTimeMinusOneMonth);
+    }
 
-            String message = "" + topReactionMessages.get(i) +
-                    " \n*which has **" + noReactions +
-                    "** <:" + emoji.getName() + ":" + emoji.getLongID() + ">" + " reactions.*";
-
-            //add each post as a field to the post.
-            int subNumber = i+1;
-            if (i < 10) {
-                statistics1.appendField("Submission #" + subNumber + ":", message, true);
-            } else {
-                statistics2.appendField("Submission #" + subNumber + ":", message, true);
-            }
-        }
-
-        statistics1.withColor(color);
-        statistics2.withColor(color);
-
-
-        channel.sendMessage(builder1.build());
-        channel.sendMessage(builder2.build());
-        channel.sendMessage(portalCounts.build());
-        channel.sendMessage(statistics1.build());
-        if (reportType.equals(Constants.MONTHLY)) {
-            channel.sendMessage(statistics2.build());
-        }
-
-        System.out.println("Messages have been sent to the " + reportType + " report channel.");
-
-        // send a log to #sc_loot_bot
-        IChannel scLootBotChannel = guild.getChannelByID(Constants.SC_LOOT_BOT_CHANNEL_ID);
-        new MessageBuilder(client).withChannel(scLootBotChannel)
-                .withContent("`" + reportType + "` has just been initiated. The time is: "
-                        + currentTime + ".")
-                .build();
-
-        System.out.println("A log has just been sent.");
+    private static long getTotalMessages(IMessage[] messages,
+                                         Predicate<IMessage> withinTheTimePeriod) {
+        return Stream.of(messages)
+                    .filter(withinTheTimePeriod)
+                    .count();
     }
 
     /**
@@ -431,7 +479,7 @@ public class CommandProcessor {
      * @param message
      * @param itemCount
      */
-    private static void processMessage(IMessage message, Map<String, Integer> itemCount) {
+    private static void processRawMessage(IMessage message, Map<String, Integer> itemCount) {
         String content = message.getContent();
         Scanner scan = new Scanner(content);
         String previous = "";

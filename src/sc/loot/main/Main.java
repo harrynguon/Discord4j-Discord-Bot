@@ -43,6 +43,7 @@ public class Main {
         EventListener eventListener = new EventListener(discordClient);
         dis.registerListener(eventListener);
         // the bot checks to see if the day is Saturday, once a day
-        scheduler.scheduleAtFixedRate(SCLootScheduler::weeklyReport, 1, 1440, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(SCLootScheduler::weeklyReport,120, 1440, TimeUnit
+                .MINUTES);
     }
 }

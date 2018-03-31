@@ -301,8 +301,9 @@ public class CommandProcessor {
         // send a log to #sc_loot_bot
         IChannel scLootBotChannel = guild.getChannelByID(Constants.SC_LOOT_BOT_CHANNEL_ID);
         new MessageBuilder(client).withChannel(scLootBotChannel)
-                .withContent("`" + reportType + "` has just been initiated. The time is: "
-                        + currentTime + ".")
+                .withContent("`" + reportType + " report` has just been initiated. The " +
+                        "current time is: `"
+                        + currentTime + "`.")
                 .build();
 
         System.out.println("A log has just been sent.");

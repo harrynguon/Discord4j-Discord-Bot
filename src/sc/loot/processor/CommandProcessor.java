@@ -1,7 +1,9 @@
 package sc.loot.processor;
 
+import sc.loot.main.Main;
 import sc.loot.util.Constants;
 import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.obj.Message;
 import sx.blah.discord.handle.impl.obj.ReactionEmoji;
 import sx.blah.discord.handle.obj.*;
@@ -11,6 +13,9 @@ import sx.blah.discord.util.MessageBuilder;
 import sx.blah.discord.util.MessageHistory;
 
 import java.awt.*;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.time.*;
 import java.util.*;
 import java.util.List;
@@ -139,6 +144,21 @@ public class CommandProcessor {
                     channel.sendMessage("There was " + role.size() + " role that was retrieved." +
                             " The role ID for `" + roleName + "` is: `" +
                             role.get(0).getLongID() + "`");
+                }
+                return;
+            case "addmemberrolestoallusers":
+                for (int i = 0; i < guild.getUsers().size(); i++) {
+                    IUser u = guild.getUsers().get(i);
+                    if (!u.hasRole(guild.getRoleByID(Constants.MEMBER_ROLE_ID))) {
+                        u.addRole(guild.getRoleByID(Constants.MEMBER_ROLE_ID));
+                    }
+                    if (i % 10 == 0) {
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
                 return;
             default:
@@ -539,4 +559,109 @@ public class CommandProcessor {
         return itemCount;
     }
 
+    /**
+     * Processes the authentication of a user in the #AUTHENTICATION channel.
+     * @param event
+     */
+    public static void processAuthentication(MessageReceivedEvent event) {
+        IGuild guild = event.getGuild();
+        IChannel scLootLogChannel = guild.getChannelByID(Constants.SC_LOOT_LOG_ID);
+        if (event.getAuthor().hasRole(guild.getRoleByID(Constants.NEW_USER_ROLE_ID))) {
+
+            String[] input = event.getMessage().getContent().split(" ");
+
+            if (event.getMessage().getContent().toLowerCase().contains(Constants.MY_IGN_PREFIX
+                    .toLowerCase()) &&
+                    // check to see if they typed more than just "my ign is"
+                    input.length > 3) {
+
+                String username = input[3];
+                username = username.replace(".", "");
+                boolean validUsername = checkUsername(username);
+
+                if (validUsername) {
+                    try {
+                        event.getAuthor().removeRole(guild.getRoleByID(Constants.NEW_USER_ROLE_ID));
+                        event.getAuthor().addRole(guild.getRoleByID(Constants.MEMBER_ROLE_ID));
+                        sendAuthenticatedPM(event);
+                        deleteChannelLog(guild.getChannelByID(Constants.AUTHENTICATION_CHANNEL_ID));
+                    } catch (DiscordException e) {
+                        System.out.println(e.getErrorMessage());
+                    }
+                    scLootLogChannel.sendMessage(event.getAuthor() + " has just been given " +
+                            "permission to read messages on this server. Their username is `" +
+                            username + "`.");
+                } else {
+                    scLootLogChannel.sendMessage(event.getAuthor() + " has tried to authenticate" +
+                            " themself with an invalid username which was `" + username + "`.");
+                }
+            }
+        }
+    }
+
+    /**
+     * Deletes the authentication channel history and copies it over to the authentication log
+     * channel.
+     * @param authenticationChannel
+     */
+    private static void deleteChannelLog(IChannel authenticationChannel) {
+        IGuild guild = authenticationChannel.getGuild();
+        IChannel authenticationLogChannel =
+                guild.getChannelByID(Constants.AUTHENTICATION_LOG_CHANNEL_ID);
+        List<IMessage> messages = authenticationChannel.getFullMessageHistory().bulkDelete();
+        for (IMessage message : messages) {
+            if (message.getAuthor().hasRole(guild.getRoleByID(Constants.SC_LOOT_BOT_ROLE_ID))) {
+                authenticationLogChannel.sendMessage(message.getContent());
+            } else {
+                authenticationChannel.sendMessage(message.getAuthor().mention() + ": " + message
+                        .getContent());
+            }
+        }
+    }
+
+    /**
+     * Scans the all time leaderboard website and checks to see if the user entered a valid username
+     * @param username
+     * @return
+     */
+    private static boolean checkUsername(String username) {
+        InputStream is = null;
+        try {
+            URL url = new URL(Constants.ALL_TIME_LEADERBOARDS_WEBSITE);
+            URLConnection con = url.openConnection();
+            is = con.getInputStream();
+        } catch (Exception e) {
+            Main.bot.get().getGuildByID(Constants.SC_LOOT_GUILD_ID).getChannelByID(Constants
+                    .SC_LOOT_BOT_CHANNEL_ID).sendMessage("Unable to process data from the All " +
+                    "Time Leaderboards website at: `" + Constants.ALL_TIME_LEADERBOARDS_WEBSITE + "`");
+            return false;
+        }
+        Scanner scan = new Scanner(is);
+        boolean isActive = false;
+        while (scan.hasNext()) {
+            String playerEntry = Stream.of(scan.nextLine().split(" "))
+                    .filter(s -> !s.contains("."))
+                    .collect(Collectors.joining())
+                    .replace(" ", "");
+            if (!isActive && playerEntry.equals("PlayerPoints")) {
+                isActive = true;
+                continue;
+            }
+            if (isActive) {
+                if (playerEntry.equals(username)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static void sendAuthenticatedPM(MessageReceivedEvent event) throws DiscordException {
+        event.getAuthor().getOrCreatePMChannel().sendMessage("Thank you. " +
+                "You have now been given permission to read messages on this server. " +
+                "If you cannot send messages due to not having a phone-verified " +
+                "account, please send a message to the server owner or one of the " +
+                "moderators.");
+
+    }
 }

@@ -24,7 +24,7 @@ public class Constants {
 
     /** Discord Member join message */
     public static final String WELCOME_MESSAGE = "Welcome to the SC Loot Discord server! Please read " +
-            "the #REPLACE_THIS channel before submitting any messages.";
+            "the #REPLACE_THIS channel before posting any messages.";
 
     /** Alias for using the bot commands */
     public static final String PREFIX = new String("!");
@@ -37,6 +37,8 @@ public class Constants {
 
     /** Name of the sc_loot_bot channel used to sending logs */
     public static final long SC_LOOT_BOT_CHANNEL_ID = 412865060818386956L;
+
+    public static final long SC_LOOT_BOT_ROLE_ID = 425576014744387594L;
 
     /** Called when the user sends the !help command */
     public static final String HELP_MESSAGE =
@@ -80,4 +82,12 @@ public class Constants {
 
     public static final long SC_LOOT_LOG_ID = 427234922458251264L;
 
+    public static final long AUTHENTICATION_CHANNEL_ID = 439257873936023579L;
+
+    public static final long AUTHENTICATION_LOG_CHANNEL_ID = 439287499412602881L;
+
+    public static final long MEMBER_ROLE_ID = 439258076034498583L;
+
+    /** Link to the all time leaderboards */
+    public static String ALL_TIME_LEADERBOARDS_WEBSITE = "https://wrya.net/tmp/sbleaderboards/all-time.txt";
 }

@@ -37,7 +37,8 @@ public class EventListener {
 
     /**
      * Whenever a bot handler sends a command, the bot will process the command and the whole message
-     * will determine what the bot does.
+     * will determine what the bot does. Or otherwise if a message is sent in the #authentication
+     * channel.
      * @param event
      */
     @EventSubscriber
@@ -45,6 +46,8 @@ public class EventListener {
         // command
         if (event.getMessage().getContent().toLowerCase().startsWith(Constants.PREFIX)) {
             CommandProcessor.processCommand(event.getMessage(), Constants.PREFIX, client);
+        } else if (event.getChannel().getLongID() == Constants.AUTHENTICATION_CHANNEL_ID) {
+            CommandProcessor.processAuthentication(event);
         }
     }
 
@@ -64,29 +67,37 @@ public class EventListener {
      */
     @EventSubscriber
     public void onUserJoin(UserJoinEvent event) {
-        String welcomeMessage = Constants.WELCOME_MESSAGE
-                .replaceFirst("#REPLACE_THIS", event.getGuild()
-                        .getChannelByID(Constants.READ_THIS_FIRST_CHANNEL_ID) // #read_this_first channel
-                        .toString());
         IUser user = event.getUser();
+        user.addRole(event.getGuild().getRoleByID(Constants.NEW_USER_ROLE_ID));
 
         try {
+            String welcomeMessage = Constants.WELCOME_MESSAGE
+                    .replaceFirst("#REPLACE_THIS",
+                            event.getGuild()
+                                    .getChannelByID(Constants.READ_THIS_FIRST_CHANNEL_ID) // #read_this_first channel
+                                    .toString());
             user.getOrCreatePMChannel().sendMessage(welcomeMessage);
-            // add the new user role
-            user.addRole(event.getGuild()
-                    .getRoleByID(Constants.NEW_USER_ROLE_ID));
-
-            // instruct them to send a pm telling their ign
-            user.getOrCreatePMChannel().sendMessage("In order for you to read messages on this server," +
-                    " please enter your IGN for StarBreak, " +
-                    "starting with `" + Constants.MY_IGN_PREFIX + "`...");
-
         } catch (DiscordException e) {
             System.out.println(e.getErrorMessage());
-            System.out.println("The user does not have " +
-                    "direct messages from server members enabled, or the role doesn't exist.");
         }
 
+        // Uncomment this if we want the to-be-authenticated members to be able to read the
+        // message history
+/*        // Wait a bit to ensure the user can read the message as they are not allowed to read
+        // the message history
+        try {
+            Thread.sleep(3000);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+
+        event.getGuild().getChannelByID(Constants.AUTHENTICATION_CHANNEL_ID).sendMessage(
+                "Hi " + event.getUser().mention()
+                        + "! To be granted access for reading messages on this server"
+                        + ", please enter your IGN for **StarBreak** (*case sensitive*) starting " +
+                        "with `" +
+                        Constants.MY_IGN_PREFIX + "` ...");
     }
 
     /**
@@ -95,45 +106,11 @@ public class EventListener {
      */
     @EventSubscriber
     public void onUserPMBot(MessageReceivedEvent event) {
-        if (event.getChannel().isPrivate() && // user pm
-                event.getAuthor().hasRole(client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
-                        .getRoleByID(Constants.NEW_USER_ROLE_ID))) {
-
+        if (event.getChannel().isPrivate()) {
             IChannel scLootLogChannel = client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
                     .getChannelByID(Constants.SC_LOOT_LOG_ID);
-
-            if (event.getMessage().getContent().toLowerCase().contains(Constants.MY_IGN_PREFIX
-                    .toLowerCase()) &&
-                    // check to see if they typed more than just "my ign is"
-                    event.getMessage().getContent().length() > Constants.MY_IGN_PREFIX.length() + 1) {
-
-                event.getAuthor()
-                        .removeRole(client.getGuildByID(Constants.SC_LOOT_GUILD_ID)
-                                .getRoleByID(Constants.NEW_USER_ROLE_ID));
-
-                try {
-                    event.getAuthor().getOrCreatePMChannel().sendMessage("Thank you. " +
-                            "You have now been given permission to read messages on this server. " +
-                            "If you cannot send messages due to not having a phone-verified " +
-                            "account, please send a message to the server owner or one of the " +
-                            "moderators.");
-                } catch (DiscordException e) {
-                    System.out.println(e.getErrorMessage());
-                    System.out.println("The user does not have " +
-                            "direct messages from server members enabled.");
-                }
-
-                scLootLogChannel.sendMessage(event.getAuthor() + " has just sent a PM saying: `" +
-                        event.getMessage().toString() + "`");
-
-                // calculate account age
-                scLootLogChannel.sendMessage(event.getAuthor() + " has just been given " +
-                        "permission to read messages on this server.");
-            } else {
-                // doesn't contain "my ign is...", so just send their message to the log channel
-                scLootLogChannel.sendMessage(event.getAuthor() + " has just sent a PM saying: `" +
-                        event.getMessage().toString() + "`");
-            }
+            scLootLogChannel.sendMessage(event.getAuthor() + " has just sent a PM saying: `" +
+                    event.getMessage().toString() + "`");
         }
     }
 

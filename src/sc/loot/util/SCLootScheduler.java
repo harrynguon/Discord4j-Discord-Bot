@@ -2,7 +2,6 @@ package sc.loot.util;
 
 import sc.loot.main.Main;
 import sc.loot.processor.CommandProcessor;
-import sc.loot.processor.EventListener;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

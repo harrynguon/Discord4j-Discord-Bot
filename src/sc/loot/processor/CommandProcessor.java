@@ -141,7 +141,7 @@ public class CommandProcessor {
                 String roleName = createString(command, 1);
                 List<IRole> role = guild.getRolesByName(roleName);
                 if (role.size() != 0) {
-                    channel.sendMessage("There was " + role.size() + " role that was retrieved." +
+                    channel.sendMessage("There was `" + role.size() + "` role that was retrieved." +
                             " The role ID for `" + roleName + "` is: `" +
                             role.get(0).getLongID() + "`");
                 }
@@ -209,7 +209,7 @@ public class CommandProcessor {
         Set<IMessage> messagesForReactionPost = new HashSet<>();
 
         // -------- Date time calculations ---------- /
-        final Instant currentTime = Instant.now();
+        final Instant currentTime = Instant.now(Clock.system(ZoneId.of("UTC+12")));
         // Zoneoffset.UTC for UTC zone (future reference)
         final LocalDateTime currentTimeLDT = LocalDateTime.ofInstant(
                 currentTime,

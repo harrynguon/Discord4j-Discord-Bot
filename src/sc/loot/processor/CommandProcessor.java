@@ -193,6 +193,7 @@ public class CommandProcessor {
      * @param client
      */
     public static void createReport(IDiscordClient client, String reportType) {
+        System.out.println("--- Data printed from the CommandProcessor.class ---");
         String weekOrMonth = reportType.equals(Constants.WEEKLY) ? "week" : "month";
         int maxReactionSubmissions = reportType.equals(Constants.WEEKLY) ? 5 : 15;
 
@@ -225,11 +226,10 @@ public class CommandProcessor {
                 .atStartOfDay()
                 .toInstant(ZoneOffset.ofHours(12));
 
-        System.out.println(currentTimeMinusOneMonth);
-        System.out.println(currentTime);
+        System.out.println("The current date and time is: " + currentTime);
+        System.out.println("The current date and time minus one month is: " + currentTimeMinusOneMonth);
 
         // process data given within the time range
-
         final IMessage[] messages = getiMessages(reportType, guild, currentTime,
                 currentTimeMinusOneMonth)
                 .asArray();
@@ -327,6 +327,8 @@ public class CommandProcessor {
                 .build();
 
         System.out.println("A log has just been sent.");
+
+        System.out.println("------");
     }
 
     private static Color getRandomColor() {

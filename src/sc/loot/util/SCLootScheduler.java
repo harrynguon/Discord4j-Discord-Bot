@@ -3,8 +3,7 @@ package sc.loot.util;
 import sc.loot.main.Main;
 import sc.loot.processor.CommandProcessor;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAdjusters;
 
@@ -17,9 +16,14 @@ public class SCLootScheduler implements Runnable {
      * Creates the weekly report when the day is Saturday.
      */
     public static void weeklyReport() {
-        // NZ Time
-        LocalDate day = LocalDate.now(ZoneId.of("UTC+12"));
-        System.out.println(day);
+        // UTC+12 Time. Cannot do NZ time because of daylight savings inconsistencies
+
+        final Instant currentTime = Instant.now(Clock.system(ZoneId.of("UTC+12")));
+        final LocalDate day = LocalDateTime.ofInstant(currentTime, ZoneOffset.ofHours(12))
+                .toLocalDate();
+
+        System.out.println("--- Data printed from the SCLootScheduler.class ---");
+
         System.out.println("The day is " + day.getDayOfWeek() +
                 " and the day of the week number is: " +
                 day.getDayOfWeek().get(ChronoField.DAY_OF_WEEK));
@@ -44,6 +48,8 @@ public class SCLootScheduler implements Runnable {
                 CommandProcessor.createReport(Main.bot.get(), Constants.MONTHLY);
             }
         }
+
+        System.out.println("------");
     }
 
     @Override

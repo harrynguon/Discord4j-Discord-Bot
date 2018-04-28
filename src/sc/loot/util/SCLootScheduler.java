@@ -5,6 +5,7 @@ import sc.loot.processor.CommandProcessor;
 
 import java.time.*;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 
 /**
@@ -18,8 +19,8 @@ public class SCLootScheduler implements Runnable {
     public static void weeklyReport() {
         // UTC+12 Time. Cannot do NZ time because of daylight savings inconsistencies
 
-        final Instant currentTime = Instant.now(Clock.system(ZoneId.of("UTC+12")));
-        final LocalDate day = LocalDateTime.ofInstant(currentTime, ZoneOffset.ofHours(12))
+        final Instant currentTime = Instant.now().plus(12, ChronoUnit.HOURS);
+        final LocalDate day = LocalDateTime.ofInstant(currentTime, ZoneOffset.ofHours(0))
                 .toLocalDate();
 
         System.out.println("--- Data printed from the SCLootScheduler.class ---");

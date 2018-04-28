@@ -213,12 +213,9 @@ public class CommandProcessor {
         // -------- Date time calculations ---------- /
         // UTC+12
         final Instant currentTime = Instant.now().plus(12, ChronoUnit.HOURS);
-        final LocalDateTime currentTimeLDT = LocalDateTime.ofInstant(
-                currentTime,
-                ZoneOffset.ofHours(0)
-        );
+        final LocalDateTime currentTimeLDT = LocalDateTime.ofInstant(currentTime, ZoneOffset.ofHours(0));
         int numDaysInTheMonth = currentTimeLDT.toLocalDate().lengthOfMonth() - 1; // otherwise it
-        // will cut into the last day of the previous month
+        // will cut into the last day of the previous month, but we want the start of this month
         final Instant currentTimeMinusOneMonth = LocalDateTime.ofInstant(
                 currentTime.minus(Period.ofDays(numDaysInTheMonth)),
                 ZoneId.of("UTC")

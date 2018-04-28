@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.time.*;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.List;
 import java.util.function.Predicate;
@@ -210,21 +211,26 @@ public class CommandProcessor {
         Set<IMessage> messagesForReactionPost = new HashSet<>();
 
         // -------- Date time calculations ---------- /
-        final Instant currentTime = Instant.now(Clock.system(ZoneId.of("UTC+12")));
-        // Zoneoffset.UTC for UTC zone (future reference)
+        // UTC+12
+        final Instant currentTime = Instant.now().plus(12, ChronoUnit.HOURS);
         final LocalDateTime currentTimeLDT = LocalDateTime.ofInstant(
                 currentTime,
-                ZoneOffset.ofHours(12)
+                ZoneOffset.ofHours(0)
         );
         int numDaysInTheMonth = currentTimeLDT.toLocalDate().lengthOfMonth() - 1; // otherwise it
         // will cut into the last day of the previous month
         final Instant currentTimeMinusOneMonth = LocalDateTime.ofInstant(
                 currentTime.minus(Period.ofDays(numDaysInTheMonth)),
-                ZoneId.of("UTC+12")
+                ZoneId.of("UTC")
         )
                 .toLocalDate()
                 .atStartOfDay()
-                .toInstant(ZoneOffset.ofHours(12));
+                .toInstant(ZoneOffset.ofHours(0));
+
+        LocalDate currentTimeMinusTimePeriodForDisplay =
+                reportType.equals(Constants.WEEKLY) ?
+                        currentTimeLDT.toLocalDate().minusDays(7) :
+                        currentTimeLDT.minusDays(numDaysInTheMonth).toLocalDate();
 
         System.out.println("The current date and time is: " + currentTime);
         System.out.println("The current date and time minus one month is: " + currentTimeMinusOneMonth);
@@ -249,7 +255,7 @@ public class CommandProcessor {
         Comparator<IMessage> mostReactions = Comparator.comparingInt(
                 m -> m.getReactions()
                         .stream()
-                        .max(Comparator.comparingInt(r -> r.getCount())).get()
+                        .max(Comparator.comparingInt(IReaction::getCount)).get()
                         .getCount()
         );
 
@@ -262,19 +268,12 @@ public class CommandProcessor {
 
         System.out.println("Data has been processed for the " + reportType + " report");
 
-        LocalDate crtTimeMinusTimePeriod =
-                reportType.equals(Constants.WEEKLY) ?
-                        currentTimeLDT.toLocalDate().minusDays(7) :
-                        LocalDateTime.ofInstant(currentTimeMinusOneMonth, ZoneId.of("UTC+12"))
-                                .toLocalDate();
-
-
         /////------- START BUILDING ALL EMBEDDED MESSAGES AFTER PROCESSING DATA -------////
 
         EmbedBuilder report1 = new EmbedBuilder();
         EmbedBuilder report2 = new EmbedBuilder();
         report1.withTitle(reportType + " Item Drop Count Report from __" +
-                crtTimeMinusTimePeriod + "__ to __" +
+                currentTimeMinusTimePeriodForDisplay + "__ to __" +
                 currentTimeLDT.toLocalDate() + "__ with a total number of `" +
                 totalMessages + "` submissions.");
         report2.withTitle("cont.");

@@ -642,7 +642,7 @@ public class CommandProcessor {
             if (message.getAuthor().hasRole(guild.getRoleByID(Constants.SC_LOOT_BOT_ROLE_ID))) {
                 authenticationLogChannel.sendMessage(message.getContent());
             } else {
-                authenticationChannel.sendMessage(message.getAuthor().mention() + ": " + message
+                authenticationLogChannel.sendMessage(message.getAuthor().mention() + ": " + message
                         .getContent());
             }
         }

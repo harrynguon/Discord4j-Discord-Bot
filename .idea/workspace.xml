@@ -7,12 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8e08373-7006-425f-9e6c-4627da2dee35" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/SCLootDiscordBot_jar/SCLootDiscordBot.jar" afterPath="$PROJECT_DIR$/out/artifacts/SCLootDiscordBot_jar/SCLootDiscordBot.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SCLootDiscordBot/sc/loot/main/Main.class" afterPath="$PROJECT_DIR$/out/production/SCLootDiscordBot/sc/loot/main/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/SCLootDiscordBot/sc/loot/util/SCLootScheduler.class" afterPath="$PROJECT_DIR$/out/production/SCLootDiscordBot/sc/loot/util/SCLootScheduler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/SCLootDiscordBot_jar/SCLootDiscordBot.jar" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/main/Main.java" afterPath="$PROJECT_DIR$/src/sc/loot/main/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java" afterPath="$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/util/Constants.java" afterPath="$PROJECT_DIR$/src/sc/loot/util/Constants.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java" afterPath="$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -28,8 +26,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+            <state relative-caret-position="798">
+              <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -47,11 +45,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SCLootScheduler.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SCLootScheduler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="663">
-              <caret line="39" column="67" lean-forward="false" selection-start-line="39" selection-start-column="67" selection-end-line="39" selection-end-column="67" />
+            <state relative-caret-position="390">
+              <caret line="31" column="64" lean-forward="false" selection-start-line="31" selection-start-column="64" selection-end-line="31" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -59,14 +57,37 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommandProcessor.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ZoneOffset.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/java/time/ZoneOffset.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="302">
+              <caret line="281" column="29" lean-forward="false" selection-start-line="281" selection-start-column="29" selection-end-line="281" selection-end-column="29" />
+              <folding>
+                <element signature="e#10563#10564#0" expanded="true" />
+                <element signature="e#10620#10621#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CommandProcessor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7124">
-              <caret line="224" column="9" lean-forward="true" selection-start-line="224" selection-start-column="9" selection-end-line="224" selection-end-column="9" />
+            <state relative-caret-position="-3225">
+              <caret line="120" column="55" lean-forward="false" selection-start-line="120" selection-start-column="55" selection-end-line="120" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/sc/loot/util/Constants.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="24" column="44" lean-forward="true" selection-start-line="24" selection-start-column="44" selection-end-line="24" selection-end-column="44" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -122,17 +143,17 @@
         <option value="$PROJECT_DIR$/src/sc/loot/main/EventListener.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/util/Scheduler.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/util/QScheduler.java" />
-        <option value="$PROJECT_DIR$/src/sc/loot/util/Constants.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/processor/EventListener.java" />
-        <option value="$PROJECT_DIR$/src/sc/loot/main/Main.java" />
-        <option value="$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java" />
+        <option value="$PROJECT_DIR$/src/sc/loot/util/Constants.java" />
+        <option value="$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java" />
+        <option value="$PROJECT_DIR$/src/sc/loot/main/Main.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="152" />
-    <option name="y" value="17" />
+    <option name="x" value="14" />
+    <option name="y" value="193" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
@@ -338,7 +359,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -378,16 +398,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/util/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2975">
@@ -581,26 +591,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/java/time/DayOfWeek.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="313" column="15" lean-forward="false" selection-start-line="313" selection-start-column="15" selection-end-line="313" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/Desktop/quartz-2.2.3-distribution.tar/quartz-2.2.3/lib/quartz-2.2.3.jar!/org/quartz/SimpleScheduleBuilder.class" />
     <entry file="jar://$USER_HOME$/Desktop/quartz-2.2.3-distribution.tar/quartz-2.2.3/lib/quartz-2.2.3.jar!/org/quartz/Scheduler.class" />
     <entry file="jar://$PROJECT_DIR$/libraries/Discord4j-dev-2.9.3-gf4a9174-33-shaded.jar!/sx/blah/discord/handle/obj/IGuild.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="199">
           <caret line="26" column="13" lean-forward="false" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/java/time/LocalDate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="206" column="28" lean-forward="false" selection-start-line="206" selection-start-column="28" selection-end-line="206" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -658,16 +654,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="294">
           <caret line="2237" column="18" lean-forward="false" selection-start-line="2237" selection-start-column="18" selection-end-line="2237" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/util/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1428">
-          <caret line="86" column="81" lean-forward="false" selection-start-line="86" selection-start-column="81" selection-end-line="86" selection-end-column="81" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -743,12 +729,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/main/Main.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/java/time/DayOfWeek.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+        <state relative-caret-position="302">
+          <caret line="108" column="12" lean-forward="false" selection-start-line="108" selection-start-column="12" selection-end-line="108" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/java/time/LocalDate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="803" column="15" lean-forward="false" selection-start-line="803" selection-start-column="15" selection-end-line="803" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_151/src.zip!/java/time/ZoneOffset.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="281" column="29" lean-forward="false" selection-start-line="281" selection-start-column="29" selection-end-line="281" selection-end-column="29" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#10563#10564#0" expanded="true" />
+            <element signature="e#10620#10621#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -761,20 +764,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java">
+    <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="39" column="67" lean-forward="false" selection-start-line="39" selection-start-column="67" selection-end-line="39" selection-end-column="67" />
+        <state relative-caret-position="-3225">
+          <caret line="120" column="55" lean-forward="false" selection-start-line="120" selection-start-column="55" selection-end-line="120" selection-end-column="55" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java">
+    <entry file="file://$PROJECT_DIR$/src/sc/loot/util/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7124">
-          <caret line="224" column="9" lean-forward="true" selection-start-line="224" selection-start-column="9" selection-end-line="224" selection-end-column="9" />
+        <state relative-caret-position="374">
+          <caret line="24" column="44" lean-forward="true" selection-start-line="24" selection-start-column="44" selection-end-line="24" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sc/loot/main/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="798">
+          <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="31" column="64" lean-forward="false" selection-start-line="31" selection-start-column="64" selection-end-line="31" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

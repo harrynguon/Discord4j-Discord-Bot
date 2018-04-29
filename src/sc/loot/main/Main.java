@@ -9,6 +9,8 @@ import sx.blah.discord.handle.obj.ActivityType;
 import sx.blah.discord.handle.obj.StatusType;
 import sx.blah.discord.util.DiscordException;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -43,10 +45,15 @@ public class Main {
         EventListener eventListener = new EventListener(discordClient);
         dis.registerListener(eventListener);
         // Schedules the weekly/monthly reports
-        int initialDelay = 420;
+        // The initial delay is in minutes
+        int initialDelay = 1360;
+        int repeatCycle = 1440;
         System.out.println("The initial delay before the scheduler runs is: " + initialDelay + "" +
                 " minutes.");
-        scheduler.scheduleAtFixedRate(SCLootScheduler::weeklyReport, initialDelay, 1440, TimeUnit
+        System.out.println("The scheduler will run at " +
+                Instant.now().plus(12, ChronoUnit.HOURS).plus(initialDelay, ChronoUnit.MINUTES) +
+                " and repeat every 24 hours.");
+        scheduler.scheduleAtFixedRate(SCLootScheduler::weeklyReport, initialDelay, repeatCycle, TimeUnit
                 .MINUTES);
     }
 }

@@ -9,11 +9,14 @@ public class Constants {
     /** ID of the SC Loot Server */
     public static final long SC_LOOT_GUILD_ID = 249099808910999554L;
 
-    /** ID of the Weekly Report channel */
+    /** ID of the Weekly Report channel for sending the report to */
     public static final long WEEKLY_REPORT_CHANNEL_ID = 414243989009465344L;
 
-    /** ID of the Monthly Report channel */
+    /** ID of the Monthly Report channel for sending the report to */
     public static final long MONTHLY_REPORT_CHANNEL_ID = 427329434971013132L;
+
+    /** Used for testing out commands, etc. */
+    public static final long TEST_CHANNEL_ID = 413975567931670529L;
 
     /** Ensures correct spelling of these globally-used variables */
     public static final String WEEKLY = "Weekly";
@@ -80,6 +83,7 @@ public class Constants {
 
     public static final String MY_IGN_PREFIX = "My IGN is";
 
+    /** User PMs */
     public static final long SC_LOOT_LOG_ID = 427234922458251264L;
 
     public static final long AUTHENTICATION_CHANNEL_ID = 439257873936023579L;

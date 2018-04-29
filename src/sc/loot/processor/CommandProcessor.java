@@ -118,11 +118,11 @@ public class CommandProcessor {
                 }
                 return;
             case "weeklyreport":
-                createReport(client, Constants.WEEKLY);
+                createReport(client, Constants.WEEKLY_REPORT_CHANNEL_ID, Constants.WEEKLY);
                 return;
             // for testing purposes, will be automated.
             case "monthlyreport":
-                createReport(client, Constants.MONTHLY);
+                createReport(client, Constants.MONTHLY_REPORT_CHANNEL_ID, Constants.MONTHLY);
                 return;
             case "help":
                 channel.sendMessage(Constants.HELP_MESSAGE);
@@ -162,6 +162,16 @@ public class CommandProcessor {
                     }
                 }
                 return;
+            case "testweeklyreport":
+                createReport(client, Constants.TEST_CHANNEL_ID, Constants.WEEKLY);
+                return;
+            case "testmonthlyreport":
+                createReport(client, Constants.TEST_CHANNEL_ID, Constants.MONTHLY);
+            case "shutdown":
+                guild.getChannelByID(Constants.SC_LOOT_BOT_CHANNEL_ID).sendMessage("The bot is shutting " +
+                        "down. This was initiated by " + message.getAuthor().mention() + ".") ;
+                System.exit(0);
+                return;
             default:
                 sendInvalidArgumentMessage("invalidcommand", channel, prefix);
                 return;
@@ -193,18 +203,13 @@ public class CommandProcessor {
      *
      * @param client
      */
-    public static void createReport(IDiscordClient client, String reportType) {
+    public static void createReport(IDiscordClient client, long channelId, String reportType) {
         System.out.println("--- Data printed from the CommandProcessor.class ---");
         String weekOrMonth = reportType.equals(Constants.WEEKLY) ? "week" : "month";
         int maxReactionSubmissions = reportType.equals(Constants.WEEKLY) ? 5 : 15;
 
         IGuild guild = client.getGuildByID(Constants.SC_LOOT_GUILD_ID);
-        IChannel channel =
-                reportType.equals(Constants.WEEKLY) ?
-                        guild.getChannelByID(Constants.WEEKLY_REPORT_CHANNEL_ID) :
-                        guild.getChannelByID(Constants.MONTHLY_REPORT_CHANNEL_ID);
-//        IChannel channel = guild.getChannelByID(413975567931670529L); // test channel ID.
-        //uncomment to use it
+        IChannel channel = guild.getChannelByID(channelId);
 
         Map<String, Integer> itemCount = createHashTable();
         // 1-n => Portal number
@@ -319,14 +324,16 @@ public class CommandProcessor {
 
         // send a log to #sc_loot_bot
         IChannel scLootBotChannel = guild.getChannelByID(Constants.SC_LOOT_BOT_CHANNEL_ID);
-        new MessageBuilder(client).withChannel(scLootBotChannel)
-                .withContent("`" + reportType + " report` has just been initiated. The " +
-                        "current time is: `"
-                        + currentTime + "`.")
-                .build();
+
+        if (channelId != Constants.TEST_CHANNEL_ID) {
+            new MessageBuilder(client).withChannel(scLootBotChannel)
+                    .withContent("`" + reportType + " report` has just been initiated. The " +
+                            "current time is: `"
+                            + currentTime + "`.")
+                    .build();
+        }
 
         System.out.println("A log has just been sent.");
-
         System.out.println("------");
     }
 

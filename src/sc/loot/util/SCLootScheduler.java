@@ -25,6 +25,8 @@ public class SCLootScheduler implements Runnable {
 
         System.out.println("--- Data printed from the SCLootScheduler.class ---");
 
+        System.out.println("The current time is: " + currentTime);
+
         System.out.println("The day is " + day.getDayOfWeek() +
                 " and the day of the week number is: " +
                 day.getDayOfWeek().get(ChronoField.DAY_OF_WEEK));

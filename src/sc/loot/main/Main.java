@@ -43,7 +43,7 @@ public class Main {
         EventListener eventListener = new EventListener(discordClient);
         dis.registerListener(eventListener);
         // Schedules the weekly/monthly reports
-        int initialDelay = 360;
+        int initialDelay = 420;
         System.out.println("The initial delay before the scheduler runs is: " + initialDelay + "" +
                 " minutes.");
         scheduler.scheduleAtFixedRate(SCLootScheduler::weeklyReport, initialDelay, 1440, TimeUnit

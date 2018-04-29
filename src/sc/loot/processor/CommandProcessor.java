@@ -207,6 +207,9 @@ public class CommandProcessor {
         //uncomment to use it
 
         Map<String, Integer> itemCount = createHashTable();
+        // 1-n => Portal number
+        // -1  => Last
+        // -2  => Unkown, Extra Info
         Map<Integer, Integer> portalNumberCount = new HashMap<>();
         Set<IMessage> messagesForReactionPost = new HashSet<>();
 
@@ -374,14 +377,19 @@ public class CommandProcessor {
                 .forEachOrdered(entry -> {
                     int k = entry.getKey();
                     int value = entry.getValue();
-                    if (k != -1) {
+                    if (k >= 1) {
                         portalCounts.appendField("Portal #" + k + ":", Integer.toString(value),
                                 true);
                     }
                 });
         if (portalNumberCount.containsKey(-1)) {
-            portalCounts.appendField("Other (last, unknown, etc.):",
+            portalCounts.appendField("Last:",
                     Integer.toString(portalNumberCount.get(-1)),
+                    true);
+        }
+        if (portalNumberCount.containsKey(-2)) {
+            portalCounts.appendField("Other (unknown, extra info, etc.):",
+                    Integer.toString(portalNumberCount.get(-2)),
                     true);
         }
 
@@ -526,23 +534,39 @@ public class CommandProcessor {
         scan.close();
     }
 
+    /**
+     * (Int,Int)
+     * @param message
+     * @param portalCountMap
+     */
     private static void processPortalNumber(String message, Map<Integer, Integer> portalCountMap) {
         String portalNumber = message.split(" ")[0];
         char c = portalNumber.charAt(0);
         if (Character.isDigit(c)) {
             int portNum = Character.getNumericValue(c);
-            if (portalCountMap.containsKey(portNum)) {
-                portalCountMap.put(portNum, portalCountMap.get(portNum) + 1);
-            } else {
-                portalCountMap.put(portNum, 1);
-            }
+            incrementCount(portNum, portalCountMap);
         } else {
-            // "last" etc
-            if (portalCountMap.containsKey(-1)) {
-                portalCountMap.put(-1, portalCountMap.get(-1) + 1);
+            if (portalNumber.toLowerCase().contains("last")) {
+                incrementCount(-1, portalCountMap);
             } else {
-                portalCountMap.put(-1, 1);
+                // unknown, extra info
+                incrementCount(-2, portalCountMap);
             }
+        }
+    }
+
+    /**
+     * 1-n => Portal number
+     * -1  => Last
+     * -2  => Unkown, Extra Info
+     * @param portNum
+     * @param portalCountMap
+     */
+    private static void incrementCount(int portNum, Map<Integer, Integer> portalCountMap) {
+        if (portalCountMap.containsKey(portNum)) {
+            portalCountMap.put(portNum, portalCountMap.get(portNum) + 1);
+        } else {
+            portalCountMap.put(portNum, 1);
         }
     }
 

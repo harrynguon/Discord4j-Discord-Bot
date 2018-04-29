@@ -118,11 +118,10 @@ public class CommandProcessor {
                 }
                 return;
             case "weeklyreport":
-                createReport(client, Constants.WEEKLY_REPORT_CHANNEL_ID, Constants.WEEKLY);
+//                createReport(client, Constants.WEEKLY_REPORT_CHANNEL_ID, Constants.WEEKLY);
                 return;
-            // for testing purposes, will be automated.
             case "monthlyreport":
-                createReport(client, Constants.MONTHLY_REPORT_CHANNEL_ID, Constants.MONTHLY);
+//                createReport(client, Constants.MONTHLY_REPORT_CHANNEL_ID, Constants.MONTHLY);
                 return;
             case "help":
                 channel.sendMessage(Constants.HELP_MESSAGE);
@@ -167,6 +166,7 @@ public class CommandProcessor {
                 return;
             case "testmonthlyreport":
                 createReport(client, Constants.TEST_CHANNEL_ID, Constants.MONTHLY);
+                return;
             case "shutdown":
                 guild.getChannelByID(Constants.SC_LOOT_BOT_CHANNEL_ID).sendMessage("The bot is shutting " +
                         "down. This was initiated by " + message.getAuthor().mention() + ".") ;
@@ -390,7 +390,7 @@ public class CommandProcessor {
                     }
                 });
         if (portalNumberCount.containsKey(-1)) {
-            portalCounts.appendField("Last:",
+            portalCounts.appendField("Last Portal:",
                     Integer.toString(portalNumberCount.get(-1)),
                     true);
         }

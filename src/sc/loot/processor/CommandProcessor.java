@@ -613,7 +613,7 @@ public class CommandProcessor {
                         event.getAuthor().removeRole(guild.getRoleByID(Constants.NEW_USER_ROLE_ID));
                         event.getAuthor().addRole(guild.getRoleByID(Constants.MEMBER_ROLE_ID));
                         sendAuthenticatedPM(event);
-                        deleteChannelLog(guild.getChannelByID(Constants.AUTHENTICATION_CHANNEL_ID));
+//                        deleteChannelLog(guild.getChannelByID(Constants.AUTHENTICATION_CHANNEL_ID));
                     } catch (DiscordException e) {
                         System.out.println(e.getErrorMessage());
                     }
@@ -632,7 +632,6 @@ public class CommandProcessor {
      * Deletes the authentication channel history and copies it over to the authentication log
      * channel.
      * @param authenticationChannel
-     */
     private static void deleteChannelLog(IChannel authenticationChannel) {
         IGuild guild = authenticationChannel.getGuild();
         IChannel authenticationLogChannel =
@@ -646,7 +645,7 @@ public class CommandProcessor {
                         .getContent());
             }
         }
-    }
+    }*/
 
     /**
      * Scans the all time leaderboard website and checks to see if the user entered a valid username
@@ -692,5 +691,13 @@ public class CommandProcessor {
                 "account, please send a message to the server owner or one of the " +
                 "moderators.");
 
+    }
+
+
+    public static void processReaction(IReaction reaction, IUser user, IMessage message) {
+        if (!message.getContent().contains(reaction.getEmoji().getName())) {
+            // :velites: => getEmoji().getName() => velites
+            message.removeReaction(user, reaction);
+        }
     }
 }

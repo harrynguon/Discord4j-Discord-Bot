@@ -35,7 +35,7 @@ public class Constants {
     /** Role in the discord server which is required for access to the bot commands */
     public static final long BOT_AUTH_ROLE_ID= 412858360447369225L;
 
-    /** Name of the sc_loot channel */
+    /** Name of the sc_loot channel where loot gets posted */
     public static final long SC_LOOT_CHANNEL_ID = 249104816171646978L;
 
     /** Name of the sc_loot_bot channel used to sending logs */

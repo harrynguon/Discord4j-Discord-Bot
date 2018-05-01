@@ -4,6 +4,7 @@ import sc.loot.util.Constants;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionAddEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
 import sx.blah.discord.handle.obj.IChannel;
@@ -35,13 +36,16 @@ public class EventListener {
     }
 
     /**
-     * When a user reacts to a message, the bot will assign the user a role of the chosen colour.
+     * When a user reacts to a message, the bot will ensure that the reaction is an item that is
+     * found in the post. This will now allow users to randomly do any random reactions.
      * @param event
      */
     @EventSubscriber
-    public void onUserReactToColorMessage(ReactionEvent event) {
+    public void onUserReaction(ReactionAddEvent event) {
         // TODO: once finished, check to see if the channel is in #read_this_first
-        // CommandProcessor.processReactionToMessage(event.getReaction(), event.getUser());
+        if (event.getChannel().getLongID() == Constants.SC_LOOT_CHANNEL_ID) {
+            CommandProcessor.processReaction(event.getReaction(), event.getUser(), event.getMessage());
+        }
     }
 
     /**

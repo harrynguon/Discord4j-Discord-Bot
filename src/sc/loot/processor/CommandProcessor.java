@@ -172,6 +172,9 @@ public class CommandProcessor {
                         "down. This was initiated by " + message.getAuthor().mention() + ".") ;
                 System.exit(0);
                 return;
+            case "testgetsubmissioncount":
+                new RoleUpdater().runRoleUpdate(guild);
+                return;
             default:
                 sendInvalidArgumentMessage("invalidcommand", channel, prefix);
                 return;
@@ -693,11 +696,16 @@ public class CommandProcessor {
 
     }
 
-
     public static void processReaction(IReaction reaction, IUser user, IMessage message) {
         if (!message.getContent().contains(reaction.getEmoji().getName())) {
             // :velites: => getEmoji().getName() => velites
-            message.removeReaction(user, reaction);
+            try {
+                message.removeReaction(user, reaction);
+            } catch (NullPointerException | DiscordException e) {
+                e.printStackTrace();
+                System.out.println("continuing...");
+            }
         }
     }
+
 }

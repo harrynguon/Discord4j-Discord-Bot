@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This class stores all of the constants used in this bot.
+ */
 public class Constants {
 
     /** ID of the SC Loot Server */
@@ -88,10 +91,28 @@ public class Constants {
 
     public static final long AUTHENTICATION_CHANNEL_ID = 439257873936023579L;
 
-    public static final long AUTHENTICATION_LOG_CHANNEL_ID = 439287499412602881L;
-
     public static final long MEMBER_ROLE_ID = 439258076034498583L;
 
     /** Link to the all time leaderboards */
     public static String ALL_TIME_LEADERBOARDS_WEBSITE = "https://wrya.net/tmp/sbleaderboards/all-time.txt";
+
+
+    /** Rank role IDs */
+    public static final long LEGENDARY_ROLE = 441858192167665674L;
+    public static final long ELITE_ROLE     = 441858254893613069L;
+    public static final long EXALTED_ROLE   = 441858503728955392L;
+    public static final long VETERAN_ROLE   = 441858449043750913L;
+    public static final long PRO_ROLE       = 441858584624496640L;
+    public static final long ACE_ROLE       = 441858622687805440L;
+    public static final long ROOKIE_ROLE    = 441858275169009664L;
+
+    public static final long[] RANK_ROLES = {
+            LEGENDARY_ROLE,
+            ELITE_ROLE,
+            EXALTED_ROLE,
+            VETERAN_ROLE,
+            PRO_ROLE,
+            ACE_ROLE,
+            ROOKIE_ROLE
+    };
 }

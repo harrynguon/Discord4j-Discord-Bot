@@ -2,6 +2,8 @@ package sc.loot.util;
 
 import sc.loot.main.Main;
 import sc.loot.processor.CommandProcessor;
+import sc.loot.processor.RoleUpdater;
+import sx.blah.discord.api.IDiscordClient;
 
 import java.time.*;
 import java.time.temporal.ChronoField;
@@ -16,9 +18,15 @@ public class SCLootScheduler implements Runnable {
     /**
      * Creates the weekly report when the day is Saturday.
      */
-    public static void weeklyReport() {
-        // UTC+12 Time. Cannot do NZ time because of daylight savings inconsistencies
+    public static void automatedReport() {
+        IDiscordClient client = Main.bot.get();
+        if (!client.isLoggedIn()) {
+            System.out.println("Client is not yet logged in. The scheduler has delayed all " +
+                    "processing for another 24 hours.");
+            return;
+        }
 
+        // UTC+12 Time. Cannot do NZ time because of daylight savings inconsistencies
         final Instant currentTime = Instant.now().plus(12, ChronoUnit.HOURS);
         final LocalDate day = LocalDateTime.ofInstant(currentTime, ZoneOffset.ofHours(0))
                 .toLocalDate();
@@ -42,20 +50,18 @@ public class SCLootScheduler implements Runnable {
 
         // 7 == Sunday
         if (currentDayOfWeek.get(ChronoField.DAY_OF_WEEK) == 7) {
-            if (Main.bot.isPresent() && Main.bot.get().isLoggedIn()) {
-                System.out.println("I'm creating the weekly report now.");
-                CommandProcessor.createReport(Main.bot.get(), Constants.WEEKLY_REPORT_CHANNEL_ID,
-                        Constants.WEEKLY);
-            }
+            System.out.println("I'm creating the weekly report now.");
+            CommandProcessor.createReport(client, Constants.WEEKLY_REPORT_CHANNEL_ID,
+                    Constants.WEEKLY);
+            // Update roles each week
+            new RoleUpdater().runRoleUpdate(client.getGuildByID(Constants.SC_LOOT_GUILD_ID));
         }
 
         // checks if the day is the last day of the month
         if (currentDayOfMonth == lastDayOfMonth) {
-            if (Main.bot.isPresent() && Main.bot.get().isLoggedIn()) {
-                System.out.println("I'm creating the monthly report now.");
-                CommandProcessor.createReport(Main.bot.get(), Constants
-                        .MONTHLY_REPORT_CHANNEL_ID, Constants.MONTHLY);
-            }
+            System.out.println("I'm creating the monthly report now.");
+            CommandProcessor.createReport(client, Constants.MONTHLY_REPORT_CHANNEL_ID,
+                    Constants.MONTHLY);
         }
 
         System.out.println("------");

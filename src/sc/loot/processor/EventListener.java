@@ -67,18 +67,6 @@ public class EventListener {
         } catch (DiscordException e) {
             System.out.println(e.getErrorMessage());
         }
-
-        // Uncomment this if we want the to-be-authenticated members to be able to read the
-        // message history
-/*        // Wait a bit to ensure the user can read the message as they are not allowed to read
-        // the message history
-        try {
-            Thread.sleep(3000);
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-
         event.getGuild().getChannelByID(Constants.AUTHENTICATION_CHANNEL_ID).sendMessage(
                 "Hi " + event.getUser().mention()
                         + "! To be granted access for reading messages on this server"

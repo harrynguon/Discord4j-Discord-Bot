@@ -274,7 +274,7 @@ public class CommandProcessor {
                 .limit(maxReactionSubmissions)
                 .collect(Collectors.toList());
 
-        System.out.println("Data has been processed for the " + reportType + " report");
+
 
         /////------- START BUILDING ALL EMBEDDED MESSAGES AFTER PROCESSING DATA -------////
 
@@ -323,20 +323,23 @@ public class CommandProcessor {
             channel.sendMessage(statistics2.build());
         }
 
-        System.out.println("Messages have been sent to the " + reportType + " report channel.");
+
 
         // send a log to #sc_loot_bot
         IChannel scLootBotChannel = guild.getChannelByID(Constants.SC_LOOT_BOT_CHANNEL_ID);
 
         if (channelId != Constants.TEST_CHANNEL_ID) {
+            System.out.println("Data has been processed for the " + reportType + " report");
+            System.out.println("Messages have been sent to the " + reportType + " report channel.");
             new MessageBuilder(client).withChannel(scLootBotChannel)
                     .withContent("`" + reportType + " report` has just been initiated. The " +
                             "current time is: `"
                             + currentTime + "`.")
                     .build();
+            System.out.println("A log has just been sent.");
         }
 
-        System.out.println("A log has just been sent.");
+
         System.out.println("------");
     }
 
@@ -615,6 +618,7 @@ public class CommandProcessor {
                     try {
                         event.getAuthor().removeRole(guild.getRoleByID(Constants.NEW_USER_ROLE_ID));
                         event.getAuthor().addRole(guild.getRoleByID(Constants.MEMBER_ROLE_ID));
+                        event.getAuthor().addRole(guild.getRoleByID(Constants.ROOKIE_ROLE));
                         sendAuthenticatedPM(event);
 //                        deleteChannelLog(guild.getChannelByID(Constants.AUTHENTICATION_CHANNEL_ID));
                     } catch (DiscordException e) {

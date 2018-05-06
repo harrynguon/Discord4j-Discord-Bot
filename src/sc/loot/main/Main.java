@@ -46,7 +46,7 @@ public class Main {
         dis.registerListener(eventListener);
         // Schedules the weekly/monthly reports
         // The initial delay is in minutes
-        int initialDelay = 215;
+        int initialDelay = 658;
         int repeatCycle = 1440;
         System.out.println("The initial delay before the scheduler runs is: " + initialDelay + "" +
                 " minutes.");
@@ -56,8 +56,7 @@ public class Main {
         scheduler.scheduleAtFixedRate(SCLootScheduler::automatedReport,
                 initialDelay,
                 repeatCycle,
-                TimeUnit
-                .MINUTES
+                TimeUnit.MINUTES
         );
     }
 }

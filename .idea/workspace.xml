@@ -7,12 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8e08373-7006-425f-9e6c-4627da2dee35" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sc/loot/processor/RoleUpdater.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/main/Main.java" afterPath="$PROJECT_DIR$/src/sc/loot/main/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java" afterPath="$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/util/Constants.java" afterPath="$PROJECT_DIR$/src/sc/loot/util/Constants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java" afterPath="$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sc/loot/processor/EventListener.java" afterPath="$PROJECT_DIR$/src/sc/loot/processor/EventListener.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,7 +25,7 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
+            <state relative-caret-position="714">
               <caret line="48" column="30" lean-forward="false" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -39,8 +37,8 @@
       <file leaf-file-name="EventListener.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/EventListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="46" column="40" lean-forward="true" selection-start-line="46" selection-start-column="40" selection-end-line="46" selection-end-column="40" />
+            <state relative-caret-position="374">
+              <caret line="33" column="39" lean-forward="false" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -49,8 +47,8 @@
       <file leaf-file-name="SCLootScheduler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="25" column="19" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
+            <state relative-caret-position="85">
+              <caret line="13" column="70" lean-forward="true" selection-start-line="13" selection-start-column="70" selection-end-line="13" selection-end-column="70" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -61,11 +59,11 @@
       <file leaf-file-name="CommandProcessor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2975">
-              <caret line="175" column="43" lean-forward="false" selection-start-line="175" selection-start-column="43" selection-end-line="175" selection-end-column="43" />
+            <state relative-caret-position="391">
+              <caret line="319" column="50" lean-forward="true" selection-start-line="319" selection-start-column="50" selection-end-line="319" selection-end-column="50" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#18314#18331#0" expanded="true" />
+                <element signature="e#18329#18346#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -74,7 +72,7 @@
       <file leaf-file-name="RoleUpdater.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/RoleUpdater.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-612">
+            <state relative-caret-position="204">
               <caret line="12" column="56" lean-forward="false" selection-start-line="12" selection-start-column="56" selection-end-line="12" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -86,8 +84,8 @@
       <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sc/loot/util/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-460">
-              <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="46" selection-end-column="71" />
+            <state relative-caret-position="731">
+              <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="46" selection-end-column="71" />
               <folding />
             </state>
           </provider>
@@ -145,11 +143,11 @@
         <option value="$PROJECT_DIR$/src/sc/loot/main/EventListener.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/util/Scheduler.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/util/QScheduler.java" />
-        <option value="$PROJECT_DIR$/src/sc/loot/processor/EventListener.java" />
-        <option value="$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/processor/RoleUpdater.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/util/Constants.java" />
+        <option value="$PROJECT_DIR$/src/sc/loot/processor/EventListener.java" />
+        <option value="$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java" />
         <option value="$PROJECT_DIR$/src/sc/loot/main/Main.java" />
       </list>
     </option>
@@ -178,10 +176,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="AndroidView" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -225,6 +219,10 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -372,18 +370,18 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1776" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11493018" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25013334" sideWeight="0.2792696" order="5" side_tool="false" content_ui="combo" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25013334" sideWeight="0.7207304" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25013334" sideWeight="0.2728249" order="6" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25013334" sideWeight="0.72717506" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -451,7 +449,7 @@
           <caret line="111" column="23" lean-forward="true" selection-start-line="111" selection-start-column="23" selection-end-line="111" selection-end-column="23" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#18314#18331#0" expanded="true" />
+            <element signature="e#18329#18346#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -495,7 +493,7 @@
           <caret line="131" column="29" lean-forward="true" selection-start-line="131" selection-start-column="29" selection-end-line="131" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#18314#18331#0" expanded="true" />
+            <element signature="e#18329#18346#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -539,7 +537,7 @@
           <caret line="90" column="49" lean-forward="false" selection-start-line="90" selection-start-column="49" selection-end-line="90" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#18314#18331#0" expanded="true" />
+            <element signature="e#18329#18346#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -568,7 +566,7 @@
           <caret line="90" column="49" lean-forward="false" selection-start-line="90" selection-start-column="49" selection-end-line="90" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#18314#18331#0" expanded="true" />
+            <element signature="e#18329#18346#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -723,10 +721,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3366">
           <caret line="281" column="29" lean-forward="false" selection-start-line="281" selection-start-column="29" selection-end-line="281" selection-end-column="29" />
-          <folding>
-            <element signature="e#10563#10564#0" expanded="false" />
-            <element signature="e#10620#10621#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -734,7 +728,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="17" column="18" lean-forward="false" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -742,30 +735,39 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="765">
           <caret line="51" column="12" lean-forward="false" selection-start-line="51" selection-start-column="12" selection-end-line="51" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/EventListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="46" column="40" lean-forward="true" selection-start-line="46" selection-start-column="40" selection-end-line="46" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sc/loot/util/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-460">
-          <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="46" selection-end-column="71" />
+        <state relative-caret-position="731">
+          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="46" selection-end-column="71" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/RoleUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-612">
+        <state relative-caret-position="204">
           <caret line="12" column="56" lean-forward="false" selection-start-line="12" selection-start-column="56" selection-end-line="12" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/EventListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="33" column="39" lean-forward="false" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="13" column="70" lean-forward="true" selection-start-line="13" selection-start-column="70" selection-end-line="13" selection-end-column="70" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -774,28 +776,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sc/loot/processor/CommandProcessor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2975">
-          <caret line="175" column="43" lean-forward="false" selection-start-line="175" selection-start-column="43" selection-end-line="175" selection-end-column="43" />
+        <state relative-caret-position="391">
+          <caret line="319" column="50" lean-forward="true" selection-start-line="319" selection-start-column="50" selection-end-line="319" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#18314#18331#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sc/loot/util/SCLootScheduler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="25" column="19" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#18329#18346#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sc/loot/main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
+        <state relative-caret-position="714">
           <caret line="48" column="30" lean-forward="false" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />

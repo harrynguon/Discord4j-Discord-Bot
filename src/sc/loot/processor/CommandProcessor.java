@@ -172,7 +172,7 @@ public class CommandProcessor {
                         "down. This was initiated by " + message.getAuthor().mention() + ".") ;
                 System.exit(0);
                 return;
-            case "testgetsubmissioncount":
+            case "testroleupdater":
                 new RoleUpdater().runRoleUpdate(guild);
                 return;
             default:
@@ -325,13 +325,13 @@ public class CommandProcessor {
 
 
 
-        // send a log to #sc_loot_bot
-        IChannel scLootBotChannel = guild.getChannelByID(Constants.SC_LOOT_BOT_CHANNEL_ID);
+        // send a log to #sc_loot_log
+        IChannel scLootLogChannel = guild.getChannelByID(Constants.SC_LOOT_LOG_ID);
 
         if (channelId != Constants.TEST_CHANNEL_ID) {
             System.out.println("Data has been processed for the " + reportType + " report");
             System.out.println("Messages have been sent to the " + reportType + " report channel.");
-            new MessageBuilder(client).withChannel(scLootBotChannel)
+            new MessageBuilder(client).withChannel(scLootLogChannel)
                     .withContent("`" + reportType + " report` has just been initiated. The " +
                             "current time is: `"
                             + currentTime + "`.")

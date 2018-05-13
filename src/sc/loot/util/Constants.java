@@ -44,8 +44,6 @@ public class Constants {
     /** Name of the sc_loot_bot channel used to sending logs */
     public static final long SC_LOOT_BOT_CHANNEL_ID = 412865060818386956L;
 
-    public static final long SC_LOOT_BOT_ROLE_ID = 425576014744387594L;
-
     /** Called when the user sends the !help command */
     public static final String HELP_MESSAGE =
             "*alias*: **" + Constants.PREFIX + "**\n" +
@@ -115,4 +113,6 @@ public class Constants {
             ACE_ROLE,
             ROOKIE_ROLE
     };
+
+    public static final long TOP_CONTRIBUTOR_ROLE = 445211458041544714L;
 }

@@ -5,6 +5,7 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.IUser;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -48,7 +49,37 @@ public class RoleUpdater {
             i++;
 //            System.out.println(user+ ": " + postCount);
         }
+
+        Map.Entry<IUser, Integer> topContributor = userToPostCount.entrySet()
+                .stream()
+                .max(Comparator.comparing(e -> e.getValue()))
+                .get();
+        updateTopContributor(topContributor.getKey(), guild);
+
         System.out.println("---Roles have finished being updated---");
+        guild.getChannelByID(Constants.SC_LOOT_LOG_ID).sendMessage("Roles have finished being " +
+                "updated.");
+        guild.getChannelByID(Constants.SC_LOOT_LOG_ID).sendMessage(
+                "The current top contributor is " + topContributor.getKey().mention()
+                        + " with `" + topContributor.getValue()
+                        + "` total submissions."
+        );
+    }
+
+    private void updateTopContributor(IUser user, IGuild guild) {
+        // If they already have the top contributor role (meaning they are still the top
+        // contributor, then don't do anything. Otherwise, remove the role from the user that has
+        // the current top contributor role and then add the new top contributor role to the new
+        // user
+        if (user.hasRole(guild.getRoleByID(Constants.TOP_CONTRIBUTOR_ROLE))) {
+            return;
+        } else {
+            guild.getUsers()
+                    .stream()
+                    .filter(u -> u.hasRole(guild.getRoleByID(Constants.TOP_CONTRIBUTOR_ROLE)))
+                    .forEach(u -> u.removeRole(guild.getRoleByID(Constants.TOP_CONTRIBUTOR_ROLE)));
+            user.addRole(guild.getRoleByID(Constants.TOP_CONTRIBUTOR_ROLE));
+        }
     }
 
     /**

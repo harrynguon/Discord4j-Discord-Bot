@@ -46,7 +46,7 @@ public class Main {
         dis.registerListener(eventListener);
         // Schedules the weekly/monthly reports
         // The initial delay is in minutes
-        int initialDelay = 658;
+        int initialDelay = 1352;
         int repeatCycle = 1440;
         System.out.println("The initial delay before the scheduler runs is: " + initialDelay + "" +
                 " minutes.");

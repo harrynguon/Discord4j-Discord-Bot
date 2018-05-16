@@ -175,6 +175,9 @@ public class CommandProcessor {
             case "testroleupdater":
                 new RoleUpdater().runRoleUpdate(guild);
                 return;
+            case "testthumbsup":
+                message.addReaction(ReactionEmoji.of("\uD83D\uDC4D"));
+                return;
             default:
                 sendInvalidArgumentMessage("invalidcommand", channel, prefix);
                 return;
@@ -619,8 +622,8 @@ public class CommandProcessor {
                         event.getAuthor().removeRole(guild.getRoleByID(Constants.NEW_USER_ROLE_ID));
                         event.getAuthor().addRole(guild.getRoleByID(Constants.MEMBER_ROLE_ID));
                         event.getAuthor().addRole(guild.getRoleByID(Constants.ROOKIE_ROLE));
+                        event.getMessage().addReaction(ReactionEmoji.of("\uD83D\uDC4D"));
                         sendAuthenticatedPM(event);
-//                        deleteChannelLog(guild.getChannelByID(Constants.AUTHENTICATION_CHANNEL_ID));
                     } catch (DiscordException e) {
                         System.out.println(e.getErrorMessage());
                     }
@@ -634,25 +637,6 @@ public class CommandProcessor {
             }
         }
     }
-
-    /**
-     * Deletes the authentication channel history and copies it over to the authentication log
-     * channel.
-     * @param authenticationChannel
-    private static void deleteChannelLog(IChannel authenticationChannel) {
-        IGuild guild = authenticationChannel.getGuild();
-        IChannel authenticationLogChannel =
-                guild.getChannelByID(Constants.AUTHENTICATION_LOG_CHANNEL_ID);
-        List<IMessage> messages = authenticationChannel.getFullMessageHistory().bulkDelete();
-        for (IMessage message : messages) {
-            if (message.getAuthor().hasRole(guild.getRoleByID(Constants.SC_LOOT_BOT_ROLE_ID))) {
-                authenticationLogChannel.sendMessage(message.getContent());
-            } else {
-                authenticationLogChannel.sendMessage(message.getAuthor().mention() + ": " + message
-                        .getContent());
-            }
-        }
-    }*/
 
     /**
      * Scans the all time leaderboard website and checks to see if the user entered a valid username

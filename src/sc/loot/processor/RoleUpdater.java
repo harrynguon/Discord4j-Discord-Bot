@@ -27,6 +27,7 @@ public class RoleUpdater {
         for (IUser user : guild.getUsers()) {
             userToPostCount.put(user, 0);
         }
+        // Populate the userToPostCount map
         Stream.of(
                 guild.getChannelByID(Constants.SC_LOOT_CHANNEL_ID)
                         .getFullMessageHistory()
@@ -34,6 +35,7 @@ public class RoleUpdater {
                 .filter(message -> message.getChannel().getLongID() == Constants.SC_LOOT_CHANNEL_ID)
                 .forEach(message -> incrementUserPostCount(message.getAuthor(), userToPostCount));
 
+        // Update roles for all users
         int i = 0;
         for (Map.Entry<IUser, Integer> entry : userToPostCount.entrySet()) {
             IUser user = entry.getKey();

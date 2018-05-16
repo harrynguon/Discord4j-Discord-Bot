@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/SCLootDiscordBot_jar</output-path>
     <root id="archive" name="SCLootDiscordBot.jar">
       <element id="module-output" name="SCLootDiscordBot" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/libraries/Discord4j-dev-2.9.3-gf4a9174-33-shaded.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libraries/Discord4J-2.10.1-shaded.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

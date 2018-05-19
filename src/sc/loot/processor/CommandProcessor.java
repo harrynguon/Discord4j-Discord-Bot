@@ -161,6 +161,10 @@ public class CommandProcessor {
                     }
                 }
                 return;
+            case "getscheduledreporttime":
+                channel.sendMessage("The scheduler runs every day at `"
+                        + Main.scheduledReportTime+ "`.");
+                return;
             case "testweeklyreport":
                 createReport(client, Constants.TEST_CHANNEL_ID, Constants.WEEKLY);
                 return;

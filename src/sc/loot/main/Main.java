@@ -6,9 +6,7 @@ import sc.loot.util.SCLootScheduler;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventDispatcher;
-import sx.blah.discord.handle.impl.obj.Message;
 import sx.blah.discord.handle.obj.ActivityType;
-import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.StatusType;
 import sx.blah.discord.util.DiscordException;
 
@@ -21,9 +19,12 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
 
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+    public static Instant scheduledReportTime;
     public static Optional<IDiscordClient> bot = Optional.empty();
 
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
 
     public static IDiscordClient createClient(String token, boolean login) {
         ClientBuilder clientBuilder = new ClientBuilder();
@@ -50,13 +51,13 @@ public class Main {
             dis.registerListener(eventListener);
             // Schedules the weekly/monthly reports
             // The initial delay is in minutes
-            int initialDelay = 653;
+            int initialDelay = 1395;
             int repeatCycle = 1440;
+            scheduledReportTime = Instant.now().plus(12, ChronoUnit.HOURS).plus(initialDelay, ChronoUnit.MINUTES);
             System.out.println("The initial delay before the scheduler runs is: " + initialDelay + "" +
                     " minutes.");
-            System.out.println("The scheduler will run at " +
-                    Instant.now().plus(12, ChronoUnit.HOURS).plus(initialDelay, ChronoUnit.MINUTES) +
-                    " and repeat every 24 hours.");
+            System.out.println("The scheduler will run at " + scheduledReportTime + " and repeat" +
+                    " every 24 hours.");
             scheduler.scheduleAtFixedRate(SCLootScheduler::automatedReport,
                     initialDelay,
                     repeatCycle,

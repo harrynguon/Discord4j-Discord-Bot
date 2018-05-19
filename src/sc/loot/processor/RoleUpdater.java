@@ -15,6 +15,9 @@ import java.util.stream.Stream;
  */
 public class RoleUpdater {
 
+    /** Number of role changes per weekly update */
+    private int noChanges = 0;
+
     public RoleUpdater() {}
 
     /**
@@ -61,11 +64,14 @@ public class RoleUpdater {
         System.out.println("---Roles have finished being updated---");
         guild.getChannelByID(Constants.SC_LOOT_LOG_ID).sendMessage("Roles have finished being " +
                 "updated.");
+        guild.getChannelByID(Constants.SC_LOOT_LOG_ID).sendMessage("There were `" + this
+                .noChanges + "` roles that were updated this week.");
         guild.getChannelByID(Constants.SC_LOOT_LOG_ID).sendMessage(
                 "The current top contributor is " + topContributor.getKey().mention()
                         + " with `" + topContributor.getValue()
                         + "` total submissions."
         );
+        this.noChanges = 0;
     }
 
     private void updateTopContributor(IUser user, IGuild guild) {
@@ -120,6 +126,7 @@ public class RoleUpdater {
         if (!user.getRolesForGuild(guild).contains(role)) {
             user.addRole(role);
             removeOtherRoles(user, role, guild);
+            this.noChanges++;
         }
     }
 
@@ -146,6 +153,21 @@ public class RoleUpdater {
             return;
         }
         testMap.put(author, testMap.get(author) + 1);
+    }
+
+    /**
+     * TODO - show before and after role changes of users
+     */
+    private static final class Triple {
+        private IUser user;
+        private IRole before;
+        private IRole after;
+
+        public Triple(IUser user, IRole before, IRole after) {
+            this.user = user;
+            this.before = before;
+            this.after = after;
+        }
     }
 
 }

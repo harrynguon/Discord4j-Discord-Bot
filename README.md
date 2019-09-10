@@ -11,7 +11,7 @@ Here is the list of features I implemented for the bot itself:
 - A user authentication system that is used by messaging the bot your username upon entering the server. It checks your supplied username against a database of valid StarBreak usernames to see whether it is a valid StarBreak username or not.
 - A feature to restrict reaction emojis only to messages that contain the emoji in text form.
 
-# Discord Server Invite Link:
+# Discord Server Invite Link
 https://discord.gg/jbxaMUC
 
 > You must have a StarBreak account so you can get yourself authenticated.

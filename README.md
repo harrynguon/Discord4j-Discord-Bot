@@ -2,6 +2,7 @@
 
 The 'SC Loot' discord server is a community server about the game called StarBreak. StarBreak is a unique skill-based action platformer MMO where you explore strange sci-fi worlds alongside dozens of other players, kill legions of dangerous aliens and fight epic boss battles. In this final boss battle portal, players are divided into groups of 40 where each group has the objective of killing the boss and obtaining loot along the way granted they don't die. Each group gets different loot from the other, so I decided to create this server so that players can share what their group managed to get in their portal.
 
+# Features implemented
 Here is the list of features I implemented for the bot itself:
 
 - Moderation tools - kicking, warning, and banning users.
